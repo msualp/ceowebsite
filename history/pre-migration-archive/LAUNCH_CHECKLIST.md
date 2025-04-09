@@ -16,25 +16,25 @@ This document outlines the steps needed to publish the Mustafa Sualp website wit
 - [ ] Optimize images for web (compress without losing quality)
 
 ### Technical Setup
-- [ ] Create a GitHub account if you don't have one already
-- [ ] Create a Vercel account if you don't have one already
-- [ ] Create a GoDaddy account if you don't have one already
+- [x] Create a GitHub account if you don't have one already
+- [x] Create a Vercel account if you don't have one already
+- [x] Create a GoDaddy account if you don't have one already
 
 ## 2. GitHub Repository Setup
 
-- [ ] Create a new GitHub repository named "ceowebsite" or similar
-- [ ] Choose repository visibility:
-  - [ ] **Public**: Recommended for personal branding websites to showcase your work
+- [x] Create a new GitHub repository named "ceowebsite" or similar
+- [x] Choose repository visibility:
+  - [x] **Public**: Recommended for personal branding websites to showcase your work
   - [ ] **Private**: Recommended if the site contains sensitive business information
-- [ ] Select MIT License when initializing the repository (or choose another license if preferred)
-- [ ] Initialize the repository with a README file
-- [ ] Clone the repository to your local machine
-- [ ] Copy all website files to the local repository
-- [ ] Commit and push the files to GitHub
-- [ ] Verify all files are correctly uploaded to GitHub
-- [ ] Review repository settings and adjust as needed:
-  - [ ] Branch protection rules (optional)
-  - [ ] Collaborator access (if working with a team)
+- [x] Select MIT License when initializing the repository (or choose another license if preferred)
+- [x] Initialize the repository with a README file
+- [x] Clone the repository to your local machine
+- [x] Copy all website files to the local repository
+- [x] Commit and push the files to GitHub
+- [x] Verify all files are correctly uploaded to GitHub
+- [x] Review repository settings and adjust as needed:
+  - [x] Branch protection rules (optional)
+  - [x] Collaborator access (if working with a team)
 
 ## 3. Vercel Deployment
 
@@ -53,8 +53,6 @@ This document outlines the steps needed to publish the Mustafa Sualp website wit
 ## 4. Domain Purchase & Setup on GoDaddy
 
 - [ ] Log in to GoDaddy
-- [ ] Search for availability of "sualp.com"
-- [ ] Purchase the domain (typically $12-20/year)
 - [ ] In your GoDaddy account, go to "My Products" > "Domains" > "sualp.com"
 - [ ] Click "Manage DNS"
 - [ ] Add the following DNS records to point to Vercel:
