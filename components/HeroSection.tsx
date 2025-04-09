@@ -19,12 +19,12 @@ export function HeroSection({
   backgroundImage = '/images/backgrounds/starry-sky.jpg',
   children,
   height = 'h-[50vh]',
-  overlayOpacity = 'bg-black/70', // Increased opacity to ensure it stays dark
+  overlayOpacity = 'bg-black/40',
   blurAmount = 'backdrop-blur-sm'
 }: HeroSectionProps) {
   return (
     <div
-      className={`relative ${height} flex items-center justify-center overflow-hidden bg-black`} // Added bg-black as a fallback
+      className={`relative ${height} flex items-center justify-center overflow-hidden`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -41,7 +41,7 @@ export function HeroSection({
       </div>
 
       {/* Overlay with blur effect */}
-      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount} bg-black`} /> {/* Added bg-black to ensure it's always dark */}
+      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount}`} />
 
       {/* Content */}
       <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
@@ -58,7 +58,7 @@ export function HeroSection({
 export function SectionDivider({
   backgroundImage = '/images/backgrounds/starry-sky.jpg',
   height = 'h-56',
-  overlayOpacity = 'bg-black/70', // Increased opacity to match HeroSection
+  overlayOpacity = 'bg-black/30',
   blurAmount = 'backdrop-blur-sm'
 }: {
   backgroundImage?: string;
@@ -67,7 +67,7 @@ export function SectionDivider({
   blurAmount?: string;
 }) {
   return (
-    <div className={`relative ${height} my-16 overflow-hidden bg-black`}> {/* Added bg-black as fallback */}
+    <div className={`relative ${height} my-16 overflow-hidden`}>
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -80,7 +80,7 @@ export function SectionDivider({
       </div>
 
       {/* Overlay with blur effect */}
-      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount} bg-black`} /> {/* Added bg-black to ensure it's always dark */}
+      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount}`} />
     </div>
   );
 }
