@@ -1,4 +1,3 @@
-import { useMDXComponent } from 'next-contentlayer/hooks'
 import React from 'react'
 
 // Custom MDX components
@@ -10,7 +9,12 @@ const mdxComponents = {
   // You can add more custom components or shortcodes here
 }
 
-export function Mdx({ code }: { code: string }) {
-  const Component = useMDXComponent(code)
-  return <Component components={mdxComponents} />
+// Simple MDX renderer that uses dangerouslySetInnerHTML
+// This is a placeholder until we set up proper MDX rendering with contentlayer
+export function Mdx({ content }: { content: string }) {
+  return (
+    <div className="prose dark:prose-invert max-w-none">
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+    </div>
+  )
 }

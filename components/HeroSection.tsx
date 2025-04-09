@@ -16,15 +16,15 @@ interface HeroSectionProps {
 export function HeroSection({
   title,
   subtitle,
-  backgroundImage = '/images/hero-bg.jpg',
+  backgroundImage = '/images/backgrounds/starry-sky.jpg',
   children,
   height = 'h-[50vh]',
-  overlayOpacity = 'bg-black/50',
+  overlayOpacity = 'bg-black/70', // Increased opacity to ensure it stays dark
   blurAmount = 'backdrop-blur-sm'
 }: HeroSectionProps) {
   return (
     <div
-      className={`relative ${height} flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-900 to-black`}
+      className={`relative ${height} flex items-center justify-center overflow-hidden bg-black`} // Added bg-black as a fallback
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
@@ -34,19 +34,14 @@ export function HeroSection({
             alt="Background"
             fill
             priority
-            className="object-cover opacity-70"
+            className="object-cover"
             sizes="100vw"
-            onError={(e) => {
-              // Hide the image on error and let the gradient show
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-            }}
           />
         )}
       </div>
 
       {/* Overlay with blur effect */}
-      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount}`} />
+      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount} bg-black`} /> {/* Added bg-black to ensure it's always dark */}
 
       {/* Content */}
       <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
@@ -61,9 +56,9 @@ export function HeroSection({
 }
 
 export function SectionDivider({
-  backgroundImage = '/images/section-divider.jpg', // Changed to a more generic name
+  backgroundImage = '/images/backgrounds/starry-sky.jpg',
   height = 'h-56',
-  overlayOpacity = 'bg-black/50', // Reduced opacity to show more of the background
+  overlayOpacity = 'bg-black/70', // Increased opacity to match HeroSection
   blurAmount = 'backdrop-blur-sm'
 }: {
   backgroundImage?: string;
@@ -72,25 +67,20 @@ export function SectionDivider({
   blurAmount?: string;
 }) {
   return (
-    <div className={`relative ${height} my-16 overflow-hidden bg-gradient-to-r from-blue-900 to-gray-900`}>
+    <div className={`relative ${height} my-16 overflow-hidden bg-black`}> {/* Added bg-black as fallback */}
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src={backgroundImage}
           alt="Section divider"
           fill
-          className="object-cover opacity-70"
+          className="object-cover"
           sizes="100vw"
-          onError={(e) => {
-            // Hide the image on error and let the gradient show
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-          }}
         />
       </div>
 
       {/* Overlay with blur effect */}
-      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount}`} />
+      <div className={`absolute inset-0 z-10 ${overlayOpacity} ${blurAmount} bg-black`} /> {/* Added bg-black to ensure it's always dark */}
     </div>
   );
 }
