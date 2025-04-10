@@ -244,6 +244,20 @@ export default function AboutPage() {
       <div className="mt-8 text-right italic text-xl text-gray-700 dark:text-gray-300">
         — Mustafa
       </div>
+
+      {/* Future Innovator Image Section */}
+      <div className="relative mt-20 mb-12 max-w-4xl mx-auto">
+        <Image
+          src="/images/future-innovator-in-trainign.png"
+          alt="Mustafa and Luke - Future innovator in training"
+          width={800}
+          height={450}
+          className="rounded-xl shadow-md w-full object-cover"
+        />
+        <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
+          Mustafa & Luke — Future innovator in Training
+        </div>
+      </div>
     </PageContainer>
     </>
   );
