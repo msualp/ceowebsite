@@ -59,7 +59,7 @@ export default function SociailPage() {
     setEmail('');
   };
   return (
-    <PageContainer title="Sociail">
+    <PageContainer title="Sociail Vision">
       <section
         className="py-20 px-4 text-center rounded-xl shadow-md relative bg-cover bg-no-repeat bg-center"
         style={{

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PageContainer } from '@/components/PageContainer';
 import { FaGithub, FaXTwitter, FaLinkedin } from 'react-icons/fa6';
 import { MdEmail, MdLocationOn } from 'react-icons/md';
+import { useToast } from '@/components/ToastContext';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,8 @@ export default function ContactPage() {
     email: '',
     subject: '',
     reason: 'General Inquiry',
-    message: ''
+    message: '',
+    token: ''
   });
   
   const [errors, setErrors] = useState({
@@ -26,6 +28,10 @@ export default function ContactPage() {
     success: false,
     message: ''
   });
+
+  const [loading, setLoading] = useState(false);
+  
+  const { showToast } = useToast();
   
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,27 +85,49 @@ export default function ContactPage() {
     return valid;
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      // Simulate form submission
-      setFormStatus({
-        submitted: true,
-        success: true,
-        message: 'Your message has been sent successfully! We will get back to you soon.'
+
+    if (!validateForm()) return;
+
+    setLoading(true);
+
+    try {
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!;
+      const token = await grecaptcha.execute(siteKey, { action: 'submit' });
+
+      const payload = {
+        ...formData,
+        token,
+      };
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
       });
-      
-      // Reset form after successful submission
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      showToast('success', 'Your message has been sent successfully!');
+
       setFormData({
         name: '',
         email: '',
         subject: '',
         reason: 'General Inquiry',
-        message: ''
+        message: '',
+        token: ''
       });
+    } catch (err) {
+      showToast('error', 'There was an error sending your message.');
+    } finally {
+      setLoading(false);
     }
   };
+  
   return (
     <PageContainer title="Contact">
       <div className="relative mb-8 max-w-4xl mx-auto">
@@ -138,6 +166,7 @@ export default function ContactPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  aria-label="Your name"
                   className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800`}
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -153,6 +182,7 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  aria-label="Your email"
                   className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800`}
                 />
                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
@@ -168,6 +198,7 @@ export default function ContactPage() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
+                  aria-label="Subject of your message"
                   className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800`}
                 />
                 {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
@@ -180,6 +211,7 @@ export default function ContactPage() {
                   name="reason"
                   value={formData.reason}
                   onChange={handleChange}
+                  aria-label="Reason for contact"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800"
                 >
                   <option>General Inquiry</option>
@@ -187,6 +219,11 @@ export default function ContactPage() {
                   <option>Collaboration</option>
                   <option>Investment / Business</option>
                 </select>
+                {formData.reason !== 'General Inquiry' && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Great! You selected <strong>{formData.reason}</strong>. Feel free to be specific below.
+                  </p>
+                )}
               </div>
               
               <div>
@@ -199,6 +236,7 @@ export default function ContactPage() {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
+                  aria-label="Your message"
                   className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800`}
                 ></textarea>
                 {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
@@ -207,9 +245,10 @@ export default function ContactPage() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition"
+                  disabled={loading}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
             </form>

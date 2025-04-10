@@ -1,14 +1,17 @@
-import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 // Define the expected request body structure
-interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  reason: string;
-  message: string;
-}
+const contactSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email format'),
+  subject: z.string().min(1, 'Subject is required'),
+  reason: z.enum(['General Inquiry', 'Speaking / Media', 'Collaboration', 'Investment / Business']),
+  message: z.string().min(1, 'Message is required'),
+  _bot: z.string().optional(), // honeypot
+  token: z.string().min(1, 'reCAPTCHA token is required'),
+});
 
 // Create a transporter for sending emails
 // For production, you would use real SMTP credentials
@@ -22,53 +25,64 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function POST(request: Request) {
+const ipRateMap = new Map<string, number>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const last = ipRateMap.get(ip) || 0;
+  if (now - last < 60 * 1000) return true;
+  ipRateMap.set(ip, now);
+  return false;
+}
+
+export async function POST(request: NextRequest) {
   try {
-    // Parse the request body
-    const data = await request.json() as ContactFormData;
-    
-    // Validate required fields
-    const validationErrors: Record<string, string> = {};
-    
-    if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
-      validationErrors.name = 'Name is required';
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+
+    if (isRateLimited(ip)) {
+      return NextResponse.json({ success: false, message: 'Rate limited. Try again later.' }, { status: 429 });
     }
-    
-    if (!data.email || typeof data.email !== 'string' || data.email.trim() === '') {
-      validationErrors.email = 'Email is required';
-    } else {
-      // Email validation regex
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(data.email)) {
-        validationErrors.email = 'Invalid email format';
-      }
+
+    const raw = await request.json();
+    const result = contactSchema.safeParse(raw);
+
+    if (!result.success) {
+      const errors = result.error.flatten().fieldErrors;
+      return NextResponse.json({ success: false, errors }, { status: 400 });
     }
-    
-    if (!data.subject || typeof data.subject !== 'string' || data.subject.trim() === '') {
-      validationErrors.subject = 'Subject is required';
+
+    const data = result.data;
+
+    if (data._bot && data._bot.trim() !== '') {
+      return NextResponse.json({ success: false, message: 'Spam detected.' }, { status: 400 });
     }
-    
-    if (!data.message || typeof data.message !== 'string' || data.message.trim() === '') {
-      validationErrors.message = 'Message is required';
+
+    const secretKey = process.env.RECAPTCHA_SECRET;
+    if (!secretKey) {
+      return NextResponse.json({ success: false, message: 'reCAPTCHA secret not set' }, { status: 500 });
     }
-    
-    // If there are validation errors, return them
-    if (Object.keys(validationErrors).length > 0) {
-      return NextResponse.json(
-        { success: false, errors: validationErrors },
-        { status: 400 }
-      );
+
+    const captchaRes = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${secretKey}&response=${data.token}`
+    });
+
+    const captchaJson = await captchaRes.json();
+    if (!captchaJson.success || captchaJson.score < 0.5) {
+      return NextResponse.json({ success: false, message: 'reCAPTCHA failed. Please try again.' }, { status: 403 });
     }
-    
+
     // Log the contact form submission
-    console.log('Contact form submission:', {
+    console.log(JSON.stringify({
+      timestamp: new Date().toISOString(),
+      from: ip,
       name: data.name,
       email: data.email,
       subject: data.subject,
       reason: data.reason,
-      message: data.message.substring(0, 100) + (data.message.length > 100 ? '...' : ''),
-      timestamp: new Date().toISOString(),
-    });
+      message: data.message.slice(0, 100),
+    }));
     
     // Prepare email to the site owner
     const mailOptions = {

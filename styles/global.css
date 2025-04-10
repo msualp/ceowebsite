@@ -102,10 +102,45 @@ body {
   }
 }
 
+@keyframes fade-in-out {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
 
 .animate-marquee-reverse {
   animation: marquee-reverse 30s linear infinite;
+}
+
+.animate-fade-in-out {
+  animation: fade-in-out 3s ease-in-out forwards;
+}
+
+.toast-top-right {
+  @apply fixed top-4 right-4 flex flex-col gap-2 items-end z-50;
+}
+
+.toast-top-center {
+  @apply fixed top-4 left-1/2 transform -translate-x-1/2 flex flex-col gap-2 items-center z-50;
+}
+
+.toast-bottom-right {
+  @apply fixed bottom-4 right-4 flex flex-col gap-2 items-end z-50;
+}
+
+.toast-bottom-center {
+  @apply fixed bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col gap-2 items-center z-50;
 }
