@@ -2,6 +2,7 @@ import '../styles/global.css'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'
 import { ThemeWrapper } from '@/components/ThemeWrapper'
+import { headers } from 'next/headers'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -16,6 +17,10 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  // Get the current pathname to determine if we're on the contact page
+  const headersList = headers();
+  const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
+  const isContactPage = pathname.includes('/contact');
   return (
     <html lang="en" className={inter.variable}>
       <body
@@ -30,7 +35,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           duration-300
         "
       >
-        <ThemeWrapper>
+        <ThemeWrapper hideCallToAction={isContactPage}>
           {children}
         </ThemeWrapper>
       </body>

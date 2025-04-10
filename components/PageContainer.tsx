@@ -2,22 +2,19 @@
 
 import { ReactNode } from 'react';
 import { CirclePattern } from './SvgShapes';
-import { CallToAction } from './CallToAction';
 
 interface PageContainerProps {
   children: ReactNode;
   title?: string;
   withPattern?: boolean;
   className?: string;
-  withCallToAction?: boolean;
 }
 
 export function PageContainer({ 
   children, 
   title, 
   withPattern = true,
-  className = '',
-  withCallToAction = true
+  className = ''
 }: PageContainerProps) {
   return (
     <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 ${className}`}>
@@ -31,7 +28,6 @@ export function PageContainer({
         )}
         <div className="relative z-10">
           {children}
-          {withCallToAction && <CallToAction />}
         </div>
       </div>
     </div>
