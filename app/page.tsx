@@ -4,43 +4,50 @@ import Image from 'next/image';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-screen bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-900 dark:to-black overflow-hidden">
+      {/* Hero Section - Fixed for mobile responsiveness */}
+      <section className="relative bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-900 dark:to-black overflow-hidden">
         <div className="absolute inset-0 backdrop-blur-md bg-white/30 dark:bg-black/40 z-0" />
 
-        <div className="relative z-10 flex h-full">
-          {/* Left Side – Full-height Image */}
-          <div className="w-2/5 h-full relative">
-            <Image
-              src="/images/Mustafa-Sualp-Sociail-BW.png"
-              alt="Mustafa Sualp"
-              fill
-              className="object-cover object-top"
-              priority
-            />
+        {/* Responsive container that stacks on mobile, side-by-side on larger screens */}
+        <div className="relative z-10 flex flex-col md:flex-row min-h-screen">
+          {/* Image container - Mobile first approach */}
+          <div className="w-full md:w-2/5 h-[50vh] md:h-screen relative">
+            {/* Image with absolute positioning */}
+            <div className="absolute inset-0">
+              <Image
+                src="/images/Mustafa-Sualp-Sociail-BW.png"
+                alt="Mustafa Sualp"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className="object-cover object-[center_33%]"
+                priority
+              />
+            </div>
           </div>
 
-          {/* Right Side – Text */}
-          <div className="w-3/5 flex items-center px-10 md:px-20">
-            <div className="text-left max-w-2xl">
-              <h1 className="text-5xl font-bold tracking-tight mb-6 text-gray-900 dark:text-white">
+          {/* Text container - Full width on mobile, 60% on desktop */}
+          <div className="w-full md:w-3/5 flex items-center px-6 py-16 md:py-0 md:px-10 lg:px-20">
+            <div className="text-left max-w-2xl mx-auto md:mx-0">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4 md:mb-6 text-gray-900 dark:text-white">
                 Rewiring Human Collaboration for the Age of AI
               </h1>
-              <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+              <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 md:mb-8">
                 Built one company from code to exit. Now building the next — to reinvent how humans and AI collaborate, create, and thrive together.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                <Link
-                  href="/sociail"
-                  className="relative inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm min-h-[52px]"
-                >
-                  Explore the Vision
-                </Link>
+              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-center">
+                <div className="relative">
+                  <Link
+                    href="/sociail"
+                    className="relative inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full"
+                  >
+                    Explore the Vision
+                  </Link>
+                </div>
 
                 <div className="relative">
                   <Link
                     href="https://www.sociail.com"
-                    className="relative inline-flex items-center justify-start gap-3 rounded-md px-6 py-3 min-h-[52px] text-base font-semibold text-gray-900 border border-gray-300 bg-white hover:bg-gray-100 transition shadow-sm min-w-[270px]"
+                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 h-[52px] min-h-[52px] text-base font-semibold text-gray-900 border border-gray-300 bg-white hover:bg-gray-100 transition shadow-sm min-w-[270px] w-full"
                   >
                     <Image
                       src="/images/sociail-logo-with-gray-stroke.svg"
