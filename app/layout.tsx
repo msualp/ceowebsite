@@ -17,10 +17,12 @@ export const metadata = {
   description: 'Tech-forward, founder-focused, AI-aligned personal brand website',
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
   // Get the current pathname to determine if we're on the contact page
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname') || headersList.get('x-url') || '';
+  const headersList = await headers();
+  const xPathname = headersList.get('x-pathname');
+  const xUrl = headersList.get('x-url');
+  const pathname = xPathname || xUrl || '';
   const isContactPage = pathname.includes('/contact');
   
   const scriptsToLoad: string[] = [];
@@ -34,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

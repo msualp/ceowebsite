@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { ThemeProvider } from 'next-themes'
 import { ConsolidatedHeader } from './ConsolidatedHeader'
 import { Footer } from './Footer'
@@ -15,8 +15,15 @@ export function ThemeWrapper({
   children,
   hideCallToAction = false
 }: ThemeWrapperProps) {
+  // Add this to prevent hydration mismatch errors with theme
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-    <ThemeProvider attribute="class">
+    <ThemeProvider attribute="class" enableSystem={true}>
       {/* Consolidated Header */}
       <ConsolidatedHeader />
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Toast, { ToastType } from './Toast';
 
@@ -37,6 +37,12 @@ export function ToastProvider({
   iconsOnly?: boolean;
 }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  // Only run on client-side to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const showToast = useCallback((type: ToastType, message: string, duration?: number) => {
     const id = Math.random().toString(36).substr(2, 9);
@@ -58,7 +64,7 @@ export function ToastProvider({
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {typeof window !== 'undefined' && createPortal(
+      {mounted && createPortal(
         <div className={positionClass}>
           {toasts.slice(-maxVisible).map(({ id, type, message, duration }) => (
             <Toast
