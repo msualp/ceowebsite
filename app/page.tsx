@@ -19,7 +19,7 @@ export default function HomePage() {
                 alt="Mustafa Sualp"
                 fill
                 sizes="(max-width: 768px) 100vw, 40vw"
-                className="object-cover object-[center_66%]"
+                className="object-cover object-[center_33%]"
                 priority
               />
             </div>
@@ -34,8 +34,8 @@ export default function HomePage() {
               <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 md:mb-8">
                 Built one company from code to exit. Now building the next — to reinvent how humans and AI collaborate, create, and thrive together.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-center">
-                <div className="relative">
+              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-stretch">
+                <div className="relative flex-1">
                   <Link
                     href="/sociail"
                     className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full"
@@ -44,7 +44,7 @@ export default function HomePage() {
                   </Link>
                 </div>
 
-                <div className="relative">
+                <div className="relative flex-1">
                   <Link
                     href="https://www.sociail.com"
                     className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 h-[52px] min-h-[52px] text-base font-semibold text-gray-900 border border-gray-300 bg-white hover:bg-gray-100 transition shadow-sm min-w-[270px] w-full"
