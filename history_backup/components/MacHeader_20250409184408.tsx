@@ -21,14 +21,12 @@ export function MacHeader() {
           {/* Right side: single hamburger (desktop + mobile) */}
           <div className="relative z-[110]">
             <HamburgerButton isOpen={isOpen} toggleMenu={toggleMenu} />
-          </div>
-        </div>
       </header>
 
       {/* Backdrop covers the screen behind side menu */}
       <div
         className={`
-          fixed inset-0 z-[90] bg-black/50
+          fixed inset-0 z-40 bg-black/50
           transition-opacity duration-300
           ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
@@ -41,14 +39,14 @@ export function MacHeader() {
           fixed top-0 right-0 h-full w-64
           bg-white/70 dark:bg-black/40 backdrop-blur-md
           border-l border-gray-200 dark:border-gray-700
-          z-[105] transform transition-transform duration-300
+          z-50 transform transition-transform duration-300
           flex flex-col
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
         {/* Menu header */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Welcome</h2>
+          <h2 className="text-lg font-semibold">Menu</h2>
         </div>
 
         <div className="p-4 space-y-4 flex-grow">

@@ -48,7 +48,7 @@ export function MacHeader() {
       >
         {/* Menu header */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Welcome</h2>
+          <h2 className="text-lg font-semibold">Menu</h2>
         </div>
 
         <div className="p-4 space-y-4 flex-grow">

@@ -14,7 +14,7 @@ export function MacHeader() {
   return (
     <>
       {/* Fixed top navigation bar */}
-      <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-gray-200/20 dark:border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="text-lg font-semibold">Mustafa Sualp</div>
 
@@ -48,7 +48,7 @@ export function MacHeader() {
       >
         {/* Menu header */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Welcome</h2>
+          <h2 className="text-lg font-semibold">Menu</h2>
         </div>
 
         <div className="p-4 space-y-4 flex-grow">
@@ -97,7 +97,7 @@ function HamburgerButton({
       aria-label="Toggle Menu"
       className="
         relative
-        w-8 h-6
+        w-7 h-5
         flex flex-col justify-between items-center
         text-black dark:text-white
       "

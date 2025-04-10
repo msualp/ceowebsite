@@ -33,22 +33,20 @@ export function MacHeader() {
           ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
         onClick={toggleMenu}
-      />
-
       {/* Off-canvas side menu, slides in from the right */}
       <nav
         className={`
           fixed top-0 right-0 h-full w-64
           bg-white/70 dark:bg-black/40 backdrop-blur-md
           border-l border-gray-200 dark:border-gray-700
-          z-[105] transform transition-transform duration-300
+          z-50 transform transition-transform duration-300
           flex flex-col
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
         {/* Menu header */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Welcome</h2>
+          <h2 className="text-lg font-semibold">Menu</h2>
         </div>
 
         <div className="p-4 space-y-4 flex-grow">

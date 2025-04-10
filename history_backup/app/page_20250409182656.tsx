@@ -1,34 +1,34 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { HeroSection, SectionDivider } from '@/components/HeroSection';
+import { BlobShape, WaveDivider } from '@/components/SvgShapes';
+import { PageContainer } from '@/components/PageContainer';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center h-screen overflow-hidden bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900">
-        {/* A background overlay for subtle swirl */}
-        <div className="absolute inset-0 backdrop-blur-md bg-white/30 dark:bg-black/40" />
-
-        {/* Content container */}
-        <div className="relative z-10 p-8 rounded-2xl bg-white/20 dark:bg-black/30 shadow-2xl flex flex-col items-center">
-          <div className="w-32 h-32 mb-4 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Profile Image</span>
-          </div>
-          <h1 className="text-4xl font-bold mb-2">Mustafa Sualp</h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            CEO & Founder, Sociail
-          </p>
-          <div className="flex space-x-4">
-            <Link
-              href="/sociail"
-              className="px-4 py-2 rounded-md shadow-md bg-blue-600 text-white
-                        transition-transform transform hover:scale-105 hover:bg-blue-500"
-            >
-              Explore Sociail
-            </Link>
-            <Link
-              href="/journey"
-              className="px-4 py-2 rounded-md shadow-md border border-white text-gray-800 dark:text-white
+      <HeroSection
+        title="Mustafa Sualp"
+        subtitle="CEO & Founder, Sociail"
+        height="h-screen"
+      >
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center">
+          <Link
+            href="/sociail"
+            className="px-6 py-3 rounded-md shadow-md bg-blue-600 text-white
+                      transition-transform transform hover:scale-105 hover:bg-blue-500"
+          >
+            Explore Sociail
+          </Link>
+          <Link
+            href="/journey"
+            className="px-6 py-3 rounded-md shadow-md border border-white text-white
+                      transition-transform transform hover:scale-105 hover:bg-white hover:text-gray-800"
+          >
+            My Journey
+          </Link>
+        </div>
                         transition-transform transform hover:scale-105 hover:bg-white hover:text-gray-800"
             >
               My Journey
