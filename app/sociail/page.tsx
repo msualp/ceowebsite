@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { PageContainer } from '@/components/PageContainer';
+import { HiUserGroup } from 'react-icons/hi';
 import {
-  HiUserGroup,
   HiCpuChip,
   HiCog6Tooth,
   HiShieldCheck,
@@ -69,25 +69,25 @@ export default function SociailPage() {
             {
               title: "Multi-user Collaboration",
               description: "Collaborate in real time with your team.",
-              icon: <HiUserGroup className="w-6 h-6" />,
+              icon: HiUserGroup({ className: "w-6 h-6" }),
               color: "bg-blue-100 text-blue-600",
             },
             {
               title: "Advanced AI Models",
               description: "Choose the right AI for every task.",
-              icon: <HiCpuChip className="w-6 h-6" />,
+              icon: HiCpuChip({ className: "w-6 h-6" }),
               color: "bg-purple-100 text-purple-600",
             },
             {
               title: "Workflow Automation",
               description: "Automate routine tasks with ease.",
-              icon: <HiCog6Tooth className="w-6 h-6" />,
+              icon: HiCog6Tooth({ className: "w-6 h-6" }),
               color: "bg-green-100 text-green-600",
             },
             {
               title: "Enterprise-grade Security",
               description: "Control permissions and protect your data.",
-              icon: <HiShieldCheck className="w-6 h-6" />,
+              icon: HiShieldCheck({ className: "w-6 h-6" }),
               color: "bg-orange-100 text-orange-600",
             },
           ].map(({ title, description, icon, color }, i) => (
@@ -138,25 +138,25 @@ export default function SociailPage() {
             {
               title: "Collaborative Intelligence",
               description: "AI that enhances human capability—working with you, not replacing you.",
-              icon: <HiUsers className="w-6 h-6" />,
+              icon: HiUsers({ className: "w-6 h-6" }),
               color: "bg-blue-100 text-blue-600"
             },
             {
               title: "Seamless Progression",
               description: "From solo use to enterprise adoption, Sociail scales with your journey.",
-              icon: <HiArrowTrendingUp className="w-6 h-6" />,
+              icon: HiArrowTrendingUp({ className: "w-6 h-6" }),
               color: "bg-green-100 text-green-600"
             },
             {
               title: "Adaptive Experience",
               description: "The platform learns and adapts to your workflow over time.",
-              icon: <HiAdjustmentsHorizontal className="w-6 h-6" />,
+              icon: HiAdjustmentsHorizontal({ className: "w-6 h-6" }),
               color: "bg-purple-100 text-purple-600"
             },
             {
               title: "Trusted Partnership",
               description: "Enterprise-grade security and full control of your data.",
-              icon: <HiCheckBadge className="w-6 h-6" />,
+              icon: HiCheckBadge({ className: "w-6 h-6" }),
               color: "bg-orange-100 text-orange-600"
             }
           ].map(({ title, description, icon, color }, i) => (
