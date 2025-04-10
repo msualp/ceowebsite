@@ -236,28 +236,6 @@ export default function AboutPage() {
           🧠 Hardest worker in the room. Doing the thing is doing the thing.
         </div>
       </div>
-      
-      {/* Call to Action */}
-      <p className="text-center mt-6">
-        <Link href="/sociail" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-          Learn more about the vision behind Sociail →
-        </Link>
-      </p>
-
-      {/* Connect CTA */}
-      <div className="text-center mt-12">
-        <Link 
-          href="/contact" 
-          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-        >
-          Let&apos;s Connect
-        </Link>
-      </div>
-
-      {/* Signature Block */}
-      <div className="mt-8 text-right italic text-xl text-gray-700 dark:text-gray-300">
-        — Mustafa
-      </div>
     </PageContainer>
     </>
   );

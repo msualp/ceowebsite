@@ -101,7 +101,7 @@ export default function ContactPage() {
     }
   };
   return (
-    <PageContainer title="Contact">
+    <PageContainer title="Contact" withCallToAction={false}>
       <div className="relative mb-8 max-w-4xl mx-auto">
         <img
           src="/images/Sociail-office.png"
