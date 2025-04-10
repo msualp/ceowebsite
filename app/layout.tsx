@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'
 import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
+import { ToastProvider } from '@/components/ToastContext'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -35,9 +36,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           duration-300
         "
       >
-        <ThemeWrapper hideCallToAction={isContactPage}>
-          {children}
-        </ThemeWrapper>
+        <ToastProvider>
+          <ThemeWrapper hideCallToAction={isContactPage}>
+            {children}
+          </ThemeWrapper>
+        </ToastProvider>
       </body>
     </html>
   )
