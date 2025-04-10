@@ -5,35 +5,79 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center h-screen overflow-hidden bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900">
-        {/* A background overlay for subtle swirl */}
-        <div className="absolute inset-0 backdrop-blur-md bg-white/30 dark:bg-black/40" />
+      <section className="relative h-screen bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-900 dark:to-black overflow-hidden">
+        <div className="absolute inset-0 backdrop-blur-md bg-white/30 dark:bg-black/40 z-0" />
 
-        {/* Content container */}
-        <div className="relative z-10 p-8 rounded-2xl bg-white/20 dark:bg-black/30 shadow-2xl flex flex-col items-center">
-          <div className="w-32 h-32 mb-4 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-400 text-sm">Profile Image</span>
+        <div className="relative z-10 flex h-full">
+          {/* Left Side – Full-height Image */}
+          <div className="w-2/5 h-full relative">
+            <Image
+              src="/images/Mustafa-Sualp-Sociail-BW.png"
+              alt="Mustafa Sualp"
+              fill
+              className="object-cover object-top"
+              priority
+            />
           </div>
-          <h1 className="text-4xl font-bold mb-2">Mustafa Sualp</h1>
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            CEO & Founder, Sociail
+
+          {/* Right Side – Text */}
+          <div className="w-3/5 flex items-center px-10 md:px-20">
+            <div className="text-left max-w-2xl">
+              <h1 className="text-5xl font-bold tracking-tight mb-6 text-gray-900 dark:text-white">
+                Rewiring Human Collaboration for the Age of AI
+              </h1>
+              <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+                Built one company from code to exit. Now building the next — to reinvent how humans and AI collaborate, create, and thrive together.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <Link
+                  href="/sociail"
+                  className="relative inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm min-h-[52px]"
+                >
+                  Explore the Vision
+                </Link>
+
+                <div className="relative">
+                  <Link
+                    href="https://www.sociail.com"
+                    className="relative inline-flex items-center justify-start gap-3 rounded-md px-6 py-3 min-h-[52px] text-base font-semibold text-gray-900 border border-gray-300 bg-white hover:bg-gray-100 transition shadow-sm min-w-[270px]"
+                  >
+                    <Image
+                      src="/images/sociail-logo-with-gray-stroke.svg"
+                      alt="Sociail Logo"
+                      width={32}
+                      height={32}
+                      className="h-6 w-auto opacity-90 pointer-events-none"
+                      style={{ objectFit: 'contain' }}
+                    />
+                    <span>Join Early Access</span>
+                  </Link>
+                  <span className="absolute -top-3 -right-3 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full shadow-sm">
+                    Limited Seats
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Credibility Strip */}
+      <section className="bg-white dark:bg-gray-900 py-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="max-w-5xl mx-auto text-center text-sm text-gray-600 dark:text-gray-400">
+          As seen in: Philadelphia 100, HelioCampus, Drexel University, MIT AI, AEFIS
+        </div>
+      </section>
+
+      {/* Mission Capsule */}
+      <section className="bg-black dark:bg-white py-8">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <div className="font-mono text-green-400 dark:text-green-700 text-sm">
+            &gt;&gt;&gt; mission.sh
+          </div>
+          <p className="mt-2 text-xl font-semibold text-white dark:text-black">
+            Rewire how humans and AIs collaborate — with purpose, clarity, and creativity.
           </p>
-          <div className="flex space-x-4">
-            <Link
-              href="/sociail"
-              className="px-4 py-2 rounded-md shadow-md bg-blue-600 text-white
-                        transition-transform transform hover:scale-105 hover:bg-blue-500"
-            >
-              Explore Sociail
-            </Link>
-            <Link
-              href="/journey"
-              className="px-4 py-2 rounded-md shadow-md border border-white text-gray-800 dark:text-white
-                        transition-transform transform hover:scale-105 hover:bg-white hover:text-gray-800"
-            >
-              My Journey
-            </Link>
-          </div>
         </div>
       </section>
       
@@ -111,6 +155,32 @@ export default function HomePage() {
                 <Link href="/insights/lessons-from-bootstrapping" className="text-blue-600 hover:underline">
                   Read More →
                 </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Tribute Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="section-glass">
+            <h2 className="text-3xl font-bold mb-6 text-center">My Team is My Superpower</h2>
+            <p className="text-lg mb-6 text-gray-700 dark:text-gray-300 text-center">
+              Pictured here with the AEFIS team just days before the COVID-19 lockdown. 
+              A difficult, transformative time — but also one of our most inspiring chapters. 
+              I am forever grateful to those who helped shape that journey.
+            </p>
+            <div className="relative rounded-xl overflow-hidden shadow-lg border border-white/20">
+              <Image
+                src="/images/Mustafa-Sualp-with-AEFIS-Team.png"
+                alt="AEFIS Team Photo Before COVID"
+                width={1200}
+                height={600}
+                className="w-full h-auto object-cover filter grayscale"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm md:text-base text-center px-4 py-3">
+                AEFIS team, March 2020 — just days before the world changed.
               </div>
             </div>
           </div>

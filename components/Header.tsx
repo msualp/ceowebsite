@@ -12,9 +12,12 @@ export function Header() {
   }
   
   return (
-    <header className="w-full border-b border-gray-200 dark:border-gray-700">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-        <Link href="/" className="text-xl font-bold">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/30 dark:bg-black/30 transition-all duration-300">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
+        <Link
+          href="/"
+          className="text-3xl font-extrabold tracking-tight font-[cursive] bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent hover:brightness-110 transition-all duration-300"
+        >
           Mustafa Sualp
         </Link>
         <nav aria-label="Main navigation" className="hidden md:flex space-x-6">

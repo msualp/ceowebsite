@@ -2,14 +2,14 @@
 
 import { ReactNode } from 'react'
 import { ThemeProvider } from 'next-themes'
-import { MacHeader } from './MacHeader'
+import { ConsolidatedHeader } from './ConsolidatedHeader'
 import { Footer } from './Footer'
 
 export function ThemeWrapper({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="class">
-      {/* Mac-like Header */}
-      <MacHeader />
+      {/* Consolidated Header */}
+      <ConsolidatedHeader />
 
       {/* Main content offset to account for fixed header */}
       <main className="pt-16">{children}</main>

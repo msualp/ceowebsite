@@ -16,7 +16,12 @@ export function MacHeader() {
       {/* Fixed top navigation bar */}
       <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-          <div className="text-lg font-semibold">Mustafa Sualp</div>
+          <Link
+            href="/"
+            className="text-3xl font-extrabold tracking-tight font-[cursive] bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent hover:brightness-110 transition-all duration-300"
+          >
+            Mustafa Sualp
+          </Link>
 
           {/* Right side: single hamburger (desktop + mobile) */}
           <div className="relative z-[110]">
@@ -63,6 +68,9 @@ export function MacHeader() {
           </Link>
           <Link href="/insights" onClick={toggleMenu} className="block hover:underline">
             Insights
+          </Link>
+          <Link href="/resume" onClick={toggleMenu} className="block hover:underline">
+            Resume
           </Link>
           <Link href="/contact" onClick={toggleMenu} className="block hover:underline">
             Contact

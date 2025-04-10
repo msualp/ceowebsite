@@ -7,14 +7,6 @@ export function Footer() {
         <p className="mb-4 md:mb-0">© {new Date().getFullYear()} Mustafa Sualp. All rights reserved.</p>
         <div className="flex space-x-6">
           <a
-            href="https://twitter.com/mustafasualp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Twitter
-          </a>
-          <a
             href="https://www.linkedin.com/in/mustafasualp"
             target="_blank"
             rel="noopener noreferrer"
@@ -29,6 +21,14 @@ export function Footer() {
             className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             GitHub
+          </a>
+          <a
+            href="https://x.com/msualp_sociail"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            X
           </a>
         </div>
       </div>
