@@ -1,88 +1,11 @@
-'use client';
-
 import Link from 'next/link';
-import { useState } from 'react';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 import { PageContainer } from '@/components/PageContainer';
 import Image from 'next/image';
+import { getInsights } from './getInsights';
+import NewsletterForm from '@/components/NewsletterForm';
 
-interface Post {
-  slug: string;
-  title: string;
-  date: string;
-  excerpt?: string;
-}
-
-function getInsights(): Post[] {
-  const contentDir = path.join(process.cwd(), 'content/insights');
-  const files = fs.readdirSync(contentDir);
-  
-  const posts = files
-    .filter(file => file.endsWith('.mdx'))
-    .map(file => {
-      const filePath = path.join(contentDir, file);
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContent);
-      
-      return {
-        slug: file.replace('.mdx', ''),
-        title: data.title,
-        date: data.date,
-        excerpt: data.excerpt,
-      };
-    })
-    .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
-  
-  return posts;
-}
-
-export default function InsightsPage() {
-  const posts = getInsights();
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [subscriptionStatus, setSubscriptionStatus] = useState({
-    submitted: false,
-    success: false,
-    message: ''
-  });
-  
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-  
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (emailError) {
-      setEmailError('');
-    }
-  };
-  
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email.trim()) {
-      setEmailError('Email is required');
-      return;
-    }
-    
-    if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
-    
-    // Simulate subscription success
-    setSubscriptionStatus({
-      submitted: true,
-      success: true,
-      message: 'Thank you for subscribing to our newsletter!'
-    });
-    
-    // Reset form
-    setEmail('');
-  };
+export default async function InsightsPage() {
+  const posts = await getInsights();
 
   return (
     <PageContainer title="Insights & Blog">
@@ -136,32 +59,7 @@ export default function InsightsPage() {
         <h2 className="text-xl font-semibold mb-2 text-blue-800 dark:text-blue-300">Stay in the Loop</h2>
         <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">Join our newsletter to receive the latest insights on AI, leadership, and productivity.</p>
         
-        {subscriptionStatus.submitted && subscriptionStatus.success ? (
-          <div className="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
-            <p>{subscriptionStatus.message}</p>
-          </div>
-        ) : (
-          <form className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto" onSubmit={handleSubscribe}>
-            <div className="flex-grow">
-              <input
-                type="email"
-                placeholder="Your email"
-                value={email}
-                onChange={handleEmailChange}
-                className={`w-full px-4 py-2 rounded border ${emailError ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} dark:bg-gray-800`}
-              />
-              {emailError && (
-                <p className="text-red-500 text-sm mt-1">{emailError}</p>
-              )}
-            </div>
-            <button 
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            >
-              Subscribe
-            </button>
-          </form>
-        )}
+        <NewsletterForm />
       </section>
     </PageContainer>
   );
