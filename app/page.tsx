@@ -19,7 +19,7 @@ export default function HomePage() {
                 alt="Mustafa Sualp"
                 fill
                 sizes="(max-width: 768px) 100vw, 40vw"
-                className="object-cover object-[center_33%]"
+                className="object-cover object-[center_66%]"
                 priority
               />
             </div>
@@ -38,7 +38,7 @@ export default function HomePage() {
                 <div className="relative">
                   <Link
                     href="/sociail"
-                    className="relative inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full"
+                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full"
                   >
                     Explore the Vision
                   </Link>

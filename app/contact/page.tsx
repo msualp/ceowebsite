@@ -106,7 +106,7 @@ export default function ContactPage() {
         <img
           src="/images/Sociail-office.png"
           alt="Sociail Office"
-          className="w-full rounded-xl shadow-md"
+          className="w-full rounded-xl shadow-md grayscale"
         />
         <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
           🏖️ Welcome to Our Global Headquarters and the Sociail "Beach Office"!

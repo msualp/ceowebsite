@@ -20,7 +20,7 @@ export const CallToAction = () => {
           <div className="mt-4 text-gray-300 italic text-lg md:text-xl max-w-2xl mx-auto">
             "I believe the measure of technology's success isn't efficiency alone, but how it elevates human potential."
           </div>
-          <div className="mt-2 text-right text-blue-400 font-light pr-4">— Mustafa</div>
+          <div className="mt-4 text-right text-blue-400 font-light pr-4">— Mustafa</div>
         </div>
 
         {/* Call to action buttons */}

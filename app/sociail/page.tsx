@@ -262,7 +262,7 @@ export default function SociailPage() {
         <img
           src="/images/mustafa-and-niaz.png"
           alt="Mustafa Sualp & Niaz"
-          className="w-full rounded-xl shadow-md object-cover"
+          className="w-full rounded-xl shadow-md object-cover grayscale"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
           Meet Mustafa & Niaz — Founders of Sociail, where bold vision meets engineering precision.
