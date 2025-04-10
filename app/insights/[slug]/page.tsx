@@ -6,6 +6,7 @@ import { PageContainer } from '@/components/PageContainer';
 
 interface InsightPageProps {
   params: { slug: string };
+  searchParams?: Record<string, string | string[]>;
 }
 
 export async function generateStaticParams() {
