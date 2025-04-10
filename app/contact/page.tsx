@@ -108,7 +108,7 @@ export default function ContactPage() {
             {/* LinkedIn - First */}
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 hover:scale-105 transition">
-                <FaLinkedin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                {FaLinkedin({ className: "h-5 w-5 text-blue-600 dark:text-blue-400" })}
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">LinkedIn</p>
@@ -121,7 +121,7 @@ export default function ContactPage() {
             {/* GitHub - Second */}
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 hover:scale-105 transition">
-                <FaGithub className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                {FaGithub({ className: "h-5 w-5 text-blue-600 dark:text-blue-400" })}
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">GitHub</p>
@@ -134,7 +134,7 @@ export default function ContactPage() {
             {/* X (Twitter) - Third */}
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 hover:scale-105 transition">
-                <FaXTwitter className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                {FaXTwitter({ className: "h-5 w-5 text-blue-600 dark:text-blue-400" })}
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">X (formerly Twitter)</p>
@@ -147,7 +147,7 @@ export default function ContactPage() {
             {/* Email - Fourth */}
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 hover:scale-105 transition">
-                <MdEmail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                {MdEmail({ className: "h-5 w-5 text-blue-600 dark:text-blue-400" })}
               </div>
               <div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
@@ -162,7 +162,7 @@ export default function ContactPage() {
               <h2 className="text-xl font-semibold mb-4">Office</h2>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3 hover:scale-105 transition">
-                  <MdLocationOn className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  {MdLocationOn({ className: "h-5 w-5 text-blue-600 dark:text-blue-400" })}
                 </div>
                 <div>
                   <p>
