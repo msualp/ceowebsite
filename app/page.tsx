@@ -47,7 +47,7 @@ export default function HomePage() {
                 <div className="relative flex-1">
                   <Link
                     href="https://www.sociail.com"
-                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 h-[52px] min-h-[52px] text-base font-semibold text-gray-900 border border-gray-300 bg-white hover:bg-gray-100 transition shadow-sm min-w-[270px] w-full"
+                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 h-[52px] min-h-[52px] text-base font-semibold text-white border border-gray-300 hover:opacity-90 transition shadow-sm min-w-[270px] w-full bg-[url('/images/sociail-button-bg.png')] bg-cover bg-center"
                   >
                     <Image
                       src="/images/sociail-logo-with-gray-stroke.svg"
