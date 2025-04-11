@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { HiArrowLongRight } from 'react-icons/hi2';
 import { Button } from './Button';
 import { CTAGroup } from './CTAGroup';
+import { Mail, Linkedin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAnimations } from '@/lib/animation-utils';
 
@@ -86,12 +87,34 @@ export const FooterCallToAction = () => {
         </div>
 
         {/* CTA Buttons */}
-        <CTAGroup 
-          variant="footer"
-          primaryCTA="earlyAccess"
-          secondaryCTA="calendly"
-          className="justify-center"
-        />
+        <div className="flex flex-wrap justify-center gap-3">
+          <CTAGroup 
+            variant="footer"
+            primaryCTA="earlyAccess"
+            secondaryCTA="calendly"
+            className="justify-center"
+          />
+          
+          <Button
+            variant="linkedin"
+            size="md"
+            href="https://www.linkedin.com/in/sualp/"
+            external={true}
+            rightIcon={<Linkedin className="w-4 h-4" />}
+          >
+            Connect on LinkedIn
+          </Button>
+          
+          <Button
+            variant="outline"
+            size="md"
+            href="mailto:msualp@sociail.com"
+            external={true}
+            rightIcon={<Mail className="w-4 h-4" />}
+          >
+            Email Me
+          </Button>
+        </div>
       </div>
     </div>
   );

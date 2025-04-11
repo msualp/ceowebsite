@@ -11,6 +11,7 @@ import InsightCard from '@/components/InsightCard';
 import Button from '@/components/Button';
 import { HiArrowLongRight } from 'react-icons/hi2';
 import { CTAGroup } from '@/components/cta/CTAGroup';
+import { Button as CTAButton } from '@/components/cta/Button';
 
 // Define the Post type
 interface Post {
@@ -82,16 +83,37 @@ export default function InsightsPage() {
         {/* Sidebar */}
         <div className="md:w-1/3 space-y-6">
           <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-            <h4 className="font-bold mb-3">Connect with Mustafa</h4>
+            <h4 className="font-bold mb-3">Get in Touch</h4>
             <p className="text-sm mb-4">
               Interested in discussing AI collaboration or entrepreneurship?
             </p>
-            <CTAGroup 
-              variant="compact" 
-              primaryCTA="calendly" 
-              secondaryCTA="linkedin" 
-              direction="column"
-            />
+            <div className="space-y-2">
+              <CTAGroup 
+                variant="compact" 
+                primaryCTA="calendly" 
+                secondaryCTA="none" 
+                direction="column"
+              />
+              <CTAButton 
+                href="https://www.linkedin.com/in/sualp/"
+                variant="linkedin"
+                size="sm"
+                fullWidth
+                rightIcon={<HiArrowLongRight className="w-4 h-4" />}
+                external
+              >
+                Connect on LinkedIn
+              </CTAButton>
+              <CTAButton 
+                href="mailto:msualp@sociail.com"
+                variant="outline"
+                size="sm"
+                fullWidth
+                external
+              >
+                Email Me
+              </CTAButton>
+            </div>
           </div>
           
           <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
