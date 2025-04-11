@@ -1,67 +1,106 @@
-import Link from 'next/link';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { PageContainer } from '@/components/PageContainer';
 import Image from 'next/image';
-import { getInsights } from './getInsights';
 import NewsletterForm from '@/components/NewsletterForm';
+import { initAllAnimations } from '@/lib/animation-utils';
+import Section from '@/components/Section';
+import SectionTitle from '@/components/SectionTitle';
+import InsightCard from '@/components/InsightCard';
+import Button from '@/components/Button';
+import { HiArrowLongRight } from 'react-icons/hi2';
 
-export default async function InsightsPage() {
-  const posts = await getInsights();
+// Define the Post type
+interface Post {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt?: string;
+}
+
+export default function InsightsPage() {
+  // State for posts
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch posts and initialize animations
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/insights');
+        if (!response.ok) throw new Error('Failed to fetch insights');
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching insights:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+    const cleanup = initAllAnimations();
+    return cleanup;
+  }, []);
 
   return (
     <PageContainer title="Insights & Blog">
-      {/* <h1 className="text-4xl font-extrabold mb-4 text-gray-900 dark:text-white">Insights & Blog</h1> */}
-      <p className="text-lg mb-8">
-        Thought leadership on AI, entrepreneurship, and building technologies that enhance human potential.
-      </p>
+      <SectionTitle 
+        title="Insights & Blog" 
+        subtitle="Thought leadership on AI, entrepreneurship, and building technologies that enhance human potential."
+        className="mb-12"
+      />
       
-      <div className="space-y-8">
-        {posts.map((post) =>
-          post.slug === 'second-post' ? null : (
-            <div
-              key={post.slug}
-              className={`border-b border-gray-200 dark:border-gray-700 pb-8 rounded-lg p-4 ${
-                posts.indexOf(post) % 2 === 0 ? 'bg-gray-50 dark:bg-gray-800/10' : ''
-              }`}
-            >
-              <h2 className="text-2xl font-bold mb-2">
-                <Link href={`/insights/${post.slug}`} className="text-blue-600 dark:text-blue-400 hover:underline">
-                  {post.title}
-                </Link>
-              </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                {new Date(post.date).toLocaleDateString('en-US', {
+      {loading ? (
+        <div className="text-center py-12">Loading insights...</div>
+      ) : (
+        <div className="space-y-8 stagger-fade-in">
+          {posts.map((post) =>
+            post.slug === 'second-post' ? null : (
+              <InsightCard
+                key={post.slug}
+                title={post.title}
+                date={new Date(post.date).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })}
-              </p>
-              {post.excerpt && <p className="text-gray-700 dark:text-gray-300">{post.excerpt}</p>}
-              <Link href={`/insights/${post.slug}`} className="inline-block mt-4 text-blue-600 dark:text-blue-400 hover:underline">
-                Read More →
-              </Link>
-            </div>
-          )
-        )}
-      </div>
-      <div className="relative mt-16 mb-12 max-w-4xl mx-auto">
-        <Image
-          src="/images/we-are-all-students.png"
-          alt="We Are All Students"
-          width={800}
-          height={400}
-          className="rounded-xl shadow-md w-full object-cover grayscale"
-        />
-        <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
-          “We are all students.” A mantra I live by as a devoted lifelong learner.
+                excerpt={post.excerpt || ''}
+                slug={post.slug}
+                className={posts.indexOf(post) % 2 === 0 ? 'bg-gray-50/50 dark:bg-gray-800/10' : ''}
+              />
+            )
+          )}
+        </div>
+      )}
+
+      <div className="relative mt-16 mb-12 max-w-4xl mx-auto fade-in-scroll">
+        <div className="img-with-caption relative">
+          <Image
+            src="/images/we-are-all-students.png"
+            alt="We Are All Students"
+            width={800}
+            height={400}
+            className="w-full rounded-xl shadow-md"
+          />
+          <div className="caption-reveal">
+            "We are all students." A mantra I live by as a devoted lifelong learner.
+          </div>
         </div>
       </div>
-      <section className="mt-20 text-center bg-blue-50 dark:bg-blue-900/10 p-6 rounded-xl">
-        <h2 className="text-xl font-semibold mb-2 text-blue-800 dark:text-blue-300">Stay in the Loop</h2>
-        <p className="text-sm mb-4 text-gray-600 dark:text-gray-400">Join our newsletter to receive the latest insights on AI, leadership, and productivity.</p>
+
+      <Section background="light" spacing="md" className="mt-12 rounded-xl">
+        <SectionTitle 
+          title="Stay in the Loop" 
+          subtitle="Join our newsletter to receive the latest insights on AI, leadership, and productivity."
+          className="mb-6"
+        />
         
-        <NewsletterForm />
-      </section>
+        <div className="max-w-md mx-auto">
+          <NewsletterForm />
+        </div>
+      </Section>
     </PageContainer>
   );
-  
 }
