@@ -10,19 +10,7 @@ import SkipToContent from '@/components/SkipToContent'
 import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 import { Main } from '@/components/Landmark'
 import { FeatureDetection } from '@/components/FeatureDetection'
-import dynamic from 'next/dynamic'
-
-// Dynamically import the development-only components
-// This ensures they're only loaded in development mode
-const DevAccessibilityTester = dynamic(
-  () => import('@/components/dev/AccessibilityTester').then(mod => mod.DevAccessibilityTester),
-  { ssr: false }
-)
-
-const DevContrastChecker = dynamic(
-  () => import('@/components/dev/ContrastChecker').then(mod => mod.ContrastChecker),
-  { ssr: false }
-)
+import { DevTools } from '@/components/dev/DevTools'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -148,12 +136,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <FloatingCTA primaryCTA="earlyAccess" />
             
             {/* Development-only tools */}
-            {process.env.NODE_ENV === 'development' && (
-              <>
-                <DevAccessibilityTester />
-                <DevContrastChecker />
-              </>
-            )}
+            <DevTools />
           </ThemeWrapper>
         </ToastProvider>
       </body>
