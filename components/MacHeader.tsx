@@ -8,6 +8,7 @@ export function MacHeader() {
   const [isOpen, setIsOpen] = useState(false)
 
   const toggleMenu = () => {
+    console.log("Toggle menu clicked, current state:", isOpen)
     setIsOpen(!isOpen)
   }
 
@@ -54,6 +55,15 @@ export function MacHeader() {
         {/* Menu header */}
         <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Welcome</h2>
+          <button 
+            onClick={toggleMenu}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Close menu"
+          >
+            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         <div className="p-4 space-y-4 flex-grow">
@@ -98,10 +108,15 @@ function HamburgerButton({
   isOpen: boolean
   toggleMenu: () => void
 }) {
+  const handleClick = () => {
+    console.log("Hamburger button clicked")
+    toggleMenu()
+  }
+  
   return (
     <button
       type="button"
-      onClick={toggleMenu}
+      onClick={handleClick}
       aria-label="Toggle Menu"
       className="
         relative
