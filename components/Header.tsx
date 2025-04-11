@@ -48,7 +48,9 @@ export function Header() {
 
           {/* Right side controls */}
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
+            <div className="flex items-center">
+              <ThemeToggle />
+            </div>
             {/* Hamburger menu - visible on all screen sizes */}
             <div className="relative z-[110]">
               <HamburgerButton isOpen={isOpen} toggleMenu={toggleMenu} />
@@ -172,15 +174,10 @@ function HamburgerButton({
   isOpen: boolean
   toggleMenu: () => void
 }) {
-  const handleClick = () => {
-    console.log("Hamburger button clicked")
-    toggleMenu()
-  }
-  
   return (
     <button
       type="button"
-      onClick={handleClick}
+      onClick={toggleMenu}
       aria-label="Toggle Menu"
       className="
         relative
