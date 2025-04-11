@@ -24,7 +24,7 @@ export function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label="Toggle Dark Mode"
-      className="p-2 rounded hover:bg-white/20 transition-colors"
+      className="p-2 rounded-full hover:bg-white/20 transition-colors text-gray-700 dark:text-gray-300"
     >
       {theme === 'light' ? (
         <MoonIcon className="h-5 w-5" />

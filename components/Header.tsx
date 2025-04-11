@@ -47,7 +47,9 @@ export function Header() {
 
           {/* Right side controls */}
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
+            <div className="flex items-center bg-gray-200/50 dark:bg-gray-800/50 rounded-full p-1">
+              <ThemeToggle />
+            </div>
             {/* Hamburger menu - visible on all screen sizes */}
             <div className="relative z-[110]">
               <HamburgerButton isOpen={isOpen} toggleMenu={toggleMenu} />
