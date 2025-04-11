@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
+import { FloatingCTA } from '@/components/cta/FloatingCTA'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -88,6 +89,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <ToastProvider>
           <ThemeWrapper hideCallToAction={isContactPage}>
             {children}
+            <FloatingCTA primaryCTA="earlyAccess" />
           </ThemeWrapper>
         </ToastProvider>
       </body>

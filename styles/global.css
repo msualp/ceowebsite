@@ -35,6 +35,42 @@ body {
               border-color var(--transition-all);
 }
 
+/* Enhanced focus styles for better accessibility */
+:focus {
+  outline: 2px solid transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #3b82f6; /* blue-500 */
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* blue-500 with opacity */
+}
+
+.dark :focus-visible {
+  outline-color: #60a5fa; /* blue-400 */
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3); /* blue-400 with opacity */
+}
+
+/* Ensure interactive elements have appropriate focus styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #3b82f6; /* blue-500 */
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3); /* blue-500 with opacity */
+}
+
+.dark a:focus-visible,
+.dark button:focus-visible,
+.dark input:focus-visible,
+.dark select:focus-visible,
+.dark textarea:focus-visible {
+  outline-color: #60a5fa; /* blue-400 */
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3); /* blue-400 with opacity */
+}
+
 /* Glass effect utility class */
 .glass {
   @apply backdrop-blur-xl border border-white/10 shadow-xl rounded-xl;
