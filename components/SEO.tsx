@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import LazyStructuredData from './lazy/LazyStructuredData';
+import { getPageMetaData } from '@/lib/meta-descriptions';
 
 interface SEOProps {
   title?: string;
@@ -13,8 +14,8 @@ interface SEOProps {
 }
 
 export default function SEO({
-  title = 'Mustafa Sualp - CEO & Founder of Sociail',
-  description = 'Mustafa Sualp is a serial entrepreneur and technology executive with a proven track record of building and scaling software companies.',
+  title,
+  description,
   type = 'website',
   image = '/images/Mustafa-Sualp-Sociail.png',
   publishedAt,
@@ -22,6 +23,11 @@ export default function SEO({
 }: SEOProps) {
   const pathname = usePathname();
   const url = `https://sualp.com${pathname}`;
+  
+  // Get page-specific meta data if not provided
+  const pageMetaData = getPageMetaData(pathname);
+  const finalTitle = title || pageMetaData.title;
+  const finalDescription = description || pageMetaData.description;
   
   // Base website structured data
   const websiteData = {
@@ -73,7 +79,7 @@ export default function SEO({
   
   // Article structured data (for blog posts)
   const articleData = publishedAt ? {
-    headline: title,
+    headline: finalTitle,
     image: `https://sualp.com${image}`,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
@@ -97,8 +103,8 @@ export default function SEO({
   const pageData = {
     '@id': url,
     url,
-    name: title,
-    description,
+    name: finalTitle,
+    description: finalDescription,
     isPartOf: {
       '@id': 'https://sualp.com/#website'
     }

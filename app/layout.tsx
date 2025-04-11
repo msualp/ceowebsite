@@ -9,6 +9,7 @@ import { FloatingCTA } from '@/components/cta/FloatingCTA'
 import SkipToContent from '@/components/SkipToContent'
 import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 import { Main } from '@/components/Landmark'
+import { FeatureDetection } from '@/components/FeatureDetection'
 import dynamic from 'next/dynamic'
 
 // Dynamically import the development-only components
@@ -133,6 +134,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <ThemeWrapper hideCallToAction={isContactPage}>
             {/* Accessibility: Skip to content link */}
             <SkipToContent />
+            
+            {/* Feature Detection and Polyfills */}
+            <FeatureDetection />
             
             {/* Web Vitals Tracking */}
             <WebVitalsTracker />
