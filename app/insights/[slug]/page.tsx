@@ -1,3 +1,5 @@
+'use client';
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -38,17 +40,6 @@ type Props = {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 };
-
-export async function generateStaticParams() {
-  const contentDir = path.join(process.cwd(), 'content/insights');
-  const files = fs.readdirSync(contentDir);
-  
-  return files
-    .filter(file => file.endsWith('.mdx'))
-    .map(file => ({
-      slug: file.replace('.mdx', ''),
-    }));
-}
 
 export default function InsightPage({ params }: Props) {
   const { slug } = params;
