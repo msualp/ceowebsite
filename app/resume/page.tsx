@@ -1,157 +1,205 @@
-import Link from 'next/link';
+'use client';
+
+import { useEffect } from 'react';
 import { PageContainer } from '@/components/PageContainer';
+import { initAllAnimations } from '@/lib/animation-utils';
+import Section from '@/components/Section';
+import SectionTitle from '@/components/SectionTitle';
+import SectionHeading from '@/components/SectionHeading';
+import Button from '@/components/Button';
+import TimelineEntry from '@/components/TimelineEntry';
+import EducationCard from '@/components/EducationCard';
+import SkillBadge from '@/components/SkillBadge';
+import AwardCard from '@/components/AwardCard';
+import { HiDocumentDownload, HiAcademicCap, HiLightBulb } from 'react-icons/hi';
+import { HiTrophy } from 'react-icons/hi2';
 
 export default function ResumePage() {
+  // Initialize animations
+  useEffect(() => {
+    const cleanup = initAllAnimations();
+    return cleanup;
+  }, []);
   return (
     <PageContainer title="Resume">
       <div className="flex justify-between items-center mb-8">
         <div></div> {/* Empty div for flex spacing since title is in PageContainer */}
-        <a 
-          href="#" 
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-flex items-center"
+        <Button 
+          href="/resume/mustafa-sualp-resume.pdf" 
+          variant="primary"
+          icon={<HiDocumentDownload className="h-5 w-5" />}
+          iconPosition="left"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
           Download PDF
-        </a>
+        </Button>
       </div>
       
-      <div className="prose dark:prose-invert max-w-none">
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold border-b pb-2 mb-4">Professional Summary</h2>
-          <p>
+      <div className="max-w-none fade-in-scroll">
+        <Section background="none" spacing="sm" className="mb-8">
+          <SectionHeading 
+            title="Professional Summary" 
+            icon={<HiLightBulb className="w-6 h-6 text-blue-600" />}
+          />
+          <p className="text-lg text-gray-700 dark:text-gray-300">
             Serial entrepreneur and technology executive with 15+ years of experience building and scaling 
             software companies. Proven track record of leading teams from concept to acquisition, with expertise 
             in AI, SaaS, and EdTech. Currently focused on developing AI-powered collaboration tools that 
             enhance human potential.
           </p>
-        </section>
+        </Section>
         
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold border-b pb-2 mb-4">Experience</h2>
+        <Section background="none" spacing="sm" className="mb-8">
+          <SectionHeading 
+            title="Experience" 
+            icon={<HiLightBulb className="w-6 h-6 text-blue-600" />}
+          />
           
-          <div className="mb-6">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">CEO & Founder</h3>
-              <span className="text-sm text-gray-500">March 2023 - Present</span>
-            </div>
-            <div className="text-lg font-medium text-blue-600 dark:text-blue-400 mb-2">Sociail, Inc.</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Leading development of an AI-powered collaboration platform that seamlessly integrates into daily workflows</li>
-              <li>Raised seed funding from top-tier investors</li>
-              <li>Built founding team of engineers, designers, and AI researchers</li>
-              <li>Established strategic partnerships with enterprise clients for beta testing</li>
-            </ul>
-          </div>
-          
-          <div className="mb-6">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">Vice President, Assessment Solutions</h3>
-              <span className="text-sm text-gray-500">September 2021 - June 2022</span>
-            </div>
-            <div className="text-lg font-medium text-blue-600 dark:text-blue-400 mb-2">HelioCampus</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Led post-acquisition integration of AEFIS into HelioCampus</li>
-              <li>Managed product strategy and roadmap for assessment management solutions</li>
-              <li>Oversaw customer success and retention during transition</li>
-              <li>Collaborated with executive team on overall company strategy</li>
-            </ul>
-          </div>
-          
-          <div className="mb-6">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">CEO & Founder</h3>
-              <span className="text-sm text-gray-500">October 2012 - June 2022</span>
-            </div>
-            <div className="text-lg font-medium text-blue-600 dark:text-blue-400 mb-2">AEFIS, Inc.</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Built and scaled a market-leading assessment management platform for higher education</li>
-              <li>Grew from bootstrapped startup to successful acquisition by HelioCampus in 2021</li>
-              <li>Developed innovative solutions for learning outcomes assessment, curriculum mapping, and accreditation</li>
-              <li>Established partnerships with major higher education associations and technology providers</li>
-              <li>Led team of 30+ across product, engineering, sales, and customer success</li>
-            </ul>
-          </div>
-          
-          <div className="mb-6">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">CEO & Founder</h3>
-              <span className="text-sm text-gray-500">April 1999 - December 2017</span>
-            </div>
-            <div className="text-lg font-medium text-blue-600 dark:text-blue-400 mb-2">UNTRA Corporation</div>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Founded and led managed technology services company serving financial services clients</li>
-              <li>Provided enterprise software development, infrastructure solutions, and team augmentation</li>
-              <li>Recognized twice as one of the Philadelphia 100® fastest growing companies</li>
-              <li>Incubated and funded early development of AEFIS</li>
-            </ul>
-          </div>
-        </section>
-        
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold border-b pb-2 mb-4">Education</h2>
-          
-          <div className="mb-4">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">Massachusetts Institute of Technology</h3>
-              <span className="text-sm text-gray-500">January 2023 - May 2023</span>
-            </div>
-            <div className="text-lg font-medium mb-1">Professional Education, Artificial Intelligence & Machine Learning</div>
-          </div>
-          
-          <div className="mb-4">
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl font-bold">Drexel University&apos;s LeBow College of Business</h3>
-              <span className="text-sm text-gray-500">August 1994 - June 1999</span>
-            </div>
-            <div className="text-lg font-medium mb-1">B.S., Commerce and Engineering</div>
-          </div>
-        </section>
-        
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold border-b pb-2 mb-4">Skills</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="text-lg font-bold mb-2">Leadership</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Strategic Planning</li>
-                <li>Team Building & Management</li>
-                <li>Product Vision & Roadmapping</li>
-                <li>Fundraising & Investor Relations</li>
-                <li>M&A Strategy & Execution</li>
-              </ul>
-            </div>
+          <div className="space-y-6 stagger-fade-in">
+            <TimelineEntry
+              company="Sociail, Inc."
+              role="CEO & Founder"
+              period="March 2023 - Present"
+              description={[
+                "Leading development of an AI-powered collaboration platform that seamlessly integrates into daily workflows",
+                "Raised seed funding from top-tier investors",
+                "Built founding team of engineers, designers, and AI researchers",
+                "Established strategic partnerships with enterprise clients for beta testing"
+              ]}
+              highlight="Revolutionary AI Collaboration Platform"
+              logo="/images/sociail-logo-with-gray-stroke.svg"
+              index={0}
+            />
             
-            <div>
-              <h3 className="text-lg font-bold mb-2">Technical</h3>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>AI/ML Product Development</li>
-                <li>SaaS Architecture</li>
-                <li>Enterprise Software Design</li>
-                <li>Data Analytics & Visualization</li>
-                <li>Cloud Infrastructure</li>
-              </ul>
+            <TimelineEntry
+              company="HelioCampus"
+              role="Vice President, Assessment Solutions"
+              period="September 2021 - June 2022"
+              description={[
+                "Led post-acquisition integration of AEFIS into HelioCampus",
+                "Managed product strategy and roadmap for assessment management solutions",
+                "Oversaw customer success and retention during transition",
+                "Collaborated with executive team on overall company strategy"
+              ]}
+              highlight="Successful Post-Acquisition Integration"
+              index={1}
+            />
+            
+            <TimelineEntry
+              company="AEFIS, Inc."
+              role="CEO & Founder"
+              period="October 2012 - June 2022"
+              description={[
+                "Built and scaled a market-leading assessment management platform for higher education",
+                "Grew from bootstrapped startup to successful acquisition by HelioCampus in 2021",
+                "Developed innovative solutions for learning outcomes assessment, curriculum mapping, and accreditation",
+                "Established partnerships with major higher education associations and technology providers",
+                "Led team of 30+ across product, engineering, sales, and customer success"
+              ]}
+              highlight="Bootstrap to Successful Exit"
+              index={2}
+            />
+            
+            <TimelineEntry
+              company="UNTRA Corporation"
+              role="CEO & Founder"
+              period="April 1999 - December 2017"
+              description={[
+                "Founded and led managed technology services company serving financial services clients",
+                "Provided enterprise software development, infrastructure solutions, and team augmentation",
+                "Recognized twice as one of the Philadelphia 100® fastest growing companies",
+                "Incubated and funded early development of AEFIS"
+              ]}
+              highlight="Bootstrapped Tech Services Growth"
+              index={3}
+            />
+          </div>
+        </Section>
+        
+        <Section background="none" spacing="sm" className="mb-8">
+          <SectionHeading 
+            title="Education" 
+            icon={<HiAcademicCap className="w-6 h-6 text-blue-600" />}
+          />
+          
+          <div className="grid md:grid-cols-2 gap-6 stagger-fade-in">
+            <EducationCard
+              institution="Massachusetts Institute of Technology"
+              degree="Professional Education"
+              field="Artificial Intelligence & Machine Learning"
+              period="January 2023 - May 2023"
+              logo="/images/mit-logo.svg"
+            />
+            
+            <EducationCard
+              institution="Drexel University's LeBow College of Business"
+              degree="B.S."
+              field="Commerce and Engineering"
+              period="August 1994 - June 1999"
+              logo="/images/drexel-logo.svg"
+            />
+          </div>
+        </Section>
+        
+        <Section background="none" spacing="sm" className="mb-8">
+          <SectionHeading 
+            title="Skills" 
+            icon={<HiLightBulb className="w-6 h-6 text-blue-600" />}
+          />
+          
+          <div className="mb-4">
+            <h3 className="text-lg font-bold mb-3">Leadership</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 stagger-fade-in">
+              <SkillBadge skill="Strategic Planning" />
+              <SkillBadge skill="Team Building" />
+              <SkillBadge skill="Product Vision" />
+              <SkillBadge skill="Fundraising" />
+              <SkillBadge skill="M&A Strategy" />
+              <SkillBadge skill="Investor Relations" />
             </div>
           </div>
-        </section>
-        
-        <section>
-          <h2 className="text-2xl font-bold border-b pb-2 mb-4">Awards & Recognition</h2>
           
-          <ul className="list-disc pl-5 space-y-2">
-            <li>
-              <strong>Philadelphia 100® Award</strong> - AEFIS (2016)
-            </li>
-            <li>
-              <strong>Philadelphia 100® Award</strong> - UNTRA Corporation (2009, 2017)
-            </li>
-            <li>
-              <strong>EdTech Breakthrough Award</strong> - AEFIS (2020)
-            </li>
-          </ul>
-        </section>
+          <div>
+            <h3 className="text-lg font-bold mb-3">Technical</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 stagger-fade-in">
+              <SkillBadge skill="AI/ML Development" />
+              <SkillBadge skill="SaaS Architecture" />
+              <SkillBadge skill="Enterprise Software" />
+              <SkillBadge skill="Data Analytics" />
+              <SkillBadge skill="Cloud Infrastructure" />
+              <SkillBadge skill="Product Management" />
+            </div>
+          </div>
+        </Section>
+        
+        <Section background="none" spacing="sm">
+          <SectionHeading 
+            title="Awards & Recognition" 
+            icon={<HiTrophy className="w-6 h-6 text-blue-600" />}
+          />
+          
+          <div className="space-y-4 stagger-fade-in">
+            <AwardCard
+              title="Philadelphia 100® Award - AEFIS"
+              description="Recognition for being one of the fastest growing companies in the Philadelphia region."
+              year="2016"
+              issuer="The Wharton Small Business Development Center"
+            />
+            
+            <AwardCard
+              title="Philadelphia 100® Award - UNTRA Corporation"
+              description="Recognized twice as one of the fastest growing companies in the Philadelphia region."
+              year="2009, 2017"
+              issuer="The Wharton Small Business Development Center"
+            />
+            
+            <AwardCard
+              title="EdTech Breakthrough Award"
+              description="Recognized for innovation in educational technology solutions."
+              year="2020"
+              issuer="EdTech Breakthrough Awards"
+            />
+          </div>
+        </Section>
       </div>
     </PageContainer>
   );
