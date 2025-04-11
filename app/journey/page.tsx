@@ -16,6 +16,7 @@ import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';
 import SectionHeading from '@/components/SectionHeading';
 import Button from '@/components/Button';
+import { CTAGroup } from '@/components/cta/CTAGroup';
 import TimelineEntry from '@/components/TimelineEntry';
 import EducationCard from '@/components/EducationCard';
 import AwardCard from '@/components/AwardCard';
@@ -158,7 +159,7 @@ export default function JourneyPage() {
           <div className="group relative">
             <Image
               src="/images/mustafa-sualp-imsglobal-learning-analytics-summit-selfie-2019.png"
-              alt="Mustafa Sualp Selfie at IMS Global 2019"
+              alt="Close-up selfie of Mustafa Sualp speaking at the IMS Global Learning Analytics Summit 2019"
               width={300}
               height={200}
               className="rounded-xl shadow-lg object-cover w-full h-auto grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
@@ -292,44 +293,18 @@ export default function JourneyPage() {
         </div>
       </section>
       
-      {/* CTA Section - NEW */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl p-8 shadow-lg mb-12">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Connect About AI Collaboration?</h2>
-          <p className="mb-6 text-blue-100">
-            I'm always interested in connecting with fellow entrepreneurs, AI enthusiasts, and potential partners.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              href="https://www.linkedin.com/in/sualp/" 
-              external
-              variant="secondary"
-              icon={<HiArrowLongRight />}
-              className="bg-white text-blue-600 hover:bg-blue-50"
-            >
-              Connect on LinkedIn
-            </Button>
-            
-            <Button
-              href="https://calendly.com/msualp/30min"
-              external
-              variant="secondary"
-              icon={<HiArrowLongRight />}
-              className="bg-white text-purple-700 hover:bg-purple-50"
-            >
-              Book a Call
-            </Button>
-            
-            <Button 
-              href="mailto:msualp@sociail.com" 
-              variant="outline"
-              className="border-white text-white hover:bg-white/10"
-            >
-              Email Me
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* CTA Section */}
+      <div className="my-12 bg-blue-50 dark:bg-blue-900/20 p-8 rounded-xl">
+        <h2 className="text-2xl font-bold mb-4">Interested in My Current Venture?</h2>
+        <p className="mb-6">
+          Sociail is redefining how teams collaborate with AI. Join our early access program to be among the first to experience it.
+        </p>
+        <CTAGroup 
+          variant="inline" 
+          primaryCTA="earlyAccess" 
+          secondaryCTA="linkedin"
+        />
+      </div>
     </PageContainer>
   );
 }

@@ -22,6 +22,8 @@ import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';
 import SectionHeading from '@/components/SectionHeading';
 import Button from '@/components/Button';
+import { CTAGroup } from '@/components/cta/CTAGroup';
+import { EarlyAccessCTA } from '@/components/cta/EarlyAccessCTA';
 import FeatureCard from '@/components/FeatureCard';
 import ValueCard from '@/components/ValueCard';
 import Quote from '@/components/Quote';
@@ -96,7 +98,7 @@ export default function SociailPage() {
         <div className="relative z-10 max-w-4xl mx-auto">
           <Image
             src="/images/sociail-logo-with-gray-stroke.svg"
-            alt="Sociail Logo"
+            alt="Sociail company logo, representing the AI collaboration platform"
             width={120}
             height={120}
             className="mx-auto mb-8"
@@ -112,29 +114,14 @@ export default function SociailPage() {
             Reinventing how humans and AI work together—real-time, multi-user, context-aware, 
             and designed to amplify your team’s collective intelligence.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <div className="relative inline-flex group">
-              <Button 
-                href="#beta" 
-                variant="primary"
-                size="lg"
-                className="group-hover:shadow-xl shadow-md"
-              >
-                Join Early Access
-              </Button>
-              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full shadow-sm animate-pulse">
-                Limited Spots
-              </span>
-            </div>
-            <Button 
-              href="/insights" 
-              variant="outline"
-              size="lg"
-              icon={<HiArrowLongRight />}
-            >
-              Read Our Vision
-            </Button>
-          </div>
+          <CTAGroup 
+            variant="hero" 
+            primaryCTA="earlyAccess" 
+            primaryLabel="Join Our Beta"
+            secondaryCTA="calendly" 
+            secondaryLabel="Request a Demo"
+            className="mb-8"
+          />
           
           {/* Quick stats */}
           <div className="flex justify-center gap-8 mt-12 text-sm text-gray-600 dark:text-gray-400">
@@ -209,7 +196,7 @@ export default function SociailPage() {
             <div className="img-with-caption relative">
               <Image 
                 src="/images/sociail-screenshot.png" 
-                alt="Sociail Platform Interface" 
+                alt="Screenshot of Sociail's collaborative AI platform interface showing multi-user chat and AI integration features" 
                 width={600} 
                 height={400}
                 className="w-full h-auto object-cover"
@@ -424,67 +411,13 @@ export default function SociailPage() {
         </div>
       </section>
 
-      {/* Newsletter / Beta Sign-Up */}
-      <section
-        id="beta"
-        className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-8 rounded-xl mt-24 shadow-md border border-blue-100 dark:border-blue-800/30 max-w-5xl mx-auto"
-      >
-        <div className="flex items-center gap-3 mb-4">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-          </span>
-          <span className="font-semibold text-blue-600">
-            Early Access Program
-          </span>
-        </div>
-        <h2 className="text-2xl font-bold mb-4">Join the Sociail Journey</h2>
-        <p className="mb-6 max-w-3xl">
-          Be among the first to experience the future of AI collaboration. Sign up for our newsletter to 
-          receive development updates, early access opportunities, and insights into how we&apos;re building Sociail.
-        </p>
-
-        {subscriptionStatus.submitted && subscriptionStatus.success ? (
-          <div className="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded mb-4">
-            <p>{subscriptionStatus.message}</p>
-          </div>
-        ) : (
-          <form
-            className="flex flex-col sm:flex-row gap-3 max-w-xl"
-            onSubmit={handleSubscribe}
-          >
-            <div className="flex-grow">
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={handleEmailChange}
-                className={`w-full px-4 py-3 rounded border ${
-                  emailError
-                    ? 'border-red-500 dark:border-red-700'
-                    : 'border-gray-300 dark:border-gray-700'
-                } dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover-lift-sm`}
-                aria-label="Email address"
-                aria-describedby={emailError ? 'email-error' : undefined}
-              />
-              {emailError && (
-                <p
-                  className="text-red-500 text-sm mt-1"
-                  id="email-error"
-                >
-                  {emailError}
-                </p>
-              )}
-            </div>
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-            >
-              Get Early Access
-            </Button>
-          </form>
-        )}
+      {/* Early Access Section */}
+      <section id="beta" className="mt-24 max-w-5xl mx-auto">
+        <EarlyAccessCTA 
+          variant="prominent" 
+          showCounter={true}
+          className="mt-16" 
+        />
       </section>
 
       {/* Founders Image */}
@@ -492,7 +425,7 @@ export default function SociailPage() {
         <div className="img-with-caption relative">
           <Image
             src="/images/mustafa-and-niaz.png"
-            alt="Mustafa Sualp & Niaz"
+            alt="Mustafa Sualp and Niaz, co-founders of Sociail, collaborating on the AI platform development"
             width={1200}
             height={600}
             className="w-full rounded-xl shadow-lg object-cover"

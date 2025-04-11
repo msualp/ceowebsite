@@ -10,6 +10,8 @@ import HeroImage from '@/components/HeroImage';
 import ProjectCard from '@/components/ProjectCard';
 import InsightCard from '@/components/InsightCard';
 import Button from '@/components/Button';
+import { CTAGroup } from '@/components/cta/CTAGroup';
+import { FooterCTA } from '@/components/cta/FooterCTA';
 
 export default function HomePage() {
   // Initialize animations
@@ -32,7 +34,7 @@ export default function HomePage() {
             <div className="absolute inset-0">
               <HeroImage
                 src="/images/Mustafa-Sualp-Sociail-BW.png"
-                alt="Mustafa Sualp"
+                alt="Mustafa Sualp, Founder and CEO of Sociail, in professional black and white portrait"
                 priority={true}
                 objectPosition="center 33%"
                 caption="Founder & CEO, Sociail"
@@ -49,43 +51,12 @@ export default function HomePage() {
               <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 mb-6 md:mb-8">
                 Built one company from code to exit. Now building the next — to reinvent how humans and AI collaborate, create, and thrive together.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 items-center sm:items-stretch">
-                <Button 
-                  href="/sociail" 
-                  variant="primary" 
-                  size="lg" 
-                  fullWidth
-                >
-                  Explore the Vision
-                </Button>
-
-                <div className="relative flex-1">
-                  <Button
-                    href="https://www.sociail.com"
-                    variant="outline"
-                    size="lg"
-                    fullWidth
-                    external
-                    className="bg-[url('/images/sociail-button-bg.png')] bg-cover bg-bottom bg-[length:107%]"
-                    icon={
-                      <Image
-                        src="/images/sociail-logo-with-gray-stroke.svg"
-                        alt="Sociail Logo"
-                        width={36}
-                        height={36}
-                        className="h-full max-h-[40px] w-auto opacity-90 pointer-events-none transition-transform duration-200"
-                        style={{ objectFit: 'contain' }}
-                      />
-                    }
-                    iconPosition="left"
-                  >
-                    Join Early Access
-                  </Button>
-                  <span className="absolute -top-3 -right-3 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full shadow-sm">
-                    Limited Seats
-                  </span>
-                </div>
-              </div>
+              <CTAGroup 
+                variant="hero" 
+                primaryCTA="earlyAccess" 
+                secondaryCTA="calendly" 
+                className="mt-8"
+              />
             </div>
           </div>
         </div>
@@ -208,7 +179,7 @@ export default function HomePage() {
           <div className="img-with-caption relative rounded-xl overflow-hidden shadow-lg border border-white/20">
             <Image
               src="/images/Mustafa-Sualp-with-AEFIS-Team.png"
-              alt="AEFIS Team Photo Before COVID"
+              alt="AEFIS team gathered for a group photo in March 2020, just before the COVID-19 pandemic"
               width={1200}
               height={600}
               className="w-full h-auto object-cover"
@@ -219,6 +190,9 @@ export default function HomePage() {
           </div>
         </div>
       </Section>
+      
+      {/* Footer CTA */}
+      <FooterCTA />
     </div>
   );
 }

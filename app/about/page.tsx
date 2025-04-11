@@ -19,6 +19,7 @@ import SectionTitle from '@/components/SectionTitle';
 import SectionHeading from '@/components/SectionHeading';
 import HeroImage from '@/components/HeroImage';
 import Button from '@/components/Button';
+import { CTAGroup } from '@/components/cta/CTAGroup';
 import Quote from '@/components/Quote';
 import AchievementCard from '@/components/AchievementCard';
 import TimelineItem from '@/components/TimelineItem';
@@ -221,7 +222,7 @@ export default function AboutPage() {
         <div className="group relative mt-12 mb-12 max-w-3xl mx-auto px-4">
           <Image
             src="/images/future-innovator-in-trainign.png"
-            alt="Mustafa with his son Luke"
+            alt="Mustafa Sualp spending quality time with his young son Luke, sharing a moment of connection"
             width={800}
             height={450}
             className="rounded-xl shadow-md w-[80%] mx-auto object-cover grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
@@ -267,6 +268,18 @@ export default function AboutPage() {
             We're building a real-time collaborative AI chat platform that seamlessly integrates artificial intelligence 
             into everyday workflows, making AI a natural extension of team capabilities rather than just another tool.
           </p>
+          
+          <div className="my-16 max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Want to Connect?</h2>
+            <p className="mb-6">
+              I'm always open to discussing AI, entrepreneurship, or potential collaborations.
+            </p>
+            <CTAGroup 
+              variant="inline" 
+              primaryCTA="calendly" 
+              secondaryCTA="linkedin" 
+            />
+          </div>
         </section>
 
         {/* Philosophy & Values - Enhanced with better styling */}
@@ -379,88 +392,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Professional Timeline - Enhanced with better visual styling and decorative blob */}
-        <section className="mb-20 relative">
-          {/* Decorative blob shape */}
-          <div className="absolute -bottom-16 -left-16 text-indigo-200 dark:text-indigo-900 opacity-20 pointer-events-none rotate-45">
-            <BlobShape className="w-[300px] h-[300px]" />
-          </div>
-          
-          <h3 className="text-2xl font-semibold mb-8 flex items-center gap-2">
-            <svg className="text-blue-600 w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-            Professional Journey
-          </h3>
-          
-          <div className="relative pl-6 border-l-2 border-blue-600 space-y-12">
-            {[
-              { 
-                title: 'CEO & Founder, Sociail', 
-                date: '2021–Present', 
-                description: 'Building a real-time collaborative AI chat platform at the intersection of AI assistants, productivity software, and communication tools. Raised initial funding and built an MVP with a lean team of expert engineers.',
-                highlight: 'Currently preparing for beta launch to validate product-market fit and preparing for our seed round.'
-              },
-              { 
-                title: 'CEO & Founder, AEFIS', 
-                date: '2012–2021', 
-                description: 'Led the company from inception to successful acquisition, growing it into a market-leading EdTech platform for higher education assessment. Bootstrapped for the first eight years before taking on professional investors.',
-                highlight: 'Achieved 72% growth during COVID by quickly adapting to remote assessment needs, leading to a successful private equity exit in 2021.'
-              },
-              { 
-                title: 'Founder, Tech Services Company', 
-                date: '2008–2012', 
-                description: 'Founded and operated a managed technology services company while completing my education, providing IT solutions to financial institutions and small businesses in the Philadelphia area.',
-                highlight: 'Balanced full-time studies while building a profitable service business that funded my early entrepreneurial education.'
-              },
-            ].map((item, index) => (
-              <div className="relative space-y-3" key={index}>
-                <div className="absolute -left-8 h-4 w-4 rounded-full bg-blue-600 mt-1.5 shadow-md animate-pulse" style={{ animationDuration: '3s' }}></div>
-                <h4 className="text-xl font-semibold">{item.title}</h4>
-                <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">{item.date}</p>
-                <p className="text-gray-700 dark:text-gray-300">{item.description}</p>
-                {item.highlight && (
-                  <p className="text-gray-600 dark:text-gray-400 italic text-sm border-l-2 border-blue-600/30 pl-3 mt-2">
-                    {item.highlight}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-        
-        {/* Work With Me - New Call to Action Section */}
-        <section className="mb-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white shadow-xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-pattern opacity-10 pointer-events-none"></div>
-          
-          <div className="relative z-10 max-w-3xl mx-auto text-center">
-            <h3 className="text-3xl font-bold mb-4">Interested in Collaborating?</h3>
-            <p className="text-lg mb-6">
-              Whether you're curious about Sociail, looking to discuss AI collaboration, or exploring potential partnerships, 
-              I'm always open to connecting with like-minded individuals and organizations.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="https://calendly.com/msualp-main" className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors shadow-sm" target="_blank" rel="noopener noreferrer">
-                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Schedule a Meeting
-              </Link>
-              
-              <Link href="mailto:msualp@sociail.com" className="bg-transparent text-white hover:bg-white/10 border border-white/30 px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors">
-                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Send an Email
-              </Link>
-            </div>
-          </div>
-        </section>
-        
         {/* Image Section */}
         <div className="group relative mt-20 mb-12 max-w-4xl mx-auto">
           <Image
             src="/images/mustafa-desk-view.png"
-            alt="Mustafa working at his desk"
+            alt="Mustafa Sualp focused on work at his desk with multiple monitors, showcasing his dedication to building Sociail"
             width={800}
             height={450}
           className="rounded-xl shadow-md w-full object-cover grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
@@ -519,6 +455,35 @@ export default function AboutPage() {
             ))}
           </div>
           
+        {/* Work With Me - New Call to Action Section */}
+        <section className="mb-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-pattern opacity-10 pointer-events-none"></div>
+          
+          <div className="relative z-10 max-w-3xl mx-auto text-center">
+            <h3 className="text-3xl font-bold mb-4">Interested in Collaborating?</h3>
+            <p className="text-lg mb-6">
+              Whether you're curious about Sociail, looking to discuss AI collaboration, or exploring potential partnerships, 
+              I'm always open to connecting with like-minded individuals and organizations.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="https://calendly.com/msualp-main" className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors shadow-sm" target="_blank" rel="noopener noreferrer">
+                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Schedule a Meeting
+              </Link>
+              
+              <Link href="mailto:msualp@sociail.com" className="bg-transparent text-white hover:bg-white/10 border border-white/30 px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors">
+                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Send an Email
+              </Link>
+            </div>
+          </div>
+        </section>
+        
           <div className="mt-8 text-center">
             <Link href="/blog" className="inline-flex items-center px-5 py-2.5 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-medium rounded-lg transition-colors">
               View All Insights
