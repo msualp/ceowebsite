@@ -16,7 +16,7 @@ import {
 import { Share, Twitter, Linkedin, Facebook, Link as LinkIcon } from 'lucide-react';
 
 // Get reading time estimation
-function getReadingTime(content) {
+function getReadingTime(content: string): string {
   const wordsPerMinute = 200;
   const words = content.split(/\s+/).length;
   const minutes = Math.ceil(words / wordsPerMinute);
@@ -33,9 +33,16 @@ const categories = [
   { id: 'technical', name: 'Technical' },
 ];
 
+// Define the props type for the page component
 interface InsightPageProps {
   params: { slug: string };
   searchParams?: Record<string, string | string[]>;
+}
+
+// Define the type for the generateMetadata function
+export type InsightPageMetadataProps = {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateStaticParams() {
