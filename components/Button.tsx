@@ -15,6 +15,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   external?: boolean;
   disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 export default function Button({
@@ -28,7 +29,8 @@ export default function Button({
   iconPosition = 'right',
   fullWidth = false,
   external = false,
-  disabled = false
+  disabled = false,
+  type = 'button'
 }: ButtonProps) {
   // Base classes
   const baseClasses = 'btn-hover inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400';
@@ -96,6 +98,7 @@ export default function Button({
   
   return (
     <button
+      type={type}
       onClick={onClick}
       className={buttonClasses}
       disabled={disabled}
