@@ -33,17 +33,11 @@ const categories = [
   { id: 'technical', name: 'Technical' },
 ];
 
-// Define the props type for the page component
-interface InsightPageProps {
-  params: { slug: string };
-  searchParams?: Record<string, string | string[]>;
-}
-
-// Define the type for the generateMetadata function
-export type InsightPageMetadataProps = {
+// Use the Next.js page props type
+type Props = {
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
-}
+};
 
 export async function generateStaticParams() {
   const contentDir = path.join(process.cwd(), 'content/insights');
@@ -56,7 +50,7 @@ export async function generateStaticParams() {
     }));
 }
 
-export default function InsightPage({ params }: InsightPageProps) {
+export default function InsightPage({ params }: Props) {
   const { slug } = params;
   const contentDir = path.join(process.cwd(), 'content/insights');
   
