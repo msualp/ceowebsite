@@ -7,6 +7,15 @@ import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
 import { FloatingCTA } from '@/components/cta/FloatingCTA'
 import { WebVitalsTracker } from '@/components/WebVitalsTracker'
+import SkipToContent from '@/components/SkipToContent'
+import dynamic from 'next/dynamic'
+
+// Dynamically import the DevAccessibilityTester component
+// This ensures it's only loaded in development mode
+const DevAccessibilityTester = dynamic(
+  () => import('@/components/dev/AccessibilityTester').then(mod => mod.DevAccessibilityTester),
+  { ssr: false }
+)
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -116,11 +125,20 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </noscript>
         <ToastProvider>
           <ThemeWrapper hideCallToAction={isContactPage}>
+            {/* Accessibility: Skip to content link */}
+            <SkipToContent />
+            
             {/* Web Vitals Tracking */}
             <WebVitalsTracker />
             
-            {children}
+            <main id="main-content">
+              {children}
+            </main>
+            
             <FloatingCTA primaryCTA="earlyAccess" />
+            
+            {/* Development-only accessibility tester */}
+            {process.env.NODE_ENV === 'development' && <DevAccessibilityTester />}
           </ThemeWrapper>
         </ToastProvider>
       </body>

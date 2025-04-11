@@ -87,6 +87,8 @@ export function Header() {
 
       {/* Off-canvas side menu - Enhanced with grouping and visual hierarchy */}
       <nav
+        id="main-menu"
+        aria-label="Main menu"
         className={`
           fixed top-0 right-0 h-full w-80
           bg-white/90 dark:bg-gray-900/90 backdrop-blur-md
@@ -281,6 +283,8 @@ function HamburgerButton({
       type="button"
       onClick={toggleMenu}
       aria-label="Toggle Menu"
+      aria-expanded={isOpen}
+      aria-controls="main-menu"
       className="
         relative
         w-8 h-6
