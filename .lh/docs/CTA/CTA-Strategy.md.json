@@ -1,0 +1,18 @@
+{
+    "sourceFile": "docs/CTA/CTA-Strategy.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1744402154180,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1744402154180,
+            "name": "Commit-0",
+            "content": "# CTA Strategy for Mustafa's Personal Site\n\n## Strategic Framework\n\nYour calls-to-action should follow a strategic hierarchy based on the visitor's journey and your business objectives:\n\n1. **Primary Goal**: Drive early access signups for Sociail\n2. **Secondary Goal**: Schedule direct meetings via Calendly\n3. **Tertiary Goals**: LinkedIn connection and email contact\n\n### CTA Hierarchy by Context\n\nDifferent sections of your site should emphasize different CTAs based on context:\n\n| Page/Section | Primary CTA | Secondary CTA | Tertiary CTA |\n|--------------|------------|--------------|--------------|\n| Homepage Hero | Early Access | Read Insights | - |\n| About Page | Schedule Meeting | Connect on LinkedIn | - |\n| Journey Page | Connect on LinkedIn | Schedule Meeting | - |\n| Insights/Blog | Early Access | Share Article | Subscribe |\n| Sociail Page | Early Access | Schedule Demo | - |\n| Footer (All Pages) | All 4 CTAs with equal emphasis | | |\n\n### Visual Design Principles\n\nTo create a modern, spectacular yet functional CTA system:\n\n1. **Visual Hierarchy**: Primary CTAs should have the most visual weight\n2. **Consistent Color Coding**:\n   - Early Access: Blue gradient (#4F46E5 → #7C3AED)\n   - Schedule Meeting: Green (#10B981)\n   - LinkedIn: Brand blue (#0A66C2)\n   - Email: Neutral/gray (#6B7280)\n\n3. **Animation & Interaction**:\n   - Subtle hover animations (scale, shadow)\n   - Micro-interactions on click/tap\n   - Loading states for form submissions\n\n4. **Accessibility**:\n   - High contrast ratios\n   - Proper focus states\n   - Clear, action-oriented text\n\n## Component Types\n\n### 1. Primary Hero CTA Group\n\nFor homepage and key landing sections - prominent, attention-grabbing with animation.\n\n### 2. Inline CTA Row\n\nFor embedding within content sections - balanced, horizontal row with 2-3 options.\n\n### 3. Floating Action Button (FAB)\n\nFor mobile - fixed position, expandable button that provides quick access to primary actions.\n\n### 4. Footer CTA Section\n\nComprehensive set of all connection options with supporting text.\n\n### 5. Contextual Action Button\n\nSingle-purpose buttons that appear in relevant contexts (like \"Share\" on blog posts).\n\n### 6. Early Access Component\n\nSpecialized component combining button + brief explanation of the beta program.\n\n## Implementation Plan\n\n**Status: COMPLETED (Steps 1-3) ✅**\n\n1. ✅ Create base Button component with variants\n2. ✅ Build composite CTA components for each context\n3. ✅ Implement in high-traffic pages first\n4. Track performance with events/analytics (Future)\n5. Optimize based on conversion data (Future)\n\n"
+        }
+    ]
+}

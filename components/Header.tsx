@@ -1,34 +1,29 @@
 'use client'
+import {
+  HiHome,
+  HiUser,
+  HiBriefcase,
+  HiSparkles,
+  HiRocketLaunch,
+  HiLightBulb,
+  HiChatBubbleLeftRight,
+  HiDocumentText,
+  HiEnvelope,
+  HiQuestionMarkCircle
+} from 'react-icons/hi2'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
+import { Header as HeaderLandmark, Navigation } from './Landmark'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname()
   
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setIsVisible(false); // scrolling down
-      } else {
-        setIsVisible(true); // scrolling up
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
   const toggleMenu = () => {
-    console.log('Toggle menu clicked, current state:', isOpen);
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
   }
   
   const isActive = (path: string) => {
@@ -38,7 +33,7 @@ export function Header() {
   return (
     <>
       {/* Fixed top navigation bar */}
-      <header className={`fixed top-0 left-0 right-0 z-[100] transition-transform duration-500 delay-150 ${isVisible ? 'translate-y-0' : '-translate-y-full'} backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10`}>
+      <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10" label="Site header">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <Link
             href="/"
@@ -48,20 +43,24 @@ export function Header() {
           </Link>
 
           {/* Always visible navigation items */}
-          <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-6 text-base font-medium text-gray-700 dark:text-gray-300">
+          <Navigation label="Main navigation" className="hidden md:flex items-center space-x-6 text-base font-medium text-gray-700 dark:text-gray-300">
             <Link href="/about" className={`${isActive('/about')} flex items-center gap-2 transition-colors hover:text-blue-600`}>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Meet Mustafa
             </Link>
-            <Link href="/sociail" className={`${isActive('/sociail')} flex items-center gap-2 transition-colors hover:text-blue-600`}>
+            <Link href="/sociail" className={`hidden lg:flex ${isActive('/sociail')} items-center gap-2 transition-colors hover:text-blue-600`}>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
               </svg>
               Sociail Vision
             </Link>
-          </nav>
+            <Link href="/insights" className={`hidden md:flex ${isActive('/insights')} items-center gap-2 transition-colors hover:text-blue-600`}>
+              <HiLightBulb className="w-5 h-5" />
+              Insights
+            </Link>
+          </Navigation>
 
           {/* Right side controls */}
           <div className="flex items-center space-x-4">
@@ -74,7 +73,7 @@ export function Header() {
             </div>
           </div>
         </div>
-      </header>
+      </HeaderLandmark>
 
       {/* Menu components - visible on all screen sizes when menu is open */}
       {/* Backdrop covers the screen behind side menu */}
@@ -84,32 +83,28 @@ export function Header() {
           transition-opacity duration-300
           ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleMenu();
-        }}
+        onClick={toggleMenu}
       />
 
-      {/* Off-canvas side menu, slides in from the right */}
-      <div
+      {/* Off-canvas side menu - Enhanced with grouping and visual hierarchy */}
+      <Navigation
+        id="main-menu"
+        label="Main menu"
         className={`
-          fixed top-0 right-0 h-full w-64
-          bg-white/80 dark:bg-black/40 backdrop-blur-md
+          fixed top-0 right-0 h-full w-80
+          bg-white/90 dark:bg-gray-900/90 backdrop-blur-md
           border-l border-gray-200 dark:border-gray-700
-          z-[9999] transform transition-transform duration-300
-          flex flex-col
+          z-[105] transform transition-transform duration-300
+          flex flex-col overflow-y-auto
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
         {/* Menu header */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
           <h2 className="text-lg font-semibold">Menu</h2>
           <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleMenu();
-            }}
-            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer"
+            onClick={toggleMenu}
+            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             aria-label="Close menu"
           >
             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,87 +113,156 @@ export function Header() {
           </button>
         </div>
 
-        <div className="p-4 space-y-4 flex-grow">
+        <div className="p-4 space-y-6 flex-grow">
+          {/* Home link */}
           <Link 
-            href="/about" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/about' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/about' ? 'page' : undefined}
+            href="/" 
+            onClick={toggleMenu} 
+            className={`block text-lg flex items-center gap-3 py-2 ${pathname === '/' ? 'text-blue-600 font-medium' : 'hover:text-blue-600'}`}
           >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Meet Mustafa
+            <HiHome className="w-5 h-5" />
+            Home
           </Link>
-          <Link 
-            href="/sociail" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/sociail' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/sociail' ? 'page' : undefined}
-          >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
-            Sociail Vision
-          </Link>
-          <Link 
-            href="/journey" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/journey' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/journey' ? 'page' : undefined}
-          >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            My Story
-          </Link>
-          <Link 
-            href="/insights" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/insights' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/insights' ? 'page' : undefined}
-          >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-            </svg>
-            Thinking Aloud
-          </Link>
-          <Link 
-            href="/resume" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/resume' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/resume' ? 'page' : undefined}
-          >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-            </svg>
-            Track Record
-          </Link>
-          <Link 
-            href="/contact" 
-            onClick={(e) => {
-              toggleMenu();
-            }} 
-            className={`block text-lg flex items-center gap-3 transition-transform duration-300 hover:scale-[1.02] ${pathname === '/contact' ? 'text-blue-600 font-medium' : 'hover:underline'} cursor-pointer`}
-            aria-current={pathname === '/contact' ? 'page' : undefined}
-          >
-            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Contact
-          </Link>
+          
+          {/* About section */}
+          <div>
+            <h3 className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium tracking-wider mb-2 px-2">About Mustafa</h3>
+            <div className="space-y-1 ml-1">
+              <Link 
+                href="/about" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/about' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiUser className="w-5 h-5" />
+                Meet Mustafa
+              </Link>
+              <Link 
+                href="/journey" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/journey' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiBriefcase className="w-5 h-5" />
+                Professional Journey
+              </Link>
+            </div>
+          </div>
+          
+          {/* Sociail section */}
+          <div>
+            <h3 className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium tracking-wider mb-2 px-2">Sociail</h3>
+            <div className="space-y-1 ml-1">
+              <Link 
+                href="/sociail" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/sociail' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiSparkles className="w-5 h-5" />
+                Vision & Product
+              </Link>
+              <Link 
+                href="/sociail#beta" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800`}
+              >
+                <HiRocketLaunch className="w-5 h-5" />
+                Early Access
+              </Link>
+            </div>
+          </div>
+          
+          {/* Insights section */}
+          <div>
+            <h3 className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium tracking-wider mb-2 px-2">Insights</h3>
+            <div className="space-y-1 ml-1">
+              <Link 
+                href="/insights" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/insights' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiLightBulb className="w-5 h-5" />
+                Thinking Aloud
+              </Link>
+              <Link 
+                href="/collaborative-ai" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname?.startsWith('/insights/collaborative-ai') ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiChatBubbleLeftRight className="w-5 h-5" />
+                AI Collaboration
+              </Link>
+              <Link 
+                href="/resources" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname?.startsWith('/insights/resources') ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiDocumentText className="w-5 h-5" />
+                Resources
+              </Link>
+            </div>
+          </div>
+          
+          {/* Contact link */}
+          <div>
+            <h3 className="text-xs uppercase text-gray-500 dark:text-gray-400 font-medium tracking-wider mb-2 px-2">Connect</h3>
+            <div className="space-y-1 ml-1">
+              <Link 
+                href="/contact" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/contact' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                <HiEnvelope className="w-5 h-5" />
+                Contact Me
+              </Link>
+              <Link 
+                href="/contact#speaking" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800`}
+              >
+                <HiQuestionMarkCircle className="w-5 h-5" />
+                Speaking Requests
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+        
+        {/* Footer with quick links */}
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+          <div className="flex gap-4 justify-center">
+            <a 
+              href="https://www.linkedin.com/in/sualp/" 
+              target="_blank" 
+              rel="noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow transition-shadow"
+              aria-label="LinkedIn"
+            >
+              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+            <a 
+              href="mailto:msualp@sociail.com" 
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow transition-shadow"
+              aria-label="Email"
+            >
+              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+              </svg>
+            </a>
+            <a 
+              href="https://calendly.com/msualp-main" 
+              target="_blank" 
+              rel="noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow transition-shadow"
+              aria-label="Schedule Meeting"
+            >
+              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5zm2 4h10v2H7v-2zm0 4h7v2H7v-2z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </Navigation>
+
     </>
   )
 }
@@ -218,27 +282,41 @@ function HamburgerButton({
   return (
     <button
       type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('Hamburger button clicked');
-        toggleMenu();
-      }}
+      onClick={toggleMenu}
       aria-label="Toggle Menu"
       aria-expanded={isOpen}
-      className="relative w-8 h-8 flex items-center justify-center text-black dark:text-white cursor-pointer"
+      aria-controls="main-menu"
+      className="
+        relative
+        w-8 h-6
+        flex flex-col justify-between items-center
+        text-black dark:text-white
+      "
     >
-      {isOpen ? (
-        // X icon when menu is open
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      ) : (
-        // Hamburger icon when menu is closed
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      )}
+      {/* Top bar */}
+      <span
+        className={`
+          h-[3px] w-full bg-current rounded-md
+          transition-transform duration-300
+          ${isOpen ? 'rotate-45 translate-y-[10px]' : 'rotate-0 translate-y-0'}
+        `}
+      />
+      {/* Middle bar */}
+      <span
+        className={`
+          h-[3px] w-full bg-current rounded-md
+          transition-all duration-300
+          ${isOpen ? 'opacity-0' : 'opacity-100'}
+        `}
+      />
+      {/* Bottom bar */}
+      <span
+        className={`
+          h-[3px] w-full bg-current rounded-md
+          transition-transform duration-300
+          ${isOpen ? '-rotate-45 -translate-y-[10px]' : 'rotate-0 translate-y-0'}
+        `}
+      />
     </button>
   )
 }

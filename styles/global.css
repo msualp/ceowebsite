@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import global effects and animations */
+@import './global-effects.css';
+
 /* Custom global overrides */
 :root {
   --transition-all: 200ms cubic-bezier(0.25, 1, 0.5, 1);
@@ -30,6 +33,60 @@ body {
   transition: background-color var(--transition-all),
               color var(--transition-all),
               border-color var(--transition-all);
+}
+
+/* Enhanced focus styles for better accessibility */
+:focus {
+  outline: 2px solid transparent;
+}
+
+/* High-visibility focus styles for keyboard navigation */
+:focus-visible {
+  outline: 3px solid #3b82f6; /* blue-500 */
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.4); /* blue-500 with opacity */
+  border-radius: 0.25rem;
+  transition: outline-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  z-index: 10;
+  position: relative;
+}
+
+.dark :focus-visible {
+  outline-color: #60a5fa; /* blue-400 */
+  box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.4); /* blue-400 with opacity */
+}
+
+/* Ensure interactive elements have appropriate focus styles */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #3b82f6; /* blue-500 */
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.4); /* blue-500 with opacity */
+}
+
+.dark a:focus-visible,
+.dark button:focus-visible,
+.dark input:focus-visible,
+.dark select:focus-visible,
+.dark textarea:focus-visible {
+  outline-color: #60a5fa; /* blue-400 */
+  box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.4); /* blue-400 with opacity */
+}
+
+/* Utility class for keyboard focus styles */
+.focus-visible-ring {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-blue-400 dark:focus-visible:ring-offset-gray-900;
+}
+
+/* High contrast mode focus styles */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid CanvasText !important;
+    outline-offset: 3px !important;
+  }
 }
 
 /* Glass effect utility class */

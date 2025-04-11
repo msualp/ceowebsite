@@ -1,9 +1,28 @@
 import '../styles/global.css'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'
+import Script from 'next/script'
 import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
+import { FloatingCTA } from '@/components/cta/FloatingCTA'
+import SkipToContent from '@/components/SkipToContent'
+import { WebVitalsTracker } from '@/components/WebVitalsTracker'
+import { Main } from '@/components/Landmark'
+import { FeatureDetection } from '@/components/FeatureDetection'
+import dynamic from 'next/dynamic'
+
+// Dynamically import the development-only components
+// This ensures they're only loaded in development mode
+const DevAccessibilityTester = dynamic(
+  () => import('@/components/dev/AccessibilityTester').then(mod => mod.DevAccessibilityTester),
+  { ssr: false }
+)
+
+const DevContrastChecker = dynamic(
+  () => import('@/components/dev/ContrastChecker').then(mod => mod.ContrastChecker),
+  { ssr: false }
+)
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -24,22 +43,30 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const xUrl = headersList.get('x-url');
   const pathname = xPathname || xUrl || '';
   const isContactPage = pathname.includes('/contact');
-  
-  const scriptsToLoad: string[] = [];
-  const nonce = headersList.get('x-nonce') || '';
-
-  if (isContactPage && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-    scriptsToLoad.push(`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`);
-  }
-
-  if (process.env.NEXT_PUBLIC_GA_ID) {
-    scriptsToLoad.push(`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`);
-  }
 
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        <script
+        {/* Preload critical fonts */}
+        <link
+          rel="preload"
+          href="/fonts/inter-var-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/sf-pro-display-medium.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Google Tag Manager - Load after page becomes interactive */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -49,23 +76,38 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               })(window,document,'script','dataLayer','GTM-TRXBFF7P');
             `,
           }}
-          nonce={nonce}
         />
-        {scriptsToLoad.map((src, index) => (
-          <script key={index} src={src} async defer nonce={nonce} />
-        ))}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-              `,
-            }}
-            nonce={nonce}
+        
+        {/* Conditional reCAPTCHA loading for contact page */}
+        {isContactPage && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+          <Script
+            id="recaptcha-script"
+            src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+            strategy="afterInteractive"
           />
+        )}
+        
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              id="ga-script"
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="ga-config"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                `,
+              }}
+            />
+          </>
         )}
       </head>
       <body
@@ -90,7 +132,28 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </noscript>
         <ToastProvider>
           <ThemeWrapper hideCallToAction={isContactPage}>
-            {children}
+            {/* Accessibility: Skip to content link */}
+            <SkipToContent />
+            
+            {/* Feature Detection and Polyfills */}
+            <FeatureDetection />
+            
+            {/* Web Vitals Tracking */}
+            <WebVitalsTracker />
+            
+            <Main id="main-content" label="Main content">
+              {children}
+            </Main>
+            
+            <FloatingCTA primaryCTA="earlyAccess" />
+            
+            {/* Development-only tools */}
+            {process.env.NODE_ENV === 'development' && (
+              <>
+                <DevAccessibilityTester />
+                <DevContrastChecker />
+              </>
+            )}
           </ThemeWrapper>
         </ToastProvider>
       </body>
