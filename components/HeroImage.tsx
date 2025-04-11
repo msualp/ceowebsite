@@ -27,7 +27,7 @@ export default function HeroImage({
   }, []);
 
   return (
-    <div className="group relative rounded-xl overflow-hidden">
+    <div className="group relative rounded-xl overflow-hidden h-full">
       <Image
         src={src}
         alt={alt}
