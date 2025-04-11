@@ -1,6 +1,7 @@
 import '../styles/global.css'
 import { Inter } from 'next/font/google'
 import { ReactNode } from 'react'
+import Script from 'next/script'
 import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
@@ -25,21 +26,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const xUrl = headersList.get('x-url');
   const pathname = xPathname || xUrl || '';
   const isContactPage = pathname.includes('/contact');
-  
-  const scriptsToLoad: string[] = [];
-
-  if (isContactPage && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-    scriptsToLoad.push(`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`);
-  }
-
-  if (process.env.NEXT_PUBLIC_GA_ID) {
-    scriptsToLoad.push(`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`);
-  }
 
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        <script
+        {/* Google Tag Manager - Load after page becomes interactive */}
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -50,20 +44,37 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             `,
           }}
         />
-        {scriptsToLoad.map((src, index) => (
-          <script key={index} src={src} async defer />
-        ))}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-              `,
-            }}
+        
+        {/* Conditional reCAPTCHA loading for contact page */}
+        {isContactPage && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+          <Script
+            id="recaptcha-script"
+            src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+            strategy="afterInteractive"
           />
+        )}
+        
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              id="ga-script"
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="ga-config"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                `,
+              }}
+            />
+          </>
         )}
       </head>
       <body
