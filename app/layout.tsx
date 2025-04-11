@@ -6,8 +6,9 @@ import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
 import { FloatingCTA } from '@/components/cta/FloatingCTA'
-import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 import SkipToContent from '@/components/SkipToContent'
+import { WebVitalsTracker } from '@/components/WebVitalsTracker'
+import { Main } from '@/components/Landmark'
 import dynamic from 'next/dynamic'
 
 // Dynamically import the DevAccessibilityTester component
@@ -131,9 +132,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             {/* Web Vitals Tracking */}
             <WebVitalsTracker />
             
-            <main id="main-content">
+            <Main id="main-content" label="Main content">
               {children}
-            </main>
+            </Main>
             
             <FloatingCTA primaryCTA="earlyAccess" />
             

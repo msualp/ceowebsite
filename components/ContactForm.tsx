@@ -161,92 +161,115 @@ export default function ContactForm() {
           <p>{formStatus.message}</p>
         </div>
       ) : (
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              aria-label="Your name"
-              className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm`}
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              aria-label="Your email"
-              className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm`}
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-          
-          <div>
-            <label htmlFor="subject" className="block text-sm font-medium mb-1">
-              Subject
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              aria-label="Subject of your message"
-              className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm`}
-            />
-            {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
-          </div>
+        <form className="space-y-6" onSubmit={handleSubmit} noValidate aria-label="Contact form">
+          <fieldset>
+            <legend className="sr-only">Contact Information</legend>
+            
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium mb-1">
+                Name <span className="text-red-500" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                aria-required="true"
+                aria-invalid={errors.name ? "true" : "false"}
+                aria-describedby={errors.name ? "name-error" : undefined}
+                className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm focus:outline-none`}
+              />
+              {errors.name && (
+                <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">{errors.name}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
+                Email <span className="text-red-500" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                aria-required="true"
+                aria-invalid={errors.email ? "true" : "false"}
+                aria-describedby={errors.email ? "email-error" : undefined}
+                className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm focus:outline-none`}
+              />
+              {errors.email && (
+                <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium mb-1">
+                Subject <span className="text-red-500" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                aria-required="true"
+                aria-invalid={errors.subject ? "true" : "false"}
+                aria-describedby={errors.subject ? "subject-error" : undefined}
+                className={`w-full px-4 py-2 border ${errors.subject ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm focus:outline-none`}
+              />
+              {errors.subject && (
+                <p id="subject-error" className="text-red-500 text-sm mt-1" role="alert">{errors.subject}</p>
+              )}
+            </div>
 
-          <div>
-            <label htmlFor="reason" className="block text-sm font-medium mb-1">Reason for Contact</label>
-            <select
-              id="reason"
-              name="reason"
-              value={formData.reason}
-              onChange={handleChange}
-              aria-label="Reason for contact"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm"
-            >
-              <option>General Inquiry</option>
-              <option>Speaking / Media</option>
-              <option>Collaboration</option>
-              <option>Investment / Business</option>
-            </select>
-            {formData.reason !== 'General Inquiry' && (
-              <p className="text-sm text-gray-500 mt-1">
-                Great! You selected <strong>{formData.reason}</strong>. Feel free to be specific below.
-              </p>
-            )}
-          </div>
-          
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium mb-1">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={5}
-              value={formData.message}
-              onChange={handleChange}
-              aria-label="Your message"
-              className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm`}
-            ></textarea>
-            {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-          </div>
+            <div>
+              <label htmlFor="reason" className="block text-sm font-medium mb-1">Reason for Contact</label>
+              <select
+                id="reason"
+                name="reason"
+                value={formData.reason}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm focus:outline-none"
+              >
+                <option>General Inquiry</option>
+                <option>Speaking / Media</option>
+                <option>Collaboration</option>
+                <option>Investment / Business</option>
+              </select>
+              {formData.reason !== 'General Inquiry' && (
+                <p className="text-sm text-gray-500 mt-1" id="reason-help">
+                  Great! You selected <strong>{formData.reason}</strong>. Feel free to be specific below.
+                </p>
+              )}
+            </div>
+            
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium mb-1">
+                Message <span className="text-red-500" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                required
+                aria-required="true"
+                aria-invalid={errors.message ? "true" : "false"}
+                aria-describedby={errors.message ? "message-error" : undefined}
+                className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'} rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 hover-lift-sm focus:outline-none`}
+              ></textarea>
+              {errors.message && (
+                <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">{errors.message}</p>
+              )}
+            </div>
+          </fieldset>
           
           <div className="text-center">
             <Button

@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { CirclePattern } from './SvgShapes';
 import SkipToContent from './SkipToContent';
 import ClientSEO from './ClientSEO';
+import { HeadingProvider, Heading } from './HeadingContext';
 
 interface PageContainerProps {
   children: ReactNode;
@@ -39,20 +40,22 @@ export function PageContainer({
         publishedAt={publishedAt}
         updatedAt={updatedAt}
       />
-      <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 ${className}`}>
-        {title && <h1 className="text-4xl font-bold mb-6">{title}</h1>}
-        
-        <div id="main-content" className="glass relative p-8 rounded-xl shadow-xl mb-8 overflow-hidden">
-          {withPattern && (
-            <div className="absolute inset-0 text-blue-600 dark:text-blue-300 opacity-5 pointer-events-none">
-              <CirclePattern />
+      <HeadingProvider initialLevel={1}>
+        <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 ${className}`}>
+          {title && <Heading className="text-4xl font-bold mb-6">{title}</Heading>}
+          
+          <div id="main-content" className="glass relative p-8 rounded-xl shadow-xl mb-8 overflow-hidden">
+            {withPattern && (
+              <div className="absolute inset-0 text-blue-600 dark:text-blue-300 opacity-5 pointer-events-none">
+                <CirclePattern />
+              </div>
+            )}
+            <div className="relative z-10">
+              {children}
             </div>
-          )}
-          <div className="relative z-10">
-            {children}
           </div>
         </div>
-      </div>
+      </HeadingProvider>
     </>
   );
 }

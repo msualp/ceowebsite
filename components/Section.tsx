@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { HeadingSection } from './HeadingContext';
 
 interface SectionProps {
   children: ReactNode;
@@ -36,13 +37,13 @@ export default function Section({
   };
   
   return (
-    <section 
+    <HeadingSection 
       id={id}
       className={`fade-in-scroll ${bgClasses[background]} ${spacingClasses[spacing]} ${className}`}
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {children}
       </div>
-    </section>
+    </HeadingSection>
   );
 }

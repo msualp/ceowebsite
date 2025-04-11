@@ -16,6 +16,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
+import { Header as HeaderLandmark, Navigation } from './Landmark'
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +33,7 @@ export function Header() {
   return (
     <>
       {/* Fixed top navigation bar */}
-      <header className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10">
+      <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10" label="Site header">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <Link
             href="/"
@@ -42,7 +43,7 @@ export function Header() {
           </Link>
 
           {/* Always visible navigation items */}
-          <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-6 text-base font-medium text-gray-700 dark:text-gray-300">
+          <Navigation label="Main navigation" className="hidden md:flex items-center space-x-6 text-base font-medium text-gray-700 dark:text-gray-300">
             <Link href="/about" className={`${isActive('/about')} flex items-center gap-2 transition-colors hover:text-blue-600`}>
               <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -59,7 +60,7 @@ export function Header() {
               <HiLightBulb className="w-5 h-5" />
               Insights
             </Link>
-          </nav>
+          </Navigation>
 
           {/* Right side controls */}
           <div className="flex items-center space-x-4">
@@ -72,7 +73,7 @@ export function Header() {
             </div>
           </div>
         </div>
-      </header>
+      </HeaderLandmark>
 
       {/* Menu components - visible on all screen sizes when menu is open */}
       {/* Backdrop covers the screen behind side menu */}
@@ -86,9 +87,9 @@ export function Header() {
       />
 
       {/* Off-canvas side menu - Enhanced with grouping and visual hierarchy */}
-      <nav
+      <Navigation
         id="main-menu"
-        aria-label="Main menu"
+        label="Main menu"
         className={`
           fixed top-0 right-0 h-full w-80
           bg-white/90 dark:bg-gray-900/90 backdrop-blur-md
@@ -260,7 +261,7 @@ export function Header() {
             </a>
           </div>
         </div>
-      </nav>
+      </Navigation>
 
     </>
   )
