@@ -11,6 +11,15 @@ import {
   HiChevronRight,
   HiArrowLongRight,
 } from 'react-icons/hi2';
+import { initAllAnimations } from '@/lib/animation-utils';
+import Section from '@/components/Section';
+import SectionTitle from '@/components/SectionTitle';
+import SectionHeading from '@/components/SectionHeading';
+import Button from '@/components/Button';
+import TimelineEntry from '@/components/TimelineEntry';
+import EducationCard from '@/components/EducationCard';
+import AwardCard from '@/components/AwardCard';
+import SkillBadge from '@/components/SkillBadge';
 
 export default function JourneyPage() {
   const timelineEntries = [
@@ -81,26 +90,10 @@ export default function JourneyPage() {
     setShowHighlights((prev) => prev.map((val, i) => (i === index ? !val : val)));
   };
 
-  // Animation for timeline entries
+  // Initialize animations
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100', 'translate-y-0');
-            entry.target.classList.remove('opacity-0', 'translate-y-4');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const timelineDomEntries = document.querySelectorAll('.timeline-entry');
-    timelineDomEntries.forEach((el) => observer.observe(el));
-
-    return () => {
-      timelineDomEntries.forEach((el) => observer.unobserve(el));
-    };
+    const cleanup = initAllAnimations();
+    return cleanup;
   }, []);
 
   const education = [
@@ -208,68 +201,18 @@ export default function JourneyPage() {
           <div className="absolute left-6 top-8 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 to-purple-600"></div>
 
           {/* Timeline entries */}
-          <div className="space-y-12">
+          <div className="space-y-12 stagger-fade-in">
             {timelineEntries.map((entry, index) => (
-              <div 
-                key={index} 
-                className="timeline-entry opacity-0 translate-y-4 transition-all duration-700 ease-out"
-                style={{ transitionDelay: `${index * 150}ms` }}
-              >
-                <div className="relative pl-16">
-                  {/* Timeline node */}
-                    <div className="absolute left-0 top-0 w-12 h-12 bg-white dark:bg-gray-800 rounded-full border-4 border-blue-600 dark:border-blue-500 flex items-center justify-center shadow-md">
-                    {entry.logo ? (
-                      <div className="group relative">
-                        <Image 
-                          src={entry.logo} 
-                          alt={entry.company} 
-                          width={30} 
-                          height={30} 
-                          className="rounded-xl shadow-lg object-cover w-full h-auto grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
-                        />
-                      </div>
-                    ) : (
-                      <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-full text-blue-600 dark:text-blue-400">
-                        <HiLightBulb className="w-6 h-6" />
-                      </div>
-                    )}
-                    </div>
-                  
-                  {/* Content card */}
-                  <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md p-8 border border-gray-100 dark:border-gray-700">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{entry.company}</h3>
-                        <p className="text-blue-600 dark:text-blue-400 font-medium">{entry.role}</p>
-                      </div>
-                      <div className="mt-2 md:mt-0">
-                        <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 py-1 px-3 rounded-full text-sm font-medium">
-                          {entry.period}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    {/* Highlight quote */}
-                    <div className="border-l-4 border-blue-500 pl-4 italic text-blue-700 dark:text-blue-300 mb-4">
-                      "{entry.highlight}"
-                    </div>
-                    
-                    {showHighlights[index] && (
-                      <div className="space-y-2 text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        {entry.description.map((paragraph, i) => (
-                          <p key={i}>{paragraph}</p>
-                        ))}
-                      </div>
-                    )}
-                    <button
-                      onClick={() => toggleHighlight(index)}
-                      className="mt-3 text-sm text-blue-600 dark:text-blue-400 underline"
-                    >
-                      {showHighlights[index] ? "Hide Details" : "View Highlights"}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <TimelineEntry
+                key={index}
+                company={entry.company}
+                role={entry.role}
+                period={entry.period}
+                description={entry.description}
+                highlight={entry.highlight}
+                logo={entry.logo}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -284,23 +227,16 @@ export default function JourneyPage() {
           <h2 className="text-3xl font-bold">Education</h2>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 stagger-fade-in">
           {education.map((edu, index) => (
-            <div 
-              key={index} 
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-700 flex"
-            >
-              <div className="mr-4">
-                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center transition-all duration-300 hover:bg-blue-200 dark:hover:bg-blue-800/40">
-                  <HiAcademicCap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{edu.institution}</h3>
-                <p className="text-blue-600 dark:text-blue-400">{edu.degree}, {edu.field}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{edu.period}</p>
-              </div>
-            </div>
+            <EducationCard
+              key={index}
+              institution={edu.institution}
+              degree={edu.degree}
+              field={edu.field}
+              period={edu.period}
+              logo={edu.logo}
+            />
           ))}
         </div>
       </section>
@@ -314,25 +250,15 @@ export default function JourneyPage() {
           <h2 className="text-3xl font-bold">Honors & Awards</h2>
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-6 stagger-fade-in">
           {awards.map((award, index) => (
-            <div 
-              key={index} 
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:border-blue-400 transition-all duration-300"
-            >
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  🏆 {award.title}
-                </h3>
-                <span className="inline-flex items-center bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 py-1 px-3 rounded-full text-sm font-medium mt-2 md:mt-0">
-                  {award.year}
-                </span>
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                Issued by {award.issuer}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300">{award.description}</p>
-            </div>
+            <AwardCard
+              key={index}
+              title={award.title}
+              description={award.description}
+              year={award.year}
+              issuer={award.issuer}
+            />
           ))}
         </div>
       </section>
@@ -346,7 +272,7 @@ export default function JourneyPage() {
           <h2 className="text-3xl font-bold">Core Competencies</h2>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 stagger-fade-in">
           {[
             "Startup Leadership",
             "Product Development",
@@ -361,13 +287,7 @@ export default function JourneyPage() {
             "Bootstrap Growth",
             "Enterprise Software"
           ].map((skill, index) => (
-            <div 
-              key={index} 
-              className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 flex items-center hover:shadow-md hover:border-green-400 transition-all duration-300"
-            >
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-3 animate-pulse"></div>
-              <span className="text-gray-800 dark:text-gray-200 font-medium">{skill}</span>
-            </div>
+            <SkillBadge key={index} skill={skill} />
           ))}
         </div>
       </section>
@@ -380,29 +300,33 @@ export default function JourneyPage() {
             I'm always interested in connecting with fellow entrepreneurs, AI enthusiasts, and potential partners.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <Button 
               href="https://www.linkedin.com/in/sualp/" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-blue-600 px-6 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors flex items-center justify-center"
+              external
+              variant="secondary"
+              icon={<HiArrowLongRight />}
+              className="bg-white text-blue-600 hover:bg-blue-50"
             >
               Connect on LinkedIn
-              <HiArrowLongRight className="ml-2 w-5 h-5" />
-            </a>
-            <a
+            </Button>
+            
+            <Button
               href="https://calendly.com/msualp/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-purple-700 px-6 py-3 rounded-md font-medium hover:bg-purple-50 transition-colors flex items-center justify-center"
+              external
+              variant="secondary"
+              icon={<HiArrowLongRight />}
+              className="bg-white text-purple-700 hover:bg-purple-50"
             >
-              Book a Call <HiArrowLongRight className="ml-2 w-5 h-5" />
-            </a>
-            <a 
+              Book a Call
+            </Button>
+            
+            <Button 
               href="mailto:msualp@sociail.com" 
-              className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-md font-medium hover:bg-white/10 transition-colors"
+              variant="outline"
+              className="border-white text-white hover:bg-white/10"
             >
               Email Me
-            </a>
+            </Button>
           </div>
         </div>
       </section>
