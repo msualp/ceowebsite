@@ -11,10 +11,15 @@ import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 import { Main } from '@/components/Landmark'
 import dynamic from 'next/dynamic'
 
-// Dynamically import the DevAccessibilityTester component
-// This ensures it's only loaded in development mode
+// Dynamically import the development-only components
+// This ensures they're only loaded in development mode
 const DevAccessibilityTester = dynamic(
   () => import('@/components/dev/AccessibilityTester').then(mod => mod.DevAccessibilityTester),
+  { ssr: false }
+)
+
+const DevContrastChecker = dynamic(
+  () => import('@/components/dev/ContrastChecker').then(mod => mod.ContrastChecker),
   { ssr: false }
 )
 
@@ -138,8 +143,13 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             
             <FloatingCTA primaryCTA="earlyAccess" />
             
-            {/* Development-only accessibility tester */}
-            {process.env.NODE_ENV === 'development' && <DevAccessibilityTester />}
+            {/* Development-only tools */}
+            {process.env.NODE_ENV === 'development' && (
+              <>
+                <DevAccessibilityTester />
+                <DevContrastChecker />
+              </>
+            )}
           </ThemeWrapper>
         </ToastProvider>
       </body>
