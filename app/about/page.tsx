@@ -42,16 +42,18 @@ export default function AboutPage() {
 
       <PageContainer title="">
         {/* Profile Section - Enhanced with larger font and better spacing */}
-        <div className="flex flex-col md:flex-row items-center mb-8 mt-8">
-          <Image
-            src="/images/Mustafa-Sualp-Sociail-BW.png"
-            alt="Mustafa Sualp"
-            width={160}
-            height={160}
-            className="rounded-xl mr-6 mb-4 md:mb-0 border border-white/20 shadow-md grayscale"
-            priority
-          />
-          <div>
+        <div className="flex flex-col md:flex-row items-start md:items-center mb-8 mt-8 gap-8">
+          <div className="md:w-1/2">
+            <Image
+              src="/images/mustafa-sualp-working.png"
+              alt="Mustafa Sualp working on a laptop in professional attire"
+              width={360}
+              height={240}
+              className="rounded-xl mr-6 mb-4 md:mb-0 border border-white/20 shadow-md grayscale"
+              priority
+            />
+          </div>
+          <div className="md:w-1/2">
             <h2 className="text-4xl font-bold">Mustafa Sualp</h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 mt-1">
               Founder & CEO, Sociail
@@ -187,15 +189,15 @@ export default function AboutPage() {
         </section>
 
         {/* Father & Son Image Section - With special consideration */}
-        <div className="relative mt-12 mb-12 max-w-4xl mx-auto">
+        <div className="group relative mt-12 mb-12 max-w-3xl mx-auto px-4">
           <Image
             src="/images/future-innovator-in-trainign.png"
             alt="Mustafa with his son Luke"
             width={800}
             height={450}
-            className="rounded-xl shadow-md w-full object-cover grayscale"
+            className="rounded-xl shadow-md w-[80%] mx-auto object-cover grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
           />
-          <div className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] bg-black/60 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">
             Cherished moments with my son Luke — raising the next generation of curious minds
           </div>
         </div>
@@ -426,16 +428,27 @@ export default function AboutPage() {
         </section>
         
         {/* Image Section */}
-        <div className="relative mt-20 mb-12 max-w-4xl mx-auto">
+        <div className="group relative mt-20 mb-12 max-w-4xl mx-auto">
           <Image
             src="/images/mustafa-desk-view.png"
             alt="Mustafa working at his desk"
             width={800}
             height={450}
-            className="rounded-xl shadow-md w-full object-cover grayscale"
+          className="rounded-xl shadow-md w-full object-cover grayscale transition-all duration-1000 ease-in-out group-hover:grayscale-0"
           />
-          <div className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm">
-            Where vision meets execution. Building the future of AI isn't just about ideas<br/>—it's about putting in the hours at the command line... with a side of Nutella for brain fuel.
+          <div className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-center text-sm md:text-base px-4 py-3 rounded-b-xl backdrop-blur-sm opacity-0 translate-y-4 transition-all duration-700 group-hover:opacity-100 group-hover:translate-y-0">
+            <span className="block sm:hidden">
+              Where vision meets execution.
+            </span>
+            <span className="hidden sm:block md:hidden">
+              Where vision meets execution. Building the future of AI isn't just about ideas.
+            </span>
+            <span className="hidden md:block lg:hidden">
+              Where vision meets execution. Building the future of AI isn't just about ideas — it's about putting in the hours at the command line.
+            </span>
+            <span className="hidden lg:block">
+              Where vision meets execution. Building the future of AI isn't just about ideas — it's about putting in the hours at the command line... with a side of Nutella for brain fuel.
+            </span>
           </div>
         </div>
         

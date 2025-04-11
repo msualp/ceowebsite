@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import global effects and animations */
+@import './global-effects.css';
+
 /* Custom global overrides */
 :root {
   --transition-all: 200ms cubic-bezier(0.25, 1, 0.5, 1);
