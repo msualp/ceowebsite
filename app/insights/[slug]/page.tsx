@@ -44,7 +44,8 @@ export async function generateStaticParams() {
     }));
 }
 
-export default function InsightPage({ params }: { params: { slug: string } }) {
+// Add a more generic type for the params
+export default function InsightPage({ params }: { params: Record<string, string> }) {
   const { slug } = params;
   const contentDir = path.join(process.cwd(), 'content/insights');
   
