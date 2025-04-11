@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import StructuredData from './StructuredData';
+import LazyStructuredData from './lazy/LazyStructuredData';
 
 interface SEOProps {
   title?: string;
@@ -106,12 +106,12 @@ export default function SEO({
   
   return (
     <>
-      <StructuredData type="WebSite" data={websiteData} />
-      <StructuredData type="Person" data={personData} />
-      <StructuredData type="Organization" data={organizationData} />
-      <StructuredData type="WebPage" data={pageData} />
+      <LazyStructuredData type="WebSite" data={websiteData} />
+      <LazyStructuredData type="Person" data={personData} />
+      <LazyStructuredData type="Organization" data={organizationData} />
+      <LazyStructuredData type="WebPage" data={pageData} />
       {type === 'article' && articleData && (
-        <StructuredData type="Article" data={articleData} />
+        <LazyStructuredData type="Article" data={articleData} />
       )}
     </>
   );

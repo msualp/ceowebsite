@@ -8,7 +8,7 @@ import { MdEmail, MdLocationOn } from 'react-icons/md';
 import { initAllAnimations } from '@/lib/animation-utils';
 import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';
-import ContactForm from '@/components/ContactForm';
+import LazyContactForm from '@/components/lazy/LazyContactForm';
 import SocialLink from '@/components/SocialLink';
 
 export default function ContactPage() {
@@ -47,7 +47,7 @@ export default function ContactPage() {
       </p>
       
       <div className="grid md:grid-cols-2 gap-12">
-        <ContactForm />
+        <LazyContactForm />
         
         <div className="fade-in-scroll">
           <h2 className="text-xl font-semibold mb-4">Find Me Online</h2>
