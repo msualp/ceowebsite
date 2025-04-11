@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 5,
+            "activePatchIndex": 10,
             "patches": [
                 {
                     "date": 1744399529479,
@@ -28,6 +28,26 @@
                 {
                     "date": 1744399603357,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n ## Installation Steps\n \n ### 1. Set Up Dependencies — DONE!\n \n-# Install required dependencies\n+ Install required dependencies\n npm install class-variance-authority lucide-react framer-motion\n ```\n \n ### 2. Create Utility Function\n"
+                },
+                {
+                    "date": 1744399611087,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n ## Installation Steps\n \n ### 1. Set Up Dependencies — DONE!\n \n- Install required dependencies\n+[] Install required dependencies\n npm install class-variance-authority lucide-react framer-motion\n ```\n \n ### 2. Create Utility Function\n"
+                },
+                {
+                    "date": 1744399625602,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,11 +5,11 @@\n This guide provides step-by-step instructions for implementing the new CTA component system across Mustafa's personal website and Sociail landing pages. These components are designed to create a cohesive experience while optimizing for conversions.\n \n ## Installation Steps\n \n-### 1. Set Up Dependencies — DONE!\n+### 1. Set Up Dependencies — COMPLETED\n \n-[] Install required dependencies\n+- [x] Install required dependencies\n npm install class-variance-authority lucide-react framer-motion\n ```\n \n ### 2. Create Utility Function\n"
+                },
+                {
+                    "date": 1744399658261,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,8 +8,9 @@\n \n ### 1. Set Up Dependencies — COMPLETED\n \n - [x] Install required dependencies\n+\n npm install class-variance-authority lucide-react framer-motion\n ```\n \n ### 2. Create Utility Function\n"
+                },
+                {
+                    "date": 1744399665191,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,8 +9,9 @@\n ### 1. Set Up Dependencies — COMPLETED\n \n - [x] Install required dependencies\n \n+```bash\n npm install class-variance-authority lucide-react framer-motion\n ```\n \n ### 2. Create Utility Function\n"
+                },
+                {
+                    "date": 1744399671210,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -7,9 +7,9 @@\n ## Installation Steps\n \n ### 1. Set Up Dependencies — COMPLETED\n \n-- [x] Install required dependencies\n+- [x] Install required dependencies below:\n \n ```bash\n npm install class-variance-authority lucide-react framer-motion\n ```\n"
                 }
             ],
             "date": 1744399529479,

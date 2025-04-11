@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { PageContainer } from '@/components/PageContainer';
 import {
@@ -15,9 +15,23 @@ import {
   HiLightBulb,
   HiSparkles,
   HiChatBubbleLeftRight,
+  HiArrowLongRight,
 } from 'react-icons/hi2';
+import { initAllAnimations } from '@/lib/animation-utils';
+import Section from '@/components/Section';
+import SectionTitle from '@/components/SectionTitle';
+import SectionHeading from '@/components/SectionHeading';
+import Button from '@/components/Button';
+import FeatureCard from '@/components/FeatureCard';
+import ValueCard from '@/components/ValueCard';
+import Quote from '@/components/Quote';
 
-export default function JourneyPage() {
+export default function SociailPage() {
+  // Initialize animations
+  useEffect(() => {
+    const cleanup = initAllAnimations();
+    return cleanup;
+  }, []);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [subscriptionStatus, setSubscriptionStatus] = useState({
@@ -100,22 +114,26 @@ export default function JourneyPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <div className="relative inline-flex group">
-              <a 
+              <Button 
                 href="#beta" 
-                className="bg-blue-600 text-white px-8 py-4 rounded-md font-medium hover:bg-blue-700 transition-all transform hover:scale-105 group-hover:shadow-xl shadow-md"
+                variant="primary"
+                size="lg"
+                className="group-hover:shadow-xl shadow-md"
               >
                 Join Early Access
-              </a>
+              </Button>
               <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full shadow-sm animate-pulse">
                 Limited Spots
               </span>
             </div>
-            <a 
+            <Button 
               href="/insights" 
-              className="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-md font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
+              variant="outline"
+              size="lg"
+              icon={<HiArrowLongRight />}
             >
               Read Our Vision
-            </a>
+            </Button>
           </div>
           
           {/* Quick stats */}
@@ -137,33 +155,42 @@ export default function JourneyPage() {
       </section>
 
       {/* Why We Care (Vision Statement) */}
-      <section className="mt-20 mb-20 relative overflow-hidden">
+      <Section background="none" spacing="lg" className="mt-20 mb-20 relative overflow-hidden fade-in-scroll">
         <div className="absolute -right-40 -top-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute -left-40 -bottom-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
         
-        <div className="relative max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 md:p-12 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
-          <div className="absolute -left-3 top-8 w-1 h-24 bg-blue-600"></div>
-          <h2 className="text-2xl font-bold mb-6 text-blue-600">Why We’re Building Sociail</h2>
-          <p className="text-lg md:text-xl text-gray-800 dark:text-gray-200 italic mb-6 leading-relaxed">
-            "With the vast tools and understanding we've amassed, one would think it a simple matter 
-            to transcend the boundaries of space and time in our collaborations, to harness AI as 
-            a force for enhancing human connection, creation, and comprehension. 
-            And yet, it remains an imperfect endeavor—a task unfinished—our ambitions outpace our present capacity."
-          </p>
-          <p className="text-gray-700 dark:text-gray-300">
-            This is precisely why I dedicate my days to cultivating a vision for Sociail—a vision that aspires 
-            to uplift humanity, to forge spaces where minds meet, collaborate, and dream together. 
-            My hope is that, with time and focus, we might elevate our lives through AI, 
-            channeling our energies toward a human existence that feels not only vast but deeply interconnected.
-          </p>
-          <p className="text-right mt-4 text-sm text-gray-500 dark:text-gray-400">— Mustafa Sualp, Founder & CEO</p>
-        </div>
-      </section>
+        <SectionHeading 
+          title="Why We're Building Sociail" 
+          icon={<HiLightBulb className="w-6 h-6 text-blue-600" />}
+          className="mb-6"
+        />
+        
+        <Quote
+          quote="With the vast tools and understanding we've amassed, one would think it a simple matter 
+          to transcend the boundaries of space and time in our collaborations, to harness AI as 
+          a force for enhancing human connection, creation, and comprehension. 
+          And yet, it remains an imperfect endeavor—a task unfinished—our ambitions outpace our present capacity."
+          author="Mustafa Sualp"
+          role="Founder & CEO"
+          className="mb-6"
+        />
+        
+        <p className="text-gray-700 dark:text-gray-300 text-lg">
+          This is precisely why I dedicate my days to cultivating a vision for Sociail—a vision that aspires 
+          to uplift humanity, to forge spaces where minds meet, collaborate, and dream together. 
+          My hope is that, with time and focus, we might elevate our lives through AI, 
+          channeling our energies toward a human existence that feels not only vast but deeply interconnected.
+        </p>
+      </Section>
 
       {/* What is Sociail */}
-      <section className="mt-20 text-center">
-        <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">What is Sociail?</h2>
-        <div className="flex flex-col md:flex-row gap-10 mt-12 max-w-5xl mx-auto">
+      <Section background="none" spacing="lg" className="mt-20">
+        <SectionTitle 
+          title="What is Sociail?" 
+          className="mb-8"
+        />
+        
+        <div className="flex flex-col md:flex-row gap-10 max-w-5xl mx-auto fade-in-scroll">
           <div className="md:w-1/2 text-left">
             <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
               Sociail is a <strong className="text-blue-600">real-time collaborative AI platform</strong> that fundamentally redefines how modern teams create, decide, and deliver.
@@ -179,104 +206,108 @@ export default function JourneyPage() {
             </p>
           </div>
           <div className="md:w-1/2 bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-md">
-            <Image 
-              src="/images/sociail-screenshot.png" 
-              alt="Sociail Platform Interface" 
-              width={600} 
-              height={400}
-              className="w-full h-auto object-cover grayscale"
-            />
+            <div className="img-with-caption relative">
+              <Image 
+                src="/images/sociail-screenshot.png" 
+                alt="Sociail Platform Interface" 
+                width={600} 
+                height={400}
+                className="w-full h-auto object-cover"
+              />
+              <div className="caption-reveal">
+                Sociail's intuitive interface combines chat, AI assistance, and collaborative tools in one workspace
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Key Features */}
-      <section className="mt-24 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">Experience AI Collaboration</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
-          Transform how your team works with intelligent AI assistants that adapt to your unique workflow.
-        </p>
+      <Section background="none" spacing="lg" className="mt-24 text-center">
+        <SectionTitle 
+          title="Experience AI Collaboration" 
+          subtitle="Transform how your team works with intelligent AI assistants that adapt to your unique workflow."
+          className="mb-12"
+        />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left stagger-fade-in">
           {[
             {
               title: "Multi-user Collaboration",
               description: "Work together in real-time with teammates and AI agents in the same contextual environment.",
-              icon: HiUserGroup({ className: "w-6 h-6" }),
+              icon: <HiUserGroup className="w-6 h-6" />,
               color: "bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300",
             },
             {
               title: "Contextual AI Integration",
               description: "AI that understands your conversations, retains context, and contributes meaningfully.",
-              icon: HiCpuChip({ className: "w-6 h-6" }),
+              icon: <HiCpuChip className="w-6 h-6" />,
               color: "bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-300",
             },
             {
               title: "Adaptive Workflows",
               description: "Seamlessly integrate with your existing tools and processes to enhance productivity.",
-              icon: HiCog6Tooth({ className: "w-6 h-6" }),
+              icon: <HiCog6Tooth className="w-6 h-6" />,
               color: "bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-300",
             },
             {
               title: "Enterprise Security",
               description: "End-to-end encryption, granular permissions, and complete data sovereignty.",
-              icon: HiShieldCheck({ className: "w-6 h-6" }),
+              icon: <HiShieldCheck className="w-6 h-6" />,
               color: "bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-300",
             },
           ].map(({ title, description, icon, color }, i) => (
-            <div
+            <FeatureCard
               key={i}
-              className="bg-white/90 dark:bg-gray-800/90 p-6 rounded-xl shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 border border-gray-100 dark:border-gray-700"
-            >
-              <div className={`w-12 h-12 flex items-center justify-center rounded-xl mb-4 ${color}`}>
-                {icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{title}</h3>
-              <p className="text-gray-600 dark:text-gray-300">{description}</p>
-            </div>
+              title={title}
+              description={description}
+              icon={icon}
+              color={color}
+            />
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* How Sociail is Different */}
-      <section className="mt-24 relative overflow-hidden">
+      <Section background="none" spacing="lg" className="mt-24 relative overflow-hidden">
         <div className="absolute -left-40 top-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
-        <h2 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">How Sociail is Different</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 max-w-5xl mx-auto px-4">
+        <SectionTitle 
+          title="How Sociail is Different" 
+          className="mb-12"
+        />
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 max-w-5xl mx-auto stagger-fade-in">
           {[
             {
               title: "Beyond Chatbots",
               description: "Unlike siloed AI assistants, Sociail creates a shared context where multiple humans and AI agents collaborate simultaneously.",
-              icon: HiChatBubbleLeftRight({ className: "w-6 h-6" }),
-              color: "text-blue-600 dark:text-blue-400",
+              icon: <HiChatBubbleLeftRight className="w-6 h-6" />,
+              color: "bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300",
             },
             {
               title: "Context Preservation",
               description: "Our proprietary context layer maintains awareness across conversations, time, and team dynamics.",
-              icon: HiLightBulb({ className: "w-6 h-6" }),
-              color: "text-purple-600 dark:text-purple-400",
+              icon: <HiLightBulb className="w-6 h-6" />,
+              color: "bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-300",
             },
             {
               title: "Collaborative Memory",
-              description: "Knowledge isn’t isolated—it builds over time, creating a shared intelligence that enhances future collaboration.",
-              icon: HiSparkles({ className: "w-6 h-6" }),
-              color: "text-green-600 dark:text-green-400",
+              description: "Knowledge isn't isolated—it builds over time, creating a shared intelligence that enhances future collaboration.",
+              icon: <HiSparkles className="w-6 h-6" />,
+              color: "bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-300",
             },
           ].map(({ title, description, icon, color }, i) => (
-            <div
+            <FeatureCard
               key={i}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-md border border-gray-100 dark:border-gray-700"
-            >
-              <div className={`mb-4 ${color}`}>
-                {icon}
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{title}</h3>
-              <p className="text-gray-700 dark:text-gray-300">{description}</p>
-            </div>
+              title={title}
+              description={description}
+              icon={icon}
+              color={color}
+            />
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* Mission and Vision */}
       <section className="mt-24 grid sm:grid-cols-2 gap-8 max-w-5xl mx-auto text-left px-4">
@@ -299,51 +330,50 @@ export default function JourneyPage() {
       </section>
 
       {/* Core Values */}
-      <section className="mt-24 text-center px-4">
-        <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Our Core Values</h2>
-        <p className="max-w-3xl mx-auto text-gray-600 dark:text-gray-300 text-lg mb-12">
-          Sociail transforms AI from a solo experience into a powerful team multiplier through real-time, collaborative intelligence.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto">
+      <Section background="none" spacing="lg" className="mt-24">
+        <SectionTitle 
+          title="Our Core Values" 
+          subtitle="Sociail transforms AI from a solo experience into a powerful team multiplier through real-time, collaborative intelligence."
+          className="mb-12"
+        />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-5xl mx-auto stagger-fade-in">
           {[
             {
               title: "Collaborative Intelligence",
               description: "We believe AI should enhance human capability—working with you, not replacing you. True potential is unlocked when humans and AI collaborate seamlessly.",
-              icon: HiUsers({ className: "w-6 h-6" }),
+              icon: <HiUsers className="w-6 h-6" />,
               color: "bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-300"
             },
             {
               title: "Seamless Progression",
               description: "As your needs evolve from personal productivity to team collaboration to enterprise deployment, Sociail scales intuitively without disruption.",
-              icon: HiArrowTrendingUp({ className: "w-6 h-6" }),
+              icon: <HiArrowTrendingUp className="w-6 h-6" />,
               color: "bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-300"
             },
             {
               title: "Adaptive Experience",
               description: "The platform learns from your interactions, adapting to your workflow and preferences over time to deliver increasingly valuable assistance.",
-              icon: HiAdjustmentsHorizontal({ className: "w-6 h-6" }),
+              icon: <HiAdjustmentsHorizontal className="w-6 h-6" />,
               color: "bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-300"
             },
             {
               title: "Trusted Partnership",
               description: "We design with privacy and security first, ensuring complete data sovereignty and transparent AI operations you can confidently bring into your organization.",
-              icon: HiCheckBadge({ className: "w-6 h-6" }),
+              icon: <HiCheckBadge className="w-6 h-6" />,
               color: "bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-300"
             }
           ].map(({ title, description, icon, color }, i) => (
-            <div 
-              key={i} 
-              className="bg-white/90 dark:bg-gray-800/90 p-8 rounded-xl shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md border border-gray-100 dark:border-gray-700"
-            >
-              <div className={`w-12 h-12 flex items-center justify-center rounded-xl mb-4 ${color}`}>
-                {icon}
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{title}</h3>
-              <p className="text-gray-600 dark:text-gray-300">{description}</p>
-            </div>
+            <ValueCard
+              key={i}
+              title={title}
+              description={description}
+              icon={icon}
+              iconBgColor={color}
+            />
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* Status Update */}
       <section className="mt-24 bg-blue-50 dark:bg-blue-900/10 rounded-xl p-8 shadow-md max-w-5xl mx-auto border border-blue-100 dark:border-blue-800/30">
@@ -433,7 +463,7 @@ export default function JourneyPage() {
                   emailError
                     ? 'border-red-500 dark:border-red-700'
                     : 'border-gray-300 dark:border-gray-700'
-                } dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition`}
+                } dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover-lift-sm`}
                 aria-label="Email address"
                 aria-describedby={emailError ? 'email-error' : undefined}
               />
@@ -446,30 +476,35 @@ export default function JourneyPage() {
                 </p>
               )}
             </div>
-            <button
+            <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded transition-colors focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 outline-none"
+              variant="primary"
+              size="lg"
             >
               Get Early Access
-            </button>
+            </Button>
           </form>
         )}
       </section>
 
       {/* Founders Image */}
-      <div className="relative mt-24 max-w-4xl mx-auto">
-        <img
-          src="/images/mustafa-and-niaz.png"
-          alt="Mustafa Sualp & Niaz"
-          className="w-full rounded-xl shadow-lg object-cover grayscale"
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-center px-4 py-4 rounded-b-xl backdrop-blur-sm">
-          <p className="font-medium mb-1">
-            Meet Mustafa &amp; Niaz — Founders of Sociail
-          </p>
-          <p className="text-sm text-gray-300">
-            Combining visionary leadership with engineering expertise to reinvent human-AI collaboration
-          </p>
+      <div className="relative mt-24 max-w-4xl mx-auto fade-in-scroll">
+        <div className="img-with-caption relative">
+          <Image
+            src="/images/mustafa-and-niaz.png"
+            alt="Mustafa Sualp & Niaz"
+            width={1200}
+            height={600}
+            className="w-full rounded-xl shadow-lg object-cover"
+          />
+          <div className="caption-reveal">
+            <p className="font-medium mb-1">
+              Meet Mustafa &amp; Niaz — Founders of Sociail
+            </p>
+            <p className="text-sm text-gray-300">
+              Combining visionary leadership with engineering expertise to reinvent human-AI collaboration
+            </p>
+          </div>
         </div>
       </div>
 

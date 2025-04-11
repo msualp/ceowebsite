@@ -6,9 +6,11 @@ This guide provides step-by-step instructions for implementing the new CTA compo
 
 ## Installation Steps
 
-### 1. Set Up Dependencies — DONE!
+### 1. Set Up Dependencies — COMPLETED
 
- Install required dependencies
+- [x] Install required dependencies below:
+
+```bash
 npm install class-variance-authority lucide-react framer-motion
 ```
 
