@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react'
 import { ThemeProvider } from 'next-themes'
-import { MacHeader } from './MacHeader'
+import { Header } from './Header'
 import { Footer } from './Footer'
 import { CallToAction } from './CallToAction'
 
@@ -25,7 +25,7 @@ export function ThemeWrapper({
   return (
     <ThemeProvider attribute="class" enableSystem={true}>
       {/* Header */}
-      <MacHeader />
+      <Header />
 
       {/* Main content offset to account for fixed header */}
       <main className="pt-16">{children}</main>
