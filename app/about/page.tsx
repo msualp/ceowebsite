@@ -1,13 +1,39 @@
+'use client';
+
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { 
+  HiLightBulb, 
+  HiAcademicCap, 
+  HiUserGroup, 
+  HiArrowLongRight,
+  HiCpuChip,
+  HiPuzzlePiece
+} from 'react-icons/hi2';
 import { PageContainer } from '@/components/PageContainer';
 import { BlobShape } from '@/components/SvgShapes';
+import { initAllAnimations } from '@/lib/animation-utils';
+import Section from '@/components/Section';
+import SectionTitle from '@/components/SectionTitle';
+import SectionHeading from '@/components/SectionHeading';
+import HeroImage from '@/components/HeroImage';
+import Button from '@/components/Button';
+import Quote from '@/components/Quote';
+import AchievementCard from '@/components/AchievementCard';
+import TimelineItem from '@/components/TimelineItem';
+import ValueCard from '@/components/ValueCard';
 
 export default function AboutPage() {
+  // Initialize animations
+  useEffect(() => {
+    const cleanup = initAllAnimations();
+    return cleanup;
+  }, []);
   return (
     <>
       {/* Hero Section with optimized contrast */}
-      <section className="bg-black py-20 px-4 text-center relative overflow-hidden">
+      <section className="bg-black py-20 px-4 text-center relative overflow-hidden fade-in-scroll">
         {/* Semi-transparent overlay to improve text readability */}
         <div className="absolute inset-0 bg-black/30 z-[1]"></div>
         
@@ -42,16 +68,21 @@ export default function AboutPage() {
 
       <PageContainer title="">
         {/* Profile Section - Enhanced with larger font and better spacing */}
-        <div className="flex flex-col md:flex-row items-start md:items-center mb-8 mt-8 gap-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center mb-8 mt-8 gap-8 fade-in-scroll">
           <div className="md:w-1/2">
-            <Image
-              src="/images/mustafa-sualp-working.png"
-              alt="Mustafa Sualp working on a laptop in professional attire"
-              width={360}
-              height={240}
-              className="rounded-xl mr-6 mb-4 md:mb-0 border border-white/20 shadow-md grayscale"
-              priority
-            />
+            <div className="img-with-caption relative">
+              <Image
+                src="/images/mustafa-sualp-working.png"
+                alt="Mustafa Sualp working on a laptop in professional attire"
+                width={360}
+                height={240}
+                className="rounded-xl mr-6 mb-4 md:mb-0 border border-white/20 shadow-md"
+                priority
+              />
+              <div className="caption-reveal">
+                Founder & CEO, Sociail
+              </div>
+            </div>
           </div>
           <div className="md:w-1/2">
             <h2 className="text-4xl font-bold">Mustafa Sualp</h2>
@@ -60,13 +91,13 @@ export default function AboutPage() {
             </p>
             <div className="flex items-center mt-2 text-sm text-gray-500 dark:text-gray-400">
               <Link href="https://www.linkedin.com/in/sualp/" className="flex items-center hover:text-blue-600 transition-colors mr-4" target="_blank" rel="noopener noreferrer">
-                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg className="w-4 h-4 mr-1 icon-hover" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
                 LinkedIn
               </Link>
               <Link href="https://www.sociail.com" className="flex items-center hover:text-blue-600 transition-colors" target="_blank" rel="noopener noreferrer">
-                <svg className="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 mr-1 icon-hover" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
                 sociail.com
@@ -75,7 +106,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <p className="text-lg mb-6">
+        <p className="text-lg mb-6 fade-in-scroll">
           I'm a serial entrepreneur, technologist, and AI enthusiast with a passion for 
           building products that enhance human potential. After successfully founding, scaling, and exiting AEFIS—an EdTech 
           platform that transformed higher education assessment—I'm now focused on revolutionizing human-AI collaboration 
@@ -83,12 +114,10 @@ export default function AboutPage() {
         </p>
 
         {/* Enhanced blockquote with better styling */}
-        <div className="bg-blue-50 dark:bg-blue-900/30 p-8 rounded-lg border-l-4 border-blue-600 text-gray-800 dark:text-gray-100 italic mb-16">
-          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 italic max-w-3xl mx-auto">
-            "My hope is that, with time and focus, we might elevate our lives through AI, channeling our energies toward a human existence that feels not only vast but deeply interconnected, with each life enriched and empowered by this collective creation."
-          </p>
-          <p className="mt-6 text-blue-600 font-semibold text-right">— Mustafa Sualp</p>
-        </div>
+        <Quote 
+          text="My hope is that, with time and focus, we might elevate our lives through AI, channeling our energies toward a human existence that feels not only vast but deeply interconnected, with each life enriched and empowered by this collective creation."
+          author="Mustafa Sualp"
+        />
         
         {/* NEW: Sociail Vision Section */}
         <section className="mb-20 bg-gradient-to-r from-blue-50/70 to-indigo-50/70 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-8 shadow-sm relative overflow-hidden">
