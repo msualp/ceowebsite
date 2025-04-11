@@ -1,3 +1,5 @@
+'use server';
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -24,7 +26,7 @@ function getReadingTime(content: string): string {
   return `${minutes} min read`;
 }
 
-export default function InsightContent({ slug }: { slug: string }) {
+export async function getInsightData(slug: string): Promise<InsightData> {
   const contentDir = path.join(process.cwd(), 'content/insights');
   
   // Try to find the file with the matching slug
@@ -39,7 +41,7 @@ export default function InsightContent({ slug }: { slug: string }) {
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const { data, content } = matter(fileContent);
   
-  const insightData: InsightData = {
+  return {
     slug,
     title: data.title,
     date: data.date,
@@ -50,9 +52,4 @@ export default function InsightContent({ slug }: { slug: string }) {
     author: data.author || 'Mustafa Sualp',
     image: data.image || '/images/blog/placeholder.jpg'
   };
-
-  // This is a server component, so we can return the data as a prop
-  return (
-    <div data-insight={JSON.stringify(insightData)} />
-  );
 }

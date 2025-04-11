@@ -13,7 +13,7 @@ import {
   HiArrowLeft
 } from 'react-icons/hi2';
 import { Twitter, Linkedin, Facebook, Link as LinkIcon } from 'lucide-react';
-import InsightContent, { InsightData } from './InsightContent';
+import { getInsightData, InsightData } from './actions';
 
 // Get categories for the blog
 const categories = [
@@ -34,27 +34,49 @@ type Props = {
 export default function InsightPage({ params }: Props) {
   const { slug } = params;
   const [insightData, setInsightData] = useState<InsightData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Extract the insight data from the server component
+  // Fetch the insight data using the server action
   useEffect(() => {
-    const insightElement = document.querySelector('[data-insight]');
-    if (insightElement) {
-      const dataAttr = insightElement.getAttribute('data-insight');
-      if (dataAttr) {
-        try {
-          const data = JSON.parse(dataAttr);
-          setInsightData(data);
-        } catch (error) {
-          console.error('Error parsing insight data:', error);
-        }
+    async function fetchInsightData() {
+      try {
+        const data = await getInsightData(slug);
+        setInsightData(data);
+      } catch (err) {
+        console.error('Error fetching insight data:', err);
+        setError('Failed to load article. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     }
-  }, []);
+    
+    fetchInsightData();
+  }, [slug]);
   
-  if (!insightData) {
+  if (loading) {
     return (
       <PageContainer title="Loading...">
         <div className="text-center py-12">Loading article...</div>
+      </PageContainer>
+    );
+  }
+  
+  if (error || !insightData) {
+    return (
+      <PageContainer title="Error">
+        <div className="text-center py-12 text-red-600">
+          {error || 'Failed to load article. Please try again later.'}
+        </div>
+        <div className="text-center">
+          <Link 
+            href="/insights" 
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 group transition-colors"
+          >
+            <HiArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to all insights
+          </Link>
+        </div>
       </PageContainer>
     );
   }
@@ -68,9 +90,6 @@ export default function InsightPage({ params }: Props) {
   
   return (
     <PageContainer title={insightData.title}>
-      {/* Server Component to fetch the data */}
-      <InsightContent slug={slug} />
-      
       {/* Back Link */}
       <Link 
         href="/insights" 
