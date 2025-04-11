@@ -6,6 +6,7 @@ import { ThemeWrapper } from '@/components/ThemeWrapper'
 import { headers } from 'next/headers'
 import { ToastProvider } from '@/components/ToastContext'
 import { FloatingCTA } from '@/components/cta/FloatingCTA'
+import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -115,6 +116,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         </noscript>
         <ToastProvider>
           <ThemeWrapper hideCallToAction={isContactPage}>
+            {/* Web Vitals Tracking */}
+            <WebVitalsTracker />
+            
             {children}
             <FloatingCTA primaryCTA="earlyAccess" />
           </ThemeWrapper>

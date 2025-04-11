@@ -1,0 +1,59 @@
+/**
+ * Analytics API Route
+ * 
+ * This API route receives web vitals metrics and other analytics data.
+ * In a production environment, this would typically send the data to an analytics service.
+ * For now, it just logs the data and returns a success response.
+ */
+
+import { NextRequest, NextResponse } from 'next/server';
+
+export async function POST(request: NextRequest) {
+  try {
+    // Parse the request body
+    const body = await request.json();
+    
+    // Log the metrics in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[Analytics API]', body);
+    }
+    
+    // In a production environment, you would send this data to your analytics service
+    // For example:
+    // await sendToAnalyticsService(body);
+    
+    // Return a success response
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    // Log the error
+    console.error('[Analytics API] Error:', error);
+    
+    // Return an error response
+    return NextResponse.json(
+      { success: false, message: 'Failed to process analytics data' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * This is a placeholder function for sending data to an analytics service.
+ * In a real implementation, this would send the data to your analytics service of choice.
+ * 
+ * @param data - The analytics data to send
+ */
+async function sendToAnalyticsService(data: any) {
+  // This is where you would implement the logic to send data to your analytics service
+  // For example:
+  // await fetch('https://your-analytics-service.com/api/metrics', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': `Bearer ${process.env.ANALYTICS_API_KEY}`,
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+  
+  // For now, just log the data
+  console.log('[Analytics Service] Would send:', data);
+}
