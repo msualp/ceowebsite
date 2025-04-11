@@ -1,17 +1,6 @@
-import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-
-// Define the expected request body structure
-const contactSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email format'),
-  subject: z.string().min(1, 'Subject is required'),
-  reason: z.enum(['General Inquiry', 'Speaking / Media', 'Collaboration', 'Investment / Business']),
-  message: z.string().min(1, 'Message is required'),
-  _bot: z.string().optional(), // honeypot
-  token: z.string().min(1, 'reCAPTCHA token is required'),
-});
+import { contactSchema, formatZodErrors } from '@/lib/validation/contact';
 
 // Create a transporter for sending emails
 // For production, you would use real SMTP credentials
@@ -47,7 +36,7 @@ export async function POST(request: NextRequest) {
     const result = contactSchema.safeParse(raw);
 
     if (!result.success) {
-      const errors = result.error.flatten().fieldErrors;
+      const errors = formatZodErrors(result.error);
       return NextResponse.json({ success: false, errors }, { status: 400 });
     }
 
