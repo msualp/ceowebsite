@@ -38,7 +38,7 @@ export default function HomePage() {
                 <div className="relative flex-1">
                   <Link
                     href="/sociail"
-                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full"
+                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-500 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full hover:scale-[1.02] focus:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                   >
                     Explore the Vision
                   </Link>
@@ -47,17 +47,19 @@ export default function HomePage() {
                 <div className="relative flex-1">
                   <Link
                     href="https://www.sociail.com"
-                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 h-[52px] min-h-[52px] text-base font-semibold text-white border border-gray-300 hover:opacity-90 transition shadow-sm min-w-[270px] w-full bg-[url('/images/sociail-button-bg.png')] bg-cover bg-center"
+                    className="relative inline-flex items-center justify-center gap-3 rounded-md px-6 py-3 text-base font-semibold text-black dark:text-white border border-gray-300 dark:border-gray-600 hover:opacity-90 transition shadow-sm h-[52px] min-h-[52px] min-w-[270px] w-full bg-[url('/images/sociail-button-bg.png')] bg-cover bg-bottom bg-[length:107%] hover:scale-[1.02] focus:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                   >
                     <Image
                       src="/images/sociail-logo-with-gray-stroke.svg"
                       alt="Sociail Logo"
-                      width={32}
-                      height={32}
-                      className="h-6 w-auto opacity-90 pointer-events-none"
+                      width={36}
+                      height={36}
+                      className="h-full max-h-[40px] w-auto opacity-90 pointer-events-none transition-transform duration-200"
                       style={{ objectFit: 'contain' }}
                     />
-                    <span>Join Early Access</span>
+                    <span className="whitespace-nowrap dark:text-white text-black">
+                      Join Early Access
+                    </span>
                   </Link>
                   <span className="absolute -top-3 -right-3 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full shadow-sm">
                     Limited Seats
@@ -69,10 +71,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Credibility Strip */}
+      {/* Rotating Use Case Subheadline */}
       <section className="bg-white dark:bg-gray-900 py-6 border-t border-gray-200 dark:border-gray-700">
-        <div className="max-w-5xl mx-auto text-center text-sm text-gray-600 dark:text-gray-400">
-          As seen in: Philadelphia 100, HelioCampus, Drexel University, MIT AI, AEFIS
+        <div className="max-w-5xl mx-auto text-center text-base md:text-lg text-gray-800 dark:text-gray-200 font-medium h-8 overflow-hidden relative">
+          <div className="animate-slideUp absolute w-full flex flex-col items-center gap-1">
+            <span>Helping students co-write their future with AI.</span> {/* B2C */}
+            <span>Enabling solopreneurs to scale expertise on demand.</span> {/* B2C */}
+            <span>Enhancing creators’ workflows with collaborative agents.</span> {/* B2C */}
+            <span>Accelerating team decisions with intelligent copilots.</span> {/* B2B */}
+            <span>Turning org-wide knowledge into instant insight.</span> {/* B2B */}
+            <span>Aligning product, sales, and support with shared AI memory.</span> {/* B2B */}
+            <span>Helping educators scale meaningful feedback at scale.</span> {/* B2E */}
+            <span>Empowering advisors with context-rich student support.</span> {/* B2E */}
+            <span>Enabling executives to strategize with real-time intelligence.</span> {/* B2E */}
+          </div>
         </div>
       </section>
 

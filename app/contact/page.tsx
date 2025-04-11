@@ -5,6 +5,7 @@ import { PageContainer } from '@/components/PageContainer';
 import { FaGithub, FaXTwitter, FaLinkedin } from 'react-icons/fa6';
 import { MdEmail, MdLocationOn } from 'react-icons/md';
 import { useToast } from '@/components/ToastContext';
+import { contactSchema } from '@/lib/validation/contact';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -33,11 +34,6 @@ export default function ContactPage() {
   
   const { showToast } = useToast();
   
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -55,34 +51,23 @@ export default function ContactPage() {
   };
   
   const validateForm = () => {
-    let valid = true;
-    const newErrors = { ...errors };
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-      valid = false;
+    try {
+      contactSchema.parse(formData);
+      setErrors({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      return true;
+    } catch (err) {
+      const fieldErrors = err.errors.reduce((acc: Record<string, string>, curr: any) => {
+        acc[curr.path[0]] = curr.message;
+        return acc;
+      }, {});
+      setErrors(fieldErrors);
+      return false;
     }
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-      valid = false;
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-      valid = false;
-    }
-    
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Subject is required';
-      valid = false;
-    }
-    
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-      valid = false;
-    }
-    
-    setErrors(newErrors);
-    return valid;
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
@@ -94,32 +79,46 @@ export default function ContactPage() {
 
     try {
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!;
-      const token = await grecaptcha.execute(siteKey, { action: 'submit' });
+      const userAgent = navigator.userAgent || 'unknown';
+      await new Promise<void>((resolve) => {
+        grecaptcha.ready(() => {
+          grecaptcha.execute(siteKey, { action: 'submit' }).then(token => {
+            resolve(token);
+          });
+        });
+      }).then(token => {
+        const payload = {
+          ...formData,
+          token,
+          userAgent,
+        };
 
-      const payload = {
-        ...formData,
-        token,
-      };
+        return fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+      }).then(response => {
+        if (!response.ok) throw new Error('Failed to send message');
 
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+        setFormStatus({
+          submitted: true,
+          success: true,
+          message: 'Thanks! Your message was sent successfully.',
+        });
 
-      if (!response.ok) throw new Error('Failed to send message');
+        showToast('success', 'Your message has been sent successfully!');
 
-      showToast('success', 'Your message has been sent successfully!');
-
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        reason: 'General Inquiry',
-        message: '',
-        token: ''
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          reason: 'General Inquiry',
+          message: '',
+          token: ''
+        });
       });
     } catch (err) {
       showToast('error', 'There was an error sending your message.');
@@ -129,7 +128,7 @@ export default function ContactPage() {
   };
   
   return (
-    <PageContainer title="Contact">
+    <PageContainer title="Contact" metaDescription="Contact page for Sociail, Inc. Reach out for inquiries.">
       <div className="relative mb-8 max-w-4xl mx-auto">
         <img
           src="/images/Sociail-office.png"
@@ -248,7 +247,15 @@ export default function ContactPage() {
                   disabled={loading}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Sending...' : 'Send Message'}
+                  {loading ? (
+                    <span className="inline-flex gap-1">
+                      Sending<span className="animate-pulse">.</span>
+                      <span className="animate-pulse delay-150">.</span>
+                      <span className="animate-pulse delay-300">.</span>
+                    </span>
+                  ) : (
+                    'Send Message'
+                  )}
                 </button>
               </div>
             </form>

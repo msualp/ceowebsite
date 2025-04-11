@@ -26,6 +26,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const isContactPage = pathname.includes('/contact');
   
   const scriptsToLoad: string[] = [];
+  const nonce = headersList.get('x-nonce') || '';
 
   if (isContactPage && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
     scriptsToLoad.push(`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`);
@@ -48,9 +49,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               })(window,document,'script','dataLayer','GTM-TRXBFF7P');
             `,
           }}
+          nonce={nonce}
         />
         {scriptsToLoad.map((src, index) => (
-          <script key={index} src={src} async defer />
+          <script key={index} src={src} async defer nonce={nonce} />
         ))}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <script
@@ -62,6 +64,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
               `,
             }}
+            nonce={nonce}
           />
         )}
       </head>

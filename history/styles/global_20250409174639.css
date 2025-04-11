@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global overrides */
+:root {
+  --transition-all: 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Example body defaults (also in layout.tsx) */
+body {
+  margin: 0;
+  padding: 0;
+  @apply bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900;
+  background-attachment: fixed; /* optional parallax-like effect */
+}
+
+/* Example transitions for all elements */
+*,
+*::before,
+*::after {
+  transition: background-color var(--transition-all),
+              color var(--transition-all),
+              border-color var(--transition-all);
+}
+
+/* Glass effect utility class */
+.glass {
+  @apply backdrop-blur-xl border border-white/10 shadow-xl;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.dark .glass {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Prose customizations for MDX content */
+.prose {
+  @apply max-w-none;
+}
+
+.prose a {
+  @apply text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  @apply text-gray-900 dark:text-white;
+}
+
+.prose p, .prose ul, .prose ol {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-blue-500 pl-4 italic;
+}
+
+.prose code {
+  @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply bg-gray-800 dark:bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto;
+}
+
+/* Dark mode adjustments */
+.dark .prose {
+  @apply text-gray-300;
+}
+
+.dark .prose strong {
+  @apply text-white;
+}
