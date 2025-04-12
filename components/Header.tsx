@@ -34,8 +34,8 @@ export function Header() {
   return (
     <>
       {/* Fixed top navigation bar */}
-      <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10" label="Site header">
-      <div className="w-full max-w-[98%] lg:max-w-[99%] mx-auto flex items-center justify-between px-2 md:px-1 lg:px-0 xl:px-0 py-3">
+      <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-md bg-white/95 dark:bg-black/80 shadow-md shadow-black/10 dark:shadow-black/30" label="Site header">
+      <div className="w-full max-w-[96%] lg:max-w-[97%] mx-auto flex items-center justify-between px-4 md:px-4 lg:px-4 xl:px-4 py-3">
       <Link
             href="/"
             className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent hover:brightness-110 transition-all duration-300"
@@ -260,7 +260,7 @@ export function Header() {
               </svg>
             </a>
             <a 
-              href="https://calendly.com/msualp-main" 
+              href="https://calendly.com/msualp" 
               target="_blank" 
               rel="noreferrer"
               className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow transition-shadow"

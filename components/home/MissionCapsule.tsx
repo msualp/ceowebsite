@@ -8,17 +8,18 @@ const MissionCapsule = () => {
   const [animationStep, setAnimationStep] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
-  const capsuleRef = useRef(null);
+  const capsuleRef = useRef<HTMLDivElement | null>(null);
+  const autoRestartIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   // Start the animation when the component is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Delay the animation start by 500ms
+          // Delay the animation start by 2.5 seconds to catch user's attention with blank terminal
           setTimeout(() => {
             setAnimationStep(1); // Start first line
-          }, 500);
+          }, 2500);
           observer.disconnect();
         }
       },
@@ -32,15 +33,35 @@ const MissionCapsule = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Set up automatic animation restart every few minutes
+  useEffect(() => {
+    // Only set up the interval if animation has completed (step 4)
+    if (animationStep === 4) {
+      // Restart animation every 3 minutes (180000 ms)
+      autoRestartIntervalRef.current = setInterval(() => {
+        restartAnimation();
+      }, 180000); // 3 minutes
+    }
+    
+    // Clean up interval on unmount or when animation step changes
+    return () => {
+      if (autoRestartIntervalRef.current) {
+        clearInterval(autoRestartIntervalRef.current);
+      }
+    };
+  }, [animationStep]);
+
   // Handle animation restart
   const restartAnimation = () => {
     setIsRestarting(true);
     setAnimationStep(0);
     
+    // Longer delay (2 seconds) before starting animation after restart
+    // to show blank terminal screen for a moment
     setTimeout(() => {
       setAnimationStep(1);
       setIsRestarting(false);
-    }, 800);
+    }, 2000);
   };
 
   return (
@@ -101,6 +122,13 @@ const MissionCapsule = () => {
               </span>
             )}
           </div>
+          
+          {/* Blinking cursor when terminal is blank (step 0) */}
+          {animationStep === 0 && (
+            <div className="h-5 flex items-center">
+              <span className="w-2.5 h-4 bg-gray-600 dark:bg-gray-400 animate-blink"></span>
+            </div>
+          )}
           
           {/* Step 1: First line - explicitly showing different states */}
           {animationStep === 1 && (

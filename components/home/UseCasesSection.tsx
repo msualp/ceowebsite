@@ -300,6 +300,9 @@ const UseCasesSection = () => {
     {/* Section heading with enhanced typography */}
 {/* Modern section heading with gradient typography */}
 <div className="text-center mb-16 px-6 md:px-8 max-w-4xl mx-auto">
+  <div className="inline-block mb-4 px-3 py-1 rounded-full text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+    The Future of Human-AI Partnership
+  </div>
   <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
     <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
       The Emerging Collaborative AI Ecosystem
@@ -309,10 +312,12 @@ const UseCasesSection = () => {
     Examples of meaningful human-AI collaboration across different domains.
   </p>
   <div className="inline-block relative">
-    <p className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 rounded-lg text-white shadow-lg transform hover:scale-105 transition-transform">
-      What will be your AI moment?
-    </p>
-    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-30 -z-10"></div>
+    <a href="/collaborative-ai/" className="block">
+      <p className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-3 rounded-lg text-white shadow-lg transform hover:scale-105 transition-transform">
+        What will be your AI moment?
+      </p>
+      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-30 -z-10"></div>
+    </a>
   </div>
 </div>
 

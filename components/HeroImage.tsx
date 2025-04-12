@@ -27,14 +27,14 @@ export default function HeroImage({
   }, []);
 
   return (
-    <div className="group relative rounded-xl overflow-hidden h-full">
+    <div className="group relative h-full">
       <Image
         src={src}
         alt={alt}
         fill
         priority={priority}
         sizes="(max-width: 768px) 100vw, 50vw"
-        className={`img-grayscale object-cover ${className}`}
+        className={`img-grayscale object-cover rounded-none ${className}`}
         style={{ objectPosition }}
       />
       {caption && (

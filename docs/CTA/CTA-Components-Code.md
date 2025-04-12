@@ -151,7 +151,7 @@ export function CTAGroup({
     },
     calendly: {
       label: 'Schedule a Meeting',
-      href: 'https://calendly.com/msualp-main',
+      href: 'https://calendly.com/msualp',
       icon: <CalendarDays className="w-4 h-4" />,
       variant: 'calendly' as const,
       external: true,
@@ -516,7 +516,7 @@ export function FloatingCTA({ primaryCTA = 'earlyAccess' }: FloatingCTAProps) {
     calendly: {
       icon: <CalendarDays className="w-5 h-5" />,
       label: 'Schedule Meeting',
-      href: 'https://calendly.com/msualp-main',
+      href: 'https://calendly.com/msualp',
       bgColor: 'bg-[#00A2FF]',
     },
     linkedin: {
@@ -626,7 +626,7 @@ export function FooterCTA() {
           <Button
             variant="outline"
             size="md"
-            href="https://calendly.com/msualp-main"
+            href="https://calendly.com/msualp"
             external={true}
             rightIcon={<CalendarDays className="w-4 h-4" />}
           >

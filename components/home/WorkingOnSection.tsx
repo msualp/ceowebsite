@@ -18,16 +18,16 @@ const WorkingOnSection = () => {
       {/* Primary Project - Sociail */}
       <div className="mac-glass p-8 rounded-xl shadow-xl mb-8 stagger-fade-in">
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center mb-8">
-          <div className="w-full md:w-2/5">
+          <div className="w-full md:w-2/5 lg:w-1/2">
             <Image
               src="/images/social-active-collaboration-screen-shot.svg"
               alt="Sociail Platform Interface Preview"
-              width={600}
-              height={400}
+              width={800}
+              height={600}
               className="rounded-xl shadow-lg w-full h-auto"
             />
           </div>
-          <div className="w-full md:w-3/5">
+          <div className="w-full md:w-3/5 lg:w-1/2">
             <h3 className="text-2xl font-bold mb-3">Sociail Platform</h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               My primary focus is building Sociail—a next-generation collaborative AI platform that seamlessly integrates into daily workflows, helping teams make better decisions and create innovative solutions together.
@@ -52,18 +52,29 @@ const WorkingOnSection = () => {
         
         {/* Secondary Projects */}
         <div className="grid md:grid-cols-2 gap-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <ProjectCard
-            title="DevAIccelerate"
-            description="An innovation hub at the intersection of AI and developer experience. Tools, ideas, and experiments to help developers move faster with AI-assisted workflows."
-            tags={[
-              { label: 'DevTools', color: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-100' },
-              { label: 'AI Productivity', color: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-100' }
-            ]}
-            link={{
-              href: 'https://www.devaiccelerate.com',
-              label: 'Explore'
-            }}
-          />
+          <div className="flex flex-col gap-4">
+            <div className="rounded-lg overflow-hidden shadow-md">
+              <Image
+                src="/images/devaiccelerate-website.png"
+                alt="DevAIccelerate Website Preview"
+                width={600}
+                height={300}
+                className="w-full h-auto"
+              />
+            </div>
+            <ProjectCard
+              title="DevAIccelerate"
+              description="An innovation hub at the intersection of AI and developer experience. Tools, ideas, and experiments to help developers move faster with AI-assisted workflows."
+              tags={[
+                { label: 'DevTools', color: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-100' },
+                { label: 'AI Productivity', color: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-100' }
+              ]}
+              link={{
+                href: 'https://www.devaiccelerate.com',
+                label: 'Explore'
+              }}
+            />
+          </div>
           
           <ProjectCard
             title="AI Ethics & Collaboration Network"

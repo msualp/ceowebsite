@@ -51,7 +51,7 @@ export function CTAGroup({
     },
     calendly: {
       label: 'Schedule a Meeting',
-      href: 'https://calendly.com/msualp-main',
+      href: 'https://calendly.com/msualp',
       icon: <CalendarDays className="w-4 h-4" />,
       variant: 'calendly',
       external: true,
