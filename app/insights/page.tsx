@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import Image from 'next/image';
 import LazyNewsletterForm from '@/components/lazy/LazyNewsletterForm';
 import { initAllAnimations } from '@/lib/animation-utils';
@@ -33,17 +33,35 @@ export default function InsightsPage() {
         const response = await fetch('/api/insights');
         if (!response.ok) throw new Error('Failed to fetch insights');
         const data = await response.json();
-        setPosts(data);
+        console.log('API response data:', data);
+        
+        // Check if data is an array and has items
+        if (Array.isArray(data) && data.length > 0) {
+          setPosts(data);
+          console.log('Setting posts:', data.length, 'items');
+        } else {
+          console.error('API returned empty or invalid data:', data);
+          setPosts([]);
+        }
       } catch (error) {
         console.error('Error fetching insights:', error);
+        setPosts([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchPosts();
-    const cleanup = initAllAnimations();
-    return cleanup;
+    
+    // Initialize animations after a short delay to ensure DOM is ready
+    setTimeout(() => {
+      const cleanup = initAllAnimations();
+      console.log('Animations initialized');
+    }, 500);
+    
+    return () => {
+      console.log('Cleaning up insights page');
+    };
   }, []);
 
   return (
@@ -59,23 +77,21 @@ export default function InsightsPage() {
           {loading ? (
             <div className="text-center py-12">Loading insights...</div>
           ) : (
-            <div className="space-y-8 stagger-fade-in">
-              {posts.map((post) =>
-                post.slug === 'second-post' ? null : (
-                  <InsightCard
-                    key={post.slug}
-                    title={post.title}
-                    date={new Date(post.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                    excerpt={post.excerpt || ''}
-                    slug={post.slug}
-                    className={posts.indexOf(post) % 2 === 0 ? 'bg-gray-50/50 dark:bg-gray-800/10' : ''}
-                  />
-                )
-              )}
+            <div className="space-y-8 stagger-fade-in visible">
+              {posts.map((post) => (
+                <InsightCard
+                  key={post.slug}
+                  title={post.title}
+                  date={new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  excerpt={post.excerpt || ''}
+                  slug={post.slug}
+                  className={posts.indexOf(post) % 2 === 0 ? 'bg-gray-50/50 dark:bg-gray-800/10' : ''}
+                />
+              ))}
             </div>
           )}
         </div>

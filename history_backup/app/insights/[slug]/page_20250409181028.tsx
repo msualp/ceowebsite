@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 
 interface InsightPageProps {
   params: { slug: string };

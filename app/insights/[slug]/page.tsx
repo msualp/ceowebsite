@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import { CTAGroup } from '@/components/cta/CTAGroup';
 import { 
   HiClock, 

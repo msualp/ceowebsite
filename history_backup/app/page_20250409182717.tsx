@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { HeroSection, SectionDivider } from '@/components/HeroSection';
 import { BlobShape, WaveDivider } from '@/components/SvgShapes';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 
 export default function HomePage() {
   return (

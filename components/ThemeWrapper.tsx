@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { ThemeProvider } from 'next-themes'
 import { Header } from './Header'
 import { Footer } from './Footer'
-import { CallToAction } from './CallToAction'
+import { FooterCallToAction } from './cta/FooterCallToAction'
 
 interface ThemeWrapperProps {
   children: ReactNode;
@@ -31,11 +31,7 @@ export function ThemeWrapper({
       <main className="pt-16">{children}</main>
       
       {/* Call to Action - only on pages that don't opt out */}
-      {!hideCallToAction && (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CallToAction />
-        </div>
-      )}
+      {!hideCallToAction && <FooterCallToAction />}
       
       {/* Footer */}
       <Footer />

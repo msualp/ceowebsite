@@ -1,5 +1,5 @@
 import DesignSystem from '@/components/DesignSystem';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 
 export const metadata = {
   title: 'Design System | Mustafa Sualp',

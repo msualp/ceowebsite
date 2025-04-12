@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import { HeroSection } from '@/components/HeroSection';
 import { BlobShape } from '@/components/SvgShapes';
 

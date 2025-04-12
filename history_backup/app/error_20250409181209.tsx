@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {

@@ -5,10 +5,12 @@ import { CirclePattern } from './SvgShapes';
 import SkipToContent from './SkipToContent';
 import ClientSEO from './ClientSEO';
 import { HeadingProvider, Heading } from './HeadingContext';
+import ReactMarkdown from 'react-markdown';
 
 interface PageContainerProps {
   children: ReactNode;
   title?: string;
+  subtitle?: string;
   description?: string;
   withPattern?: boolean;
   className?: string;
@@ -21,6 +23,7 @@ interface PageContainerProps {
 export function PageContainer({ 
   children, 
   title, 
+  subtitle,
   description,
   withPattern = true,
   className = '',
@@ -43,6 +46,13 @@ export function PageContainer({
       <HeadingProvider initialLevel={1}>
         <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 ${className}`}>
           {title && <Heading className="text-4xl font-bold mb-6">{title}</Heading>}
+          {subtitle && (
+            <ReactMarkdown
+              className="text-lg text-gray-500 dark:text-gray-400 mb-4 animate-fadeIn"
+            >
+              {subtitle}
+            </ReactMarkdown>
+          )}
           
           <div id="main-content" className="glass relative p-8 rounded-xl shadow-xl mb-8 overflow-hidden">
             {withPattern && (
@@ -59,3 +69,4 @@ export function PageContainer({
     </>
   );
 }
+export default PageContainer;

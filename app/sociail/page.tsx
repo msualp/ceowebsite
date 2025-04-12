@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import {
   HiUserGroup,
   HiCpuChip,
@@ -114,20 +114,22 @@ export default function SociailPage() {
             Reinventing how humans and AI work together—real-time, multi-user, context-aware, 
             and designed to amplify your team’s collective intelligence.
           </p>
-          <CTAGroup 
-            variant="hero" 
-            primaryCTA="earlyAccess" 
-            primaryLabel="Join Our Beta"
-            secondaryCTA="calendly" 
-            secondaryLabel="Request a Demo"
-            className="mb-8"
-          />
+          <div className="flex justify-center">
+            <CTAGroup 
+              variant="hero" 
+              primaryCTA="earlyAccess" 
+              primaryLabel="Join Our Beta"
+              secondaryCTA="calendly" 
+              secondaryLabel="Request a Demo"
+              className="mb-8"
+            />
+          </div>
           
           {/* Quick stats */}
           <div className="flex justify-center gap-8 mt-12 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-2xl text-blue-600">$600K+</span>
-              <span>Investment</span>
+              <span className="font-semibold text-2xl text-blue-600">$700K+</span>
+              <span>Bootstrapped</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-semibold text-2xl text-blue-600">2</span>

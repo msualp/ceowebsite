@@ -11,7 +11,7 @@ import {
   HiCpuChip,
   HiPuzzlePiece
 } from 'react-icons/hi2';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import { BlobShape } from '@/components/SvgShapes';
 import { initAllAnimations } from '@/lib/animation-utils';
 import Section from '@/components/Section';

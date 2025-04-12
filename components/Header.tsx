@@ -9,7 +9,8 @@ import {
   HiChatBubbleLeftRight,
   HiDocumentText,
   HiEnvelope,
-  HiQuestionMarkCircle
+  HiQuestionMarkCircle,
+  HiVideoCamera // Added import for HiVideoCamera
 } from 'react-icons/hi2'
 
 import { useState } from 'react'
@@ -34,8 +35,8 @@ export function Header() {
     <>
       {/* Fixed top navigation bar */}
       <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-sm bg-white/60 dark:bg-black/30 border-b border-white/10" label="Site header">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-          <Link
+      <div className="w-full max-w-[98%] lg:max-w-[99%] mx-auto flex items-center justify-between px-2 md:px-1 lg:px-0 xl:px-0 py-3">
+      <Link
             href="/"
             className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent hover:brightness-110 transition-all duration-300"
           >
@@ -118,7 +119,7 @@ export function Header() {
           <Link 
             href="/" 
             onClick={toggleMenu} 
-            className={`block text-lg flex items-center gap-3 py-2 ${pathname === '/' ? 'text-blue-600 font-medium' : 'hover:text-blue-600'}`}
+            className={`block text-lg flex items-center gap-3 py-2 ${isActive('/')}`}
           >
             <HiHome className="w-5 h-5" />
             Home
@@ -131,7 +132,7 @@ export function Header() {
               <Link 
                 href="/about" 
                 onClick={toggleMenu} 
-                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/about' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/about')}`}
               >
                 <HiUser className="w-5 h-5" />
                 Meet Mustafa
@@ -139,7 +140,7 @@ export function Header() {
               <Link 
                 href="/journey" 
                 onClick={toggleMenu} 
-                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/journey' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/journey')}`}
               >
                 <HiBriefcase className="w-5 h-5" />
                 Professional Journey
@@ -154,7 +155,7 @@ export function Header() {
               <Link 
                 href="/sociail" 
                 onClick={toggleMenu} 
-                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/sociail' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/sociail')}`}
               >
                 <HiSparkles className="w-5 h-5" />
                 Vision & Product
@@ -165,9 +166,19 @@ export function Header() {
                 className={`block flex items-center gap-3 py-2 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800`}
               >
                 <HiRocketLaunch className="w-5 h-5" />
-                Early Access
+                <span className="flex items-center gap-1">
+                  Early Access
+                  <span className="text-base text-gray-500 dark:text-gray-400">→</span>
+                </span>
               </Link>
-            </div>
+              <Link 
+                href="/myaistartup" 
+                onClick={toggleMenu} 
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/myaistartup')}`}
+              >
+                <HiVideoCamera className="w-5 h-5" />
+                My AI Startup
+              </Link>            </div>
           </div>
           
           {/* Insights section */}
@@ -177,7 +188,7 @@ export function Header() {
               <Link 
                 href="/insights" 
                 onClick={toggleMenu} 
-                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/insights' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/insights')}`}
               >
                 <HiLightBulb className="w-5 h-5" />
                 Thinking Aloud
@@ -208,7 +219,7 @@ export function Header() {
               <Link 
                 href="/contact" 
                 onClick={toggleMenu} 
-                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${pathname === '/contact' ? 'text-blue-600 font-medium bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                className={`block flex items-center gap-3 py-2 px-2 rounded-lg ${isActive('/contact')}`}
               >
                 <HiEnvelope className="w-5 h-5" />
                 Contact Me

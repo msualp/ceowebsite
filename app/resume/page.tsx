@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import { initAllAnimations } from '@/lib/animation-utils';
 import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';

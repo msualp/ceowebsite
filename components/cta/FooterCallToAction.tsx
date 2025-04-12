@@ -49,12 +49,12 @@ export const FooterCallToAction = () => {
     <div 
       id="footer-cta" 
       className={cn(
-        "relative py-16 mt-20 bg-gray-900 dark:bg-gray-900 transition-opacity duration-700",
+        "relative py-12 w-full bg-gray-900 dark:bg-gray-900 transition-opacity duration-700",
         isVisible ? 'opacity-100' : 'opacity-0'
       )}
       aria-labelledby="footer-cta-heading"
     >      
-      <div className="max-w-5xl mx-auto px-4 text-center">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Avatar and quote area */}
         <div className="mb-10">
           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-blue-500 mx-auto mb-6">

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { PageContainer } from '@/components/PageContainer';
+import PageContainer from '@/components/PageContainer';
 import { FaGithub, FaXTwitter, FaLinkedin } from 'react-icons/fa6';
 import { MdEmail, MdLocationOn } from 'react-icons/md';
 import { initAllAnimations } from '@/lib/animation-utils';

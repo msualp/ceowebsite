@@ -10,6 +10,24 @@
   --transition-all: 200ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
 /* Section with glass styling for About, Quotes, etc. */
 .section-glass {
   @apply glass px-6 py-8 md:px-12 md:py-16 text-center md:text-left;
@@ -140,23 +158,15 @@ textarea:focus-visible {
   @apply text-white;
 }
 
-/* Marquee animations for watermark text */
+/* Marquee animations for scrolling content */
 @keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @keyframes marquee-reverse {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 @keyframes fade-in-out {
