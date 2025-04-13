@@ -17,6 +17,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './ThemeToggle'
+import { SoundToggle } from './SoundToggle'
 import { Header as HeaderLandmark, Navigation } from './Landmark'
 
 export function Header() {
@@ -36,9 +37,14 @@ export function Header() {
       {/* Fixed top navigation bar */}
       <HeaderLandmark className="fixed top-0 left-0 right-0 z-[100] backdrop-blur-md bg-white/95 dark:bg-black/80 shadow-md shadow-black/10 dark:shadow-black/30" label="Site header">
       <div className="w-full max-w-[96%] lg:max-w-[97%] mx-auto flex items-center justify-between px-4 md:px-4 lg:px-4 xl:px-4 py-3">
-      <Link
+          <Link
             href="/"
             className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white bg-clip-text text-transparent hover:brightness-110 transition-all duration-300"
+            style={{
+              colorScheme: 'light',
+              WebkitTextFillColor: 'transparent',
+              WebkitBackgroundClip: 'text',
+            }}
           >
             Mustafa Sualp
           </Link>
@@ -67,6 +73,7 @@ export function Header() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center bg-gray-200/50 dark:bg-gray-800/50 rounded-full p-1">
               <ThemeToggle />
+              <SoundToggle />
             </div>
             {/* Hamburger menu - visible on all screen sizes */}
             <div className="relative z-[110]">

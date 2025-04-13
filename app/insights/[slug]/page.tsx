@@ -14,6 +14,7 @@ import {
   HiArrowLeft
 } from 'react-icons/hi2';
 import SocialSharing from './SocialSharing';
+import { Mdx } from '@/components/Mdx';
 
 // Get reading time estimation
 function getReadingTime(content: string): string {
@@ -45,8 +46,10 @@ export async function generateStaticParams() {
 }
 
 // Add a more generic type for the params
-export default function InsightPage({ params }: { params: Record<string, string> }) {
-  const { slug } = params;
+export default async function InsightPage({ params }: { params: Record<string, string> }) {
+  // Await the params to fix the Next.js warning
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
   const contentDir = path.join(process.cwd(), 'content/insights');
   
   // Try to find the file with the matching slug
@@ -136,9 +139,7 @@ export default function InsightPage({ params }: { params: Record<string, string>
       
       {/* Article Content */}
       <article>
-        <div className="prose dark:prose-invert max-w-none lg:prose-lg">
-          <div dangerouslySetInnerHTML={{ __html: content }} />
-        </div>
+        <Mdx content={content} />
       </article>
       
       {/* Social Sharing - Client Component */}

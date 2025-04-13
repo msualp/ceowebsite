@@ -1,3 +1,11 @@
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  color-scheme: light dark;
+}
+
 /* Global Effects and Animations
    This file contains reusable styles for consistent UI effects across the site
    including animations, transitions, and visual treatments.

@@ -7,7 +7,7 @@ interface ButtonProps {
   children: ReactNode;
   href?: string;
   onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'text';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   icon?: ReactNode;
@@ -40,7 +40,8 @@ export default function Button({
     primary: 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm',
     secondary: 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white',
     outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30',
-    ghost: 'text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30'
+    ghost: 'text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30',
+    text: 'text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 p-0'
   };
   
   // Size classes

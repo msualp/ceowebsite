@@ -34,7 +34,7 @@ export default function HeroImage({
         fill
         priority={priority}
         sizes="(max-width: 768px) 100vw, 50vw"
-        className={`img-grayscale object-cover rounded-none ${className}`}
+        className={`img-grayscale object-cover rounded-0 ${className}`}
         style={{ objectPosition }}
       />
       {caption && (

@@ -12,8 +12,8 @@ const HeroSection = () => {
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen">
         {/* Image container - Mobile first approach */}
         <div className="w-full md:w-2/5 h-[50vh] md:h-screen relative overflow-hidden">
-          {/* Image with absolute positioning */}
-          <div className="absolute top-0 left-0 right-0 bottom-0 z-[-1]">
+          {/* Image with absolute positioning - removed z-[-1] to prevent gaps */}
+          <div className="absolute top-0 left-0 right-0 bottom-0">
             <HeroImage
               src="/images/Mustafa-Sualp-Sociail-BW.png"
               alt="Mustafa Sualp, Founder and CEO of Sociail, in professional black and white portrait"

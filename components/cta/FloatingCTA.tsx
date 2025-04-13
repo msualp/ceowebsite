@@ -370,13 +370,13 @@ const ctaOrder = ['sociailLogo', 'linkedin', 'email', 'calendly'];
 const ctaConfigs = {
         sociailLogo: {
     icon: (
-      <div className="w-6 h-6 relative flex items-center justify-center">
+      <div className="w-7 h-7 relative flex items-center justify-center">
         <Image 
           src="/images/sociail-logo-with-gray-stroke.svg" 
           alt="Sociail Logo" 
-          width={22} 
-          height={22} 
-          className="object-contain w-[85%] h-[85%]"
+          width={28} 
+          height={28} 
+          className="object-contain w-[95%] h-[95%]"
         />
       </div>
     ),
@@ -895,8 +895,9 @@ return (
             animate="animate"
             exit="exit"
             transition={{ 
-              duration: prefersReducedMotion ? 0.2 : 0.3,
-              staggerChildren: prefersReducedMotion ? 0 : 0.08
+              duration: prefersReducedMotion ? 0.3 : 0.5,
+              staggerChildren: prefersReducedMotion ? 0 : 0.12,
+              ease: 'easeInOut'
             }}
             style={{ 
               backdropFilter: `blur(${blurIntensity})`,
@@ -926,7 +927,7 @@ return (
                 >
                   <motion.span 
                     variants={variants.label}
-                    className="bg-black/90 backdrop-blur-lg dark:bg-white/10 text-white dark:text-white text-sm py-2 px-4 rounded-full shadow-sm border border-gray-800 dark:border-gray-700 flex items-center gap-2 whitespace-nowrap min-w-[160px] justify-end shadow-lg shadow-white/5 dark:shadow-black/40"
+                    className="bg-black bg-opacity-95 backdrop-blur-sm dark:bg-white dark:bg-opacity-30 text-white dark:text-white text-sm py-2 px-4 rounded-full shadow-sm border border-gray-800 dark:border-gray-700 flex items-center gap-2 whitespace-nowrap min-w-[160px] justify-end shadow-lg shadow-white/5 dark:shadow-black/40 font-bold hover:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200"
                   >
                     {config.label}
                     {key === 'sociailLogo' && !interactionState.hasSeenEarlyAccess && (
@@ -975,24 +976,25 @@ return (
       </AnimatePresence>
       
       <div className="flex items-center gap-2 justify-end">
-        <AnimatePresence>
-          {isOpen && !activePanel && (
+        <AnimatePresence mode="wait">
+        {isOpen && !activePanel && (
           <motion.h2
-            initial={{ x: 60 }}
-            animate={{ x: isOpen ? 0 : 60 }}
+            initial={{ x: 48, opacity: 0, rotateY: 90 }}
+            animate={{ x: 0, opacity: 1, rotateY: 0 }}
+            exit={{ x: 48, opacity: 0, rotateY: 90 }}
             transition={{
-              duration: 0.4,
-              ease: 'easeInOut',
-              delay: isOpen ? 0.1 : 0
+              x: { duration: 0.3, ease: 'easeInOut' },
+              opacity: { duration: 0.3 },
+              rotateY: { duration: 0.3, ease: 'easeInOut' }
             }}
             style={{ transformOrigin: 'right center' }}
             className="text-lg md:text-xl lg:text-2xl font-extrabold leading-tight text-center px-2"
           >
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Let’s Connect!
-              </span>
-            </motion.h2>
-          )}
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Let’s Connect!
+            </span>
+          </motion.h2>
+        )}
         </AnimatePresence>
         {/* Don't show the main button when side panel is open */}
         {!activePanel && (
