@@ -1,9 +1,22 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+/**
+ * NOTE: This component is currently incomplete and under development.
+ * 
+ * TODO:
+ * - Fix animation issues with cards moving horizontally
+ * - Ensure tooltips only show one at a time
+ * - Improve performance with large number of cards
+ * - Fix positioning of tooltips on mobile devices
+ * - Ensure proper accessibility for screen readers
+ */
+
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import { TooltipCard } from './TooltipCard';
 import './scrollbar-hide.css';
-import { UseCase, SectionName, ColorName, colorClasses, AnimationState } from '../useCases/types';
-import { getCategoryColor } from '../useCases/types';
+import './AnimationStyles.css';
+import { UseCase, SectionName, ColorName, colorClasses, AnimationState, getCategoryColor } from './types';
 
 interface SingleCategoryRowProps {
   allUseCases: UseCase[];
@@ -25,6 +38,7 @@ interface SingleCategoryRowProps {
   onTouchMove: (e: React.TouchEvent) => void;
   onTouchEnd: () => void;
   handleKeyDown: (e: React.KeyboardEvent) => void;
+  buttonClicked?: boolean;
 }
 
 const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
@@ -46,12 +60,52 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
   onTouchStart,
   onTouchMove,
   onTouchEnd,
-  handleKeyDown
+  handleKeyDown,
+  buttonClicked = false
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  
+  // Create a map to store refs for each card
+  const cardRefsMap = useMemo(() => new Map<string, HTMLElement | null>(), []);
+  
+  // Function to set ref for a card
+  const setCardRef = (id: string, element: HTMLElement | null) => {
+    cardRefsMap.set(id, element);
+  };
+  
+  // Function to get ref for a card
+  const getCardRef = (id: string): React.RefObject<HTMLElement | null> => {
+    return {
+      current: cardRefsMap.get(id) || null
+    };
+  };
+  
+  // Tooltip close on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setActiveTooltip(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const updateAnimationState = (state: AnimationState) => {
+    setAnimationState((prev: any) => {
+      const newState = { ...prev };
+      Object.keys(newState).forEach(key => {
+        newState[key as SectionName] = state;
+      });
+      return newState;
+    });
+  };
   
   // Find cards that should pulse (first time user or recommended items)
   const shouldPulseCard = (id: string) => {
@@ -74,16 +128,17 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
   return (
     <div 
       className={`
-        relative overflow-x-auto scroll-snap-x mandatory mb-6
+        relative z-[50] overflow-x-auto overflow-visible scroll-snap-x mandatory mb-6 pt-24
         transition-all duration-500 ease-out
         ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}
-      `} 
+        ${!buttonClicked ? 'filter blur-sm backdrop-blur-md' : ''}
+      `}
       role="region" 
       aria-label="All AI use cases"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-visible">
         <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-gray-100 dark:from-gray-900 to-transparent z-20"></div>
         <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-gray-100 dark:from-gray-900 to-transparent z-20"></div>
         
@@ -93,11 +148,13 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
             flex space-x-10 py-3 px-4 touch-pan-x use-cases-row 
             overflow-x-auto cursor-grab ${isDragging ? 'cursor-grabbing' : ''}
             scrollbar-hide scroll-smooth
+            ${buttonClicked && animationState.personal !== 'paused' ? 'animate-marquee' : ''}
           `}
           style={{
             scrollbarWidth: 'none', /* Firefox */
             msOverflowStyle: 'none', /* IE and Edge */
             WebkitOverflowScrolling: 'touch',
+            width: buttonClicked && animationState.personal !== 'paused' ? '200%' : 'auto'
           }}
           onMouseDown={(e) => {
             setIsDragging(true);
@@ -176,7 +233,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
             }
             onTouchMove(e);
           }}
-          onTouchEnd={(e) => {
+          onTouchEnd={() => {
             setIsDragging(false);
             onTouchEnd();
             
@@ -201,6 +258,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
             return (
               <div 
                 key={useCase.id}
+                ref={(el) => setCardRef(useCase.id, el)}
                 className={`
                   inline-flex flex-col px-5 py-6 rounded-xl
                   h-32 w-56
@@ -213,7 +271,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                   transition-all duration-300 ease-in-out 
                   ${selectedUseCasesCount >= maxSelections && !isUseCaseSelected(useCase.id) ? 'opacity-60' : 'opacity-100'}
                   ${selectionComplete && !isUseCaseSelected(useCase.id) ? 'pointer-events-none' : ''}
-                  cursor-pointer
+                  ${!buttonClicked ? 'pointer-events-none' : 'cursor-pointer'}
                   hover:shadow-lg hover:scale-105 active:scale-95
                   ${shouldPulseCard(useCase.id) ? 'animate-pulse-subtle' : ''}
                   relative
@@ -221,6 +279,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                 role="button"
                 aria-pressed={isUseCaseSelected(useCase.id)}
                 aria-label={`Select ${useCase.text}`}
+                aria-describedby={activeTooltip === useCase.id ? `tooltip-${useCase.id}` : undefined}
                 data-use-case-id={useCase.id}
                 tabIndex={0}
                 onClick={(e) => {
@@ -235,37 +294,17 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                 }}
                 onMouseEnter={() => {
                   setHoveredPill((prev: any) => ({...prev, [category]: true}));
-                  setAnimationState((prev: any) => {
-                    const newState = {...prev};
-                    Object.keys(newState).forEach(key => {
-                      newState[key as SectionName] = 'paused';
-                    });
-                    return newState;
-                  });
+                  updateAnimationState('paused');
                   setActiveTooltip(useCase.id);
                 }}
                 onMouseLeave={() => {
                   setHoveredPill((prev: any) => ({...prev, [category]: false}));
-                  setAnimationState((prev: any) => {
-                    const newState = {...prev};
-                    Object.keys(newState).forEach(key => {
-                      newState[key as SectionName] = 'slowed';
-                    });
-                    return newState;
-                  });
+                  updateAnimationState('slowed');
                   // After a short delay, resume normal animation if the mouse is not over the section
                   setTimeout(() => {
                     setAnimationState((prev: any) => {
-                      const newState = {...prev};
-                      let shouldResume = true;
-                      
-                      // Check if any pill is still hovered
-                      Object.values(prev).forEach(state => {
-                        if (state === 'paused') {
-                          shouldResume = false;
-                        }
-                      });
-                      
+                      const newState = { ...prev };
+                      const shouldResume = !Object.values(prev).includes('paused');
                       if (shouldResume) {
                         Object.keys(newState).forEach(key => {
                           if (newState[key as SectionName] === 'slowed') {
@@ -273,14 +312,13 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                           }
                         });
                       }
-                      
                       return newState;
                     });
                   }, 1000);
                 }}
               >
-                {/* Category label as pill on top */}
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-[999]">
+                {/* Category label as pill on top left */}
+                <div className="absolute -top-3 left-3 z-[999]">
                   <div className={`${colorClass.bg} ${colorClass.text} text-xs font-bold px-3 py-1.5 rounded-full shadow-md`}>
                     {category.charAt(0).toUpperCase() + category.slice(1)}
                   </div>
@@ -302,6 +340,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                       ${isUseCaseSelected(useCase.id) ? colorClass.bg : 'bg-white dark:bg-gray-800'}
                       ${shouldPulseCard(useCase.id) && !isUseCaseSelected(useCase.id) ? 'animate-ping-slow' : ''}
                       cursor-pointer
+                      hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500
                     `} 
                     onClick={(e) => {
                       e.stopPropagation();
@@ -320,7 +359,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                       </svg>
                     ) : (
                       <svg 
-                        className="w-4 h-4 text-gray-400 dark:text-gray-500" 
+                        className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" 
                         fill="none" 
                         viewBox="0 0 24 24" 
                         stroke="currentColor"
@@ -334,24 +373,18 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                   </span>
                 </div>
                 
-                {/* Tooltip */}
+                {/* Use TooltipCard component - only show for the first set, not duplicates */}
                 {activeTooltip === useCase.id && (
-                  <div 
-                    className={`
-                      absolute left-1/2 bottom-full mb-2 -translate-x-1/2 z-30
-                      bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 max-w-xs w-64
-                      border ${colorClass.border}
-                      transition-opacity duration-200
-                    `}
-                  >
-                    <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-white dark:bg-gray-800 border-b border-r ${colorClass.border}"></div>
-                    <h4 className={`font-bold mb-2 ${colorClass.text}`}>{useCase.tooltip.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{useCase.tooltip.description}</p>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      <p className="mb-1"><strong>Example:</strong> {useCase.tooltip.example}</p>
-                      <p><strong>Stats:</strong> {useCase.tooltip.stats}</p>
-                    </div>
-                  </div>
+                  <TooltipCard
+                    anchorRef={getCardRef(useCase.id)}
+                    title={useCase.tooltip.title}
+                    description={useCase.tooltip.description}
+                    example={useCase.tooltip.example}
+                    stats={useCase.tooltip.stats}
+                    colorClass={colorClass}
+                    autoDismiss={true}
+                    dismissDelay={8000}
+                  />
                 )}
               </div>
             );
@@ -366,6 +399,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
             return (
               <div 
                 key={`dup-${useCase.id}`}
+                ref={(el) => setCardRef(useCase.id, el)}
                 className={`
                   inline-flex flex-col px-5 py-6 rounded-xl
                   h-32 w-56
@@ -378,7 +412,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                   transition-all duration-300 ease-in-out 
                   ${selectedUseCasesCount >= maxSelections && !isUseCaseSelected(useCase.id) ? 'opacity-60' : 'opacity-100'}
                   ${selectionComplete && !isUseCaseSelected(useCase.id) ? 'pointer-events-none' : ''}
-                  cursor-pointer
+                  ${!buttonClicked ? 'pointer-events-none' : 'cursor-pointer'}
                   hover:shadow-lg hover:scale-105 active:scale-95
                   ${shouldPulseCard(useCase.id) ? 'animate-pulse-subtle' : ''}
                   relative
@@ -386,6 +420,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                 role="button"
                 aria-pressed={isUseCaseSelected(useCase.id)}
                 aria-label={`Select ${useCase.text}`}
+                aria-describedby={activeTooltip === useCase.id ? `tooltip-${useCase.id}` : undefined}
                 data-use-case-id={useCase.id}
                 tabIndex={0}
                 onClick={(e) => {
@@ -400,37 +435,17 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                 }}
                 onMouseEnter={() => {
                   setHoveredPill((prev: any) => ({...prev, [category]: true}));
-                  setAnimationState((prev: any) => {
-                    const newState = {...prev};
-                    Object.keys(newState).forEach(key => {
-                      newState[key as SectionName] = 'paused';
-                    });
-                    return newState;
-                  });
+                  updateAnimationState('paused');
                   setActiveTooltip(useCase.id);
                 }}
                 onMouseLeave={() => {
                   setHoveredPill((prev: any) => ({...prev, [category]: false}));
-                  setAnimationState((prev: any) => {
-                    const newState = {...prev};
-                    Object.keys(newState).forEach(key => {
-                      newState[key as SectionName] = 'slowed';
-                    });
-                    return newState;
-                  });
+                  updateAnimationState('slowed');
                   // After a short delay, resume normal animation if the mouse is not over the section
                   setTimeout(() => {
                     setAnimationState((prev: any) => {
-                      const newState = {...prev};
-                      let shouldResume = true;
-                      
-                      // Check if any pill is still hovered
-                      Object.values(prev).forEach(state => {
-                        if (state === 'paused') {
-                          shouldResume = false;
-                        }
-                      });
-                      
+                      const newState = { ...prev };
+                      const shouldResume = !Object.values(prev).includes('paused');
                       if (shouldResume) {
                         Object.keys(newState).forEach(key => {
                           if (newState[key as SectionName] === 'slowed') {
@@ -438,14 +453,13 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                           }
                         });
                       }
-                      
                       return newState;
                     });
                   }, 1000);
                 }}
               >
-                {/* Category label as pill on top */}
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-[999]">
+                {/* Category label as pill on top left */}
+                <div className="absolute -top-3 left-3 z-[999]">
                   <div className={`${colorClass.bg} ${colorClass.text} text-xs font-bold px-3 py-1.5 rounded-full shadow-md`}>
                     {category.charAt(0).toUpperCase() + category.slice(1)}
                   </div>
@@ -467,6 +481,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                       ${isUseCaseSelected(useCase.id) ? colorClass.bg : 'bg-white dark:bg-gray-800'}
                       ${shouldPulseCard(useCase.id) && !isUseCaseSelected(useCase.id) ? 'animate-ping-slow' : ''}
                       cursor-pointer
+                      hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500
                     `} 
                     onClick={(e) => {
                       e.stopPropagation();
@@ -485,7 +500,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                       </svg>
                     ) : (
                       <svg 
-                        className="w-4 h-4 text-gray-400 dark:text-gray-500" 
+                        className="w-4 h-4 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300" 
                         fill="none" 
                         viewBox="0 0 24 24" 
                         stroke="currentColor"
@@ -499,25 +514,7 @@ const SingleCategoryRow: React.FC<SingleCategoryRowProps> = ({
                   </span>
                 </div>
                 
-                {/* Tooltip */}
-                {activeTooltip === useCase.id && (
-                  <div 
-                    className={`
-                      absolute left-1/2 bottom-full mb-2 -translate-x-1/2 z-30
-                      bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 max-w-xs w-64
-                      border ${colorClass.border}
-                      transition-opacity duration-200
-                    `}
-                  >
-                    <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-white dark:bg-gray-800 border-b border-r ${colorClass.border}"></div>
-                    <h4 className={`font-bold mb-2 ${colorClass.text}`}>{useCase.tooltip.title}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{useCase.tooltip.description}</p>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      <p className="mb-1"><strong>Example:</strong> {useCase.tooltip.example}</p>
-                      <p><strong>Stats:</strong> {useCase.tooltip.stats}</p>
-                    </div>
-                  </div>
-                )}
+                {/* No tooltips for duplicates to avoid multiple tooltips */}
               </div>
             );
           })}

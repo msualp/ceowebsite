@@ -1,16 +1,16 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { UseCase, SectionName, AnimationState, MAX_SELECTIONS, AUDIO, getCategoryColor } from '../useCases/types';
-import { allUseCases, categoryIcons, getUseCasesByCategory } from '../useCases/data';
+import { UseCase, SectionName, AnimationState, MAX_SELECTIONS, AUDIO, getCategoryColor, colorClasses } from './types';
+import { allUseCases, categoryIcons, getUseCasesByCategory } from './data';
 import type { ReactNode } from 'react';
-import { storage } from '../useCases/utils/storage';
+import { storage } from './utils/storage';
 import SelectionPanel from './SelectionPanel';
-import SharingModal from '../useCases/SharingModal';
-import OnboardingTooltip from '../useCases/OnboardingTooltip';
-import CompletionCTA from '../useCases/CompletionCTA';
+import SharingModal from './SharingModal';
+import OnboardingTooltip from './OnboardingTooltip';
+import CompletionCTA from './CompletionCTA';
 import SectionHeader from './SectionHeader';
-import AnimationStyles from '../useCases/AnimationStyles';
+import AnimationStyles from './AnimationStyles';
 import SingleCategoryRow from './SingleCategoryRow';
 
 const UseCasesDevSection: React.FC = () => {
@@ -44,6 +44,9 @@ const UseCasesDevSection: React.FC = () => {
 
   // Selection completion state
   const [selectionComplete, setSelectionComplete] = useState<boolean>(false);
+  
+  // State for button click to reveal content
+  const [buttonClicked, setButtonClicked] = useState<boolean>(false);
 
   // Animation state for the selection panel
   const [selectionPanelVisible, setSelectionPanelVisible] = useState<boolean>(false);
@@ -550,13 +553,18 @@ const UseCasesDevSection: React.FC = () => {
   const isUseCaseSelected = (useCaseId: string): boolean => {
     return selectedUseCases.some(useCase => useCase.id === useCaseId);
   };
+  
+  // Handle button click to reveal content
+  const handleButtonClick = () => {
+    setButtonClicked(true);
+  };
 
   return (
     <section className={`
       bg-gray-100 dark:bg-gray-900 py-12 border-t border-gray-200 dark:border-gray-700 
-      overflow-hidden use-cases-section relative w-full
+      overflow-visible use-cases-section relative z-[10] w-full
       transition-colors duration-500
-    `}>
+    `} style={{ overflow: 'visible' }}>
       {/* Particle container for animations */}
       <div 
         ref={particleContainerRef} 
@@ -587,7 +595,52 @@ const UseCasesDevSection: React.FC = () => {
           themeColor={themeColor}
           selectionComplete={selectionComplete}
           uiReady={uiReady}
+          buttonClicked={buttonClicked}
         />
+        
+        {/* What is Your AI Moment button - moved up */}
+        <div className="text-center mb-8">
+          <div 
+            onClick={handleButtonClick}
+            className={`
+              inline-flex items-center text-white font-bold px-8 py-4
+              rounded-lg shadow-lg transform hover:scale-105 transition-transform
+              text-xl md:text-2xl cursor-pointer
+              relative overflow-hidden group
+              bg-gradient-to-r ${colorClasses[themeColor].gradient} from-offset-0 to-offset-100
+              bg-size-200 bg-pos-0 hover:bg-pos-100
+              transition-all duration-500
+              ${colorClasses[themeColor].glow} shadow-lg
+            `}
+            aria-label="What will be your AI moment?"
+          >
+            <div className={`absolute inset-0 bg-gradient-to-r ${colorClasses[themeColor].gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+            <span className="relative z-10">What will be your AI moment?</span>
+            <svg className="w-6 h-6 ml-2 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+            
+            <div className="absolute inset-0 -z-10">
+              <svg className="w-full h-full" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100%" height="100%" fill="url(#gridPattern)" />
+                <defs>
+                  <pattern id="gridPattern" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(45)">
+                    <rect width="1" height="1" x="0" y="0" fill="rgba(255,255,255,0.1)" />
+                  </pattern>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+        
+        {/* Instructions that appear after button click */}
+        {buttonClicked && (
+          <div className="text-center mb-8 animate-fadeIn">
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Click on the cards below to select up to 3 AI use cases that interest you most.
+            </p>
+          </div>
+        )}
 
         {/* Selection Display Panel */}
         <SelectionPanel
@@ -633,6 +686,7 @@ const UseCasesDevSection: React.FC = () => {
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
           handleKeyDown={handleKeyDown}
+          buttonClicked={buttonClicked}
         />
         
         {/* Call to action */}

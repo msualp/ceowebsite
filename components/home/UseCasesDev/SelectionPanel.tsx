@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { UseCase, ColorName, colorClasses, getCategoryColor } from '../useCases/types';
+import { UseCase, ColorName, colorClasses, getCategoryColor } from './types';
 
 interface SelectionPanelProps {
   selectedUseCases: UseCase[];
