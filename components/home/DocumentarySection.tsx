@@ -4,10 +4,12 @@ import Image from 'next/image';
 import { HiArrowLongRight, HiFilm, HiSpeakerWave } from 'react-icons/hi2';
 import Section from '@/components/Section';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const DocumentarySection = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,7 +33,7 @@ const DocumentarySection = () => {
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="relative">
           <div 
-            className="flex flex-col lg:flex-row items-center gap-8 fade-in-scroll backdrop-blur-sm bg-black/30 p-6 sm:p-8 rounded-2xl border border-white/10"
+            className="flex flex-col lg:flex-row items-center gap-8 fade-in-scroll backdrop-blur-sm bg-black/30 p-4 sm:p-8 rounded-2xl border border-white/10"
             style={{
               transform: `translateY(${Math.min(scrollPosition * 0.05, 20)}px)`,
               transition: 'transform 0.1s ease-out'
@@ -44,14 +46,22 @@ const DocumentarySection = () => {
               onMouseLeave={() => setIsHovering(false)}
             >
               {/* Removed Real Startup Journey label from here */}
+              {/* Mobile view: inside video top-left */}
+              <div className="absolute top-4 left-4 z-20 md:hidden">
+                <div className="bg-blue-600/80 backdrop-blur-sm text-white py-1.5 px-3 rounded-lg shadow-lg inline-flex items-center gap-2 text-xs">
+                  <HiFilm className="w-4 h-4" />
+                  <span>Real Startup Journey</span>
+                </div>
+              </div>
               <div className={`absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-300 -z-10`}></div>
               
               <div className="absolute inset-0 bg-black">
                 <Image
-                  src="/images/ai-startup-documentary.jpg"
-                  alt="Behind the scenes of the AI Startup Documentary project"
+                  src="/images/sociail-team-outing.png"
+                  alt="Sociail team outing - Documentary key frame"
                   fill
-                  className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ objectPosition: 'center 92%' }}
+                  className="object-cover scale-150 opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                 />
                 
                 {/* Video overlay effects */}
@@ -65,7 +75,14 @@ const DocumentarySection = () => {
               
               {/* Play button overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/30">
+                <div 
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/30 cursor-pointer"
+                  onClick={() => setShowComingSoon(true)}
+                  role="button"
+                  aria-label="Play documentary preview"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowComingSoon(true); }}
+                >
                   <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center group-hover:from-blue-500 group-hover:to-purple-500 transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 group-hover:scale-110 transition-transform duration-300">
                       <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clipRule="evenodd" />
@@ -87,14 +104,16 @@ const DocumentarySection = () => {
               </div>
               
               {/* "Coming Soon" badge */}
-              <div className="absolute top-4 right-4">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">Coming Winter 2025</span>
-              </div>
+              {showComingSoon && (
+                <div className="absolute top-4 right-4 animate-slide-up-fade">
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">Coming Winter 2025</span>
+                </div>
+              )}
             </div>
             
             {/* Content Section */}
             <div className="w-full lg:w-1/2">
-              {/* Real Startup Journey floating badge */}
+              {/* Desktop view: above the title */}
               <div className="mb-2 hidden md:block">
                 <div className="bg-blue-600/80 backdrop-blur-sm text-white py-1.5 px-3 rounded-lg shadow-lg inline-flex items-center gap-2 text-sm">
                   <HiFilm className="w-4 h-4" />
@@ -110,8 +129,8 @@ const DocumentarySection = () => {
               <div className="bg-white/10 backdrop-blur-md p-5 rounded-xl mb-6 border border-white/10 hover:border-white/20 transition-colors duration-300 relative">
                 {/* AI-Enhanced floating badge */}
                 <div className="absolute -top-3 right-3 z-30 hidden md:block">
-                  <div className="bg-purple-600/80 backdrop-blur-sm text-white py-1.5 px-3 rounded-lg shadow-lg flex items-center gap-2 text-sm">
-                    <span>AI-Enhanced</span>
+                  <div className="bg-purple-600/80 backdrop-blur-sm text-white py-1.is5 px-3 rounded-lg shadow-lg flex items-center gap-2 text-sm">
+                    <span>Human-AI Collaboration</span>
                   </div>
                 </div>
                 
@@ -142,14 +161,14 @@ const DocumentarySection = () => {
               </div>
               
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-blue-600/30 w-full sm:w-auto justify-center group">
+                <Link href="/myaistartup" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-blue-600/30 w-full sm:w-auto justify-center group">
                   <span>Join the Waitlist</span>
                   <HiArrowLongRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </button>
-                <a href="#learn-more" className="text-blue-400 hover:text-blue-300 transition-colors py-2 sm:py-0 w-full sm:w-auto text-center sm:text-left">
+                </Link>
+                <Link href="/myaistartup" className="text-blue-400 hover:text-blue-300 transition-colors py-2 sm:py-0 w-full sm:w-auto text-center sm:text-left">
                   Learn more
                   <div className="h-0.5 w-0 group-hover:w-full bg-blue-400 transition-all duration-300"></div>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -171,6 +190,11 @@ const DocumentarySection = () => {
         @keyframes sound-wave {
           0%, 100% { height: 4px; }
           50% { height: 12px; }
+        }
+        
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         
         .animate-float-slow {
@@ -199,6 +223,17 @@ const DocumentarySection = () => {
         
         .animation-delay-400 {
           animation-delay: 0.4s;
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out forwards;
+        }
+        @keyframes slide-up-fade {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up-fade {
+          animation: slide-up-fade 0.5s ease-out forwards;
         }
       `}</style>
     </Section>
