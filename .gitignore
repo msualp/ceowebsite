@@ -11,6 +11,7 @@ Thumbs.db
 .idea/
 .vscode/
 .history/
+.lh/
 *.sublime-project
 *.sublime-workspace
 *.suo
