@@ -121,10 +121,10 @@ const MissionCapsule: React.FC = () => {
   };
 
   return (
-    <div className="mission-capsule-wrapper">
+  <div className="mission-capsule-wrapper bg-[#2a2a2a] text-white py-12">
       <div 
         ref={capsuleRef}
-        className="relative max-w-3xl mx-auto px-6 py-12 overflow-hidden"
+        className="relative max-w-4xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-12 overflow-hidden"
       >
         <h2 className="sr-only">Mission</h2>
         <div className={`fixed bottom-6 right-6 z-50 px-4 py-2 rounded-lg shadow-lg text-sm font-medium text-white bg-blue-600 transition transform ease-out duration-300 ${showResumed ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
@@ -135,17 +135,17 @@ const MissionCapsule: React.FC = () => {
         <audio ref={clickAudioRef} src="/sounds/click.mp3" preload="auto" />
         <audio ref={resumeAudioRef} src="/sounds/resume.mp3" preload="auto" />
         <div 
-          className={`bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform perspective-1000 transition-all duration-300 ${hasAppeared ? 'screen-flicker opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          className={`bg-gray-800 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform perspective-1000 transition-all duration-300 ${hasAppeared ? 'screen-flicker opacity-100 scale-100' : 'opacity-0 scale-95'}`}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="bg-gray-200 dark:bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-300 dark:border-gray-700">
+          <div className="bg-gray-700 dark:bg-gray-800 px-4 py-2 flex items-center justify-between border-b border-gray-700">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-400 font-mono">
+              <div className="text-xs text-gray-400 font-mono">
               mission.sh — bash — 80×24
             </div>
             <div className="flex items-center">
@@ -184,7 +184,7 @@ const MissionCapsule: React.FC = () => {
             </div>
           </div>
           
-          <div className="p-4 sm:p-6 text-xs sm:text-sm md:text-base font-mono bg-gray-100 dark:bg-gray-950 relative min-h-[240px] max-h-[70vh] overflow-x-auto overflow-y-auto flex flex-col">
+        <div className="px-4 sm:px-6 pt-4 pb-1 text-xs sm:text-sm md:text-base font-mono bg-[#1a1a1a] dark:bg-gray-950 relative min-h-[240px] sm:min-h-[280px] max-h-[400px] overflow-x-auto overflow-y-visible flex flex-col justify-start">
             <div className="absolute inset-0 opacity-5 dark:opacity-10 pointer-events-none" 
                  style={{ 
                    backgroundImage: 'radial-gradient(#000 1px, transparent 0)', 
@@ -196,7 +196,7 @@ const MissionCapsule: React.FC = () => {
               <span className="mr-2">user@sociail</span>
               <span className="mr-2 text-blue-500 dark:text-blue-400">~</span>
               <span className="text-green-600 dark:text-green-400">$</span>
-              <span className="ml-2 text-black dark:text-white flex items-center gap-1">
+              <span className="ml-2 text-white flex items-center gap-1">
                 <HiCommandLine className="text-green-600 dark:text-green-500" />
                 ./mission.sh
               </span>
@@ -255,7 +255,7 @@ const MissionCapsule: React.FC = () => {
             {animationStep >= 2 && (
               <div>
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-green-500 to-transparent my-2 animate-pulse"></div>
-                <div className="text-black dark:text-white text-xl md:text-2xl font-bold mb-2">
+                <div className="text-white text-xl md:text-2xl font-bold mb-2">
                   {animationStep === 2 ? (
                     <TypingEffect 
                       text="Rewire how humans and AIs collaborate — with purpose, clarity, and creativity." 
@@ -301,16 +301,16 @@ const MissionCapsule: React.FC = () => {
             {animationStep >= 4 && (
               <div className="mt-3 grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
                 <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div>
-                  <span className="text-gray-600 dark:text-gray-400">Purpose: Active</span>
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500 mr-2 shadow-[0_0_6px_2px_rgba(34,197,94,0.5)] animate-pulse-slow"></div>
+                  <span className="text-white">Purpose: Active</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></div>
-                  <span className="text-gray-600 dark:text-gray-400">Clarity: Optimal</span>
+                  <div className="w-2.5 h-2.5 rounded-full bg-blue-500 mr-2 shadow-[0_0_6px_2px_rgba(59,130,246,0.5)] animate-pulse-slow"></div>
+                  <span className="text-white">Clarity: Optimal</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-2 h-2 rounded-full bg-purple-500 mr-2 animate-pulse"></div>
-                  <span className="text-gray-600 dark:text-gray-400">Creativity: Flowing</span>
+                  <div className="w-2.5 h-2.5 rounded-full bg-purple-500 mr-2 shadow-[0_0_6px_2px_rgba(139,92,246,0.5)] animate-pulse-slow"></div>
+                  <span className="text-white">Creativity: Flowing</span>
                 </div>
               </div>
             )}

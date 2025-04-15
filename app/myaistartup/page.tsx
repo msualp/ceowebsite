@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import PageContainer from '@/components/PageContainer';
+import HoverRevealImage from '@/components/ui/HoverRevealImage';
 import { HiPlay, HiClock, HiCalendar, HiFilm, HiUserGroup, HiSparkles } from 'react-icons/hi2';
 
 // Trailer Modal Component
@@ -135,7 +136,7 @@ export default function AIStartupMoviePage() {
     {
       icon: <HiCalendar className="w-5 h-5" />,
       label: "Release Date",
-      value: "Fall 2025"
+      value: "Winter 2025"
     },
     {
       icon: <HiFilm className="w-5 h-5" />,
@@ -179,7 +180,7 @@ export default function AIStartupMoviePage() {
           {/* Coming soon badge */}
           <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-bold rounded-full mb-6 animate-pulse">
             <HiSparkles className="mr-2" />
-            COMING FALL 2025
+            COMING Winter 2025
           </div>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 tracking-tight">
@@ -211,7 +212,7 @@ export default function AIStartupMoviePage() {
           {/* Countdown timer */}
           <div className="max-w-2xl mx-auto mb-8">
             <h3 className="text-lg text-gray-300 mb-4">Premiere Countdown</h3>
-            <CountdownTimer targetDate="2025-12-15T00:00:00" />
+            <CountdownTimer targetDate="2026-03-20T00:00:00" />
           </div>
         </div>
       </section>
@@ -223,22 +224,13 @@ export default function AIStartupMoviePage() {
             <div className="flex flex-col md:flex-row items-start gap-12">
               {/* Documentary poster */}
               <div className="w-full md:w-1/3">
-                <div className="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                  <Image
-                    src="/images/Mustafa-Sualp-Sociail.png"
-                    alt="The AI Startup Movie Poster"
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="text-white font-bold">Fall 2025</div>
-                      <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded">COMING SOON</div>
-                    </div>
-                  </div>
-                </div>
+                <HoverRevealImage
+                  src="/images/sociail-team-line-up.jpeg"
+                  alt="Sociail team walking lineup"
+                  captionTitle="Early Days: Building with Vision"
+                  captionText="A symbolic first walk together—united by purpose, walking toward something bold."
+                  aspectRatio="aspect-[2/3]"
+                />
                 
                 {/* Documentary details */}
                 <div className="mt-8 bg-black/50 backdrop-blur-sm rounded-xl p-6">
@@ -340,11 +332,25 @@ export default function AIStartupMoviePage() {
               </form>
             )}
           </div>
+
+      <div className="relative mt-24 max-w-4xl mx-auto fade-in-scroll">
+        <HoverRevealImage
+          src="/images/sociail-team-early-outing.png"
+          alt="Sociail team early outing"
+          captionTitle="Behind the Scenes — Early Team Outing"
+          captionText="Moments of reflection, bonding, and planning the road ahead together as humans and AI."
+          aspectRatio="aspect-video"
+        />
+      </div>
+
+
+
         </div>
       </section>
       
       {/* Trailer Modal */}
       <TrailerModal isOpen={isTrailerModalOpen} onClose={() => setIsTrailerModalOpen(false)} />
+      
       
     </PageContainer>
   );

@@ -5,12 +5,15 @@ import { HiArrowLongRight, HiFilm, HiSpeakerWave } from 'react-icons/hi2';
 import Section from '@/components/Section';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+const track = (event: string) => console.log(`[Analytics] ${event}`);
+import NewsletterForm from '@/components/NewsletterForm';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const DocumentarySection = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [showComingSoon, setShowComingSoon] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       const position = window.scrollY;
@@ -57,7 +60,7 @@ const DocumentarySection = () => {
               
               <div className="absolute inset-0 bg-black">
                 <Image
-                  src="/images/sociail-team-outing.png"
+                  src="/images/sociail-team-early-outing.png"
                   alt="Sociail team outing - Documentary key frame"
                   fill
                   style={{ objectPosition: 'center 92%' }}
@@ -77,11 +80,11 @@ const DocumentarySection = () => {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div 
                   className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/30 cursor-pointer"
-                  onClick={() => setShowComingSoon(true)}
+                  onClick={() => { track('Clicked: Play Documentary'); setShowComingSoon(true); }}
                   role="button"
                   aria-label="Play documentary preview"
                   tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowComingSoon(true); }}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { track('Clicked: Play Documentary'); setShowComingSoon(true); } }}
                 >
                   <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center group-hover:from-blue-500 group-hover:to-purple-500 transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 group-hover:scale-110 transition-transform duration-300">
@@ -106,7 +109,7 @@ const DocumentarySection = () => {
               {/* "Coming Soon" badge */}
               {showComingSoon && (
                 <div className="absolute top-4 right-4 animate-slide-up-fade">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">Coming Winter 2025</span>
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">Coming Spring 2026</span>
                 </div>
               )}
             </div>
@@ -121,8 +124,8 @@ const DocumentarySection = () => {
                 </div>
               </div>
               
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">The AI Startup Documentary</h2>
-              <p className="text-gray-300 mb-6 leading-relaxed text-lg">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">The AI Startup Documentary</h2>
+              <p className="text-gray-300 mb-6 leading-relaxed text-base sm:text-lg">
                 We're documenting every step of the Sociail journey—from ideation to execution—creating the most transparent startup documentary ever made with the help of AI.
               </p>
               
@@ -160,12 +163,15 @@ const DocumentarySection = () => {
                 </ul>
               </div>
               
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <Link href="/myaistartup" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-blue-600/30 w-full sm:w-auto justify-center group">
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full">
+                <button
+                  onClick={() => { track('Clicked: Join Waitlist (Open Modal)'); setShowModal(true); }}
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-blue-600/30 w-full sm:w-auto justify-center group"
+                >
                   <span>Join the Waitlist</span>
                   <HiArrowLongRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </Link>
-                <Link href="/myaistartup" className="text-blue-400 hover:text-blue-300 transition-colors py-2 sm:py-0 w-full sm:w-auto text-center sm:text-left">
+                </button>
+                <Link href="/myaistartup" onClick={() => track('Clicked: Learn More')} className="text-blue-400 hover:text-blue-300 transition-colors py-2 sm:py-0 w-full sm:w-auto text-center sm:text-left">
                   Learn more
                   <div className="h-0.5 w-0 group-hover:w-full bg-blue-400 transition-all duration-300"></div>
                 </Link>
@@ -236,6 +242,43 @@ const DocumentarySection = () => {
           animation: slide-up-fade 0.5s ease-out forwards;
         }
       `}</style>
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center px-4 py-8 sm:py-12 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-gray-900 p-8 rounded-2xl shadow-xl w-full max-w-lg relative text-center"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-white hover:text-gray-400 text-2xl"
+                aria-label="Close"
+              >
+                ×
+              </button>
+              <h2 className="text-white text-2xl font-bold mb-4">Stay in the Loop</h2>
+              <p className="text-gray-300 mb-6">Be the first to know when the AI Startup Documentary drops.</p>
+              <NewsletterForm onSubmit={() => { setShowModal(false); track('Submitted: Join Waitlist (Newsletter)'); }} />
+              <div className="mt-6">
+                <Link
+                  href="/myaistartup"
+                  className="text-blue-400 hover:text-blue-300 underline transition"
+                >
+                  Learn More
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   );
 };

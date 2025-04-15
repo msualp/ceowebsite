@@ -153,7 +153,7 @@ const WorkingOnSection = () => {
             </div>
           </div>
           
-          <div className="mac-glass-card p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-800/40 max-w-md ml-0 group hover:-translate-y-1 hover:scale-[1.01] active:scale-[0.99] hover:border-green-100 dark:hover:border-green-700/40">
+          <div className="mac-glass-card p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-800/40 w-full md:w-[calc(50%-1rem)] group hover:-translate-y-1 hover:scale-[1.01] active:scale-[0.99] hover:border-green-100 dark:hover:border-green-700/40">
             <div className="rounded-lg bg-gradient-to-br from-green-100 to-teal-100 dark:from-green-900/40 dark:to-teal-900/40 p-8 mb-4 flex items-center justify-center overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-green-500/0 to-teal-500/0 group-hover:from-green-500/5 group-hover:to-teal-500/5 transition-all duration-300"></div>
               <div className="relative">
