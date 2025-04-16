@@ -121,7 +121,7 @@ const MissionCapsule: React.FC = () => {
   };
 
   return (
-  <div className="mission-capsule-wrapper bg-[#2a2a2a] text-white py-12">
+  <div className="mission-capsule-wrapper bg-gradient-to-b from-black via-neutral-900 to-black text-white">
       <div 
         ref={capsuleRef}
         className="relative max-w-4xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-12 overflow-hidden"

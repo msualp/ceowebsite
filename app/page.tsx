@@ -24,8 +24,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Enhanced Mission Capsule */}
-      <section className="bg-gray dark:bg-gray py-12">
+      {/* Mission Capsule Section */}
+      <section className="bg-gray dark:bg-gray">
         <MissionCapsule />
       </section>
       

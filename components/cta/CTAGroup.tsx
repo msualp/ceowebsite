@@ -1,6 +1,9 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { Button } from './Button';
 import { CalendarDays, Mail, Linkedin, ArrowRight } from 'lucide-react';
+import { useEarlyAccessPopup } from '../EarlyAccessPopup';
 
 type CTAType = 'earlyAccess' | 'calendly' | 'linkedin' | 'email' | 'custom' | 'none';
 
@@ -176,6 +179,9 @@ export function CTAGroup({
     );
   }
 
+  // Get the early access popup hook
+  const { openEarlyAccessPopup } = useEarlyAccessPopup();
+
   // Render primary and secondary CTAs
   return (
     <div className={`flex ${directionClass} ${currentStyles.container} ${className}`}>
@@ -183,9 +189,10 @@ export function CTAGroup({
         <Button
           variant={primary.variant}
           size={currentStyles.primarySize}
-          href={primary.href}
+          href={primaryCTA === 'earlyAccess' ? undefined : primary.href}
           external={primary.external || false}
           rightIcon={primary.icon}
+          onClick={primaryCTA === 'earlyAccess' ? openEarlyAccessPopup : undefined}
         >
           {primary.label}
         </Button>
@@ -194,9 +201,10 @@ export function CTAGroup({
         <Button
           variant={currentStyles.secondaryVariant}
           size={currentStyles.secondarySize}
-          href={secondary.href}
+          href={secondaryCTA === 'earlyAccess' ? undefined : secondary.href}
           external={secondary.external || false}
           rightIcon={secondary.icon}
+          onClick={secondaryCTA === 'earlyAccess' ? openEarlyAccessPopup : undefined}
         >
           {secondary.label}
         </Button>

@@ -348,8 +348,23 @@ const handleCTAClick = (key: string, e?: React.MouseEvent) => {
     // Open the calendly sidebar
     setActivePanel('calendly');
   } else if (key === 'sociailLogo') {
-    // Open the early access sidebar
-    setActivePanel('earlyAccess');
+    // Open the early access popup instead of the sidebar
+    import('../EarlyAccessPopup').then(module => {
+      const { useEarlyAccessPopup } = module;
+      // We need to use this approach since we can't use hooks conditionally
+      try {
+        const popup = useEarlyAccessPopup();
+        popup.openEarlyAccessPopup();
+      } catch (error) {
+        console.error('Failed to open early access popup:', error);
+        // Fallback to the old behavior
+        setActivePanel('earlyAccess');
+      }
+    }).catch(error => {
+      console.error('Failed to import EarlyAccessPopup:', error);
+      // Fallback to the old behavior
+      setActivePanel('earlyAccess');
+    });
   }
   
   // Update interaction state

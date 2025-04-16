@@ -1,0 +1,1 @@
+export default function Step5() { return <div>🎉 Thank you!</div>; }

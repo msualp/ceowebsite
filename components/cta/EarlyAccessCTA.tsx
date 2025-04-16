@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from './Button';
 import { ArrowRight } from 'lucide-react';
+import { useEarlyAccessPopup } from '../EarlyAccessPopup';
 
 interface EarlyAccessCTAProps {
   className?: string;
@@ -17,54 +18,15 @@ export function EarlyAccessCTA({
   backgroundColor = 'bg-blue-50 dark:bg-blue-900/20',
   showCounter = false,
 }: EarlyAccessCTAProps) {
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  
+  const { openEarlyAccessPopup } = useEarlyAccessPopup();
   const remainingSpots = 247; // This would be fetched from an API in a real implementation
-  
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-  
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (emailError) {
-      setEmailError('');
-    }
-  };
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email.trim()) {
-      setEmailError('Email is required');
-      return;
-    }
-    
-    if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address');
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setEmail('');
-    }, 1000);
-  };
 
   if (variant === 'minimal') {
     return (
       <div className={`${className}`}>
         <Button 
           variant="primary" 
-          href="/early-access" 
+          onClick={openEarlyAccessPopup}
           rightIcon={<ArrowRight className="w-4 h-4" />}
         >
           Join Early Access
@@ -95,36 +57,14 @@ export function EarlyAccessCTA({
             )}
           </div>
           
-          {isSubmitted ? (
-            <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg p-4 max-w-md">
-              <p className="font-medium">Thanks for joining!</p>
-              <p className="text-sm mt-1">We'll be in touch soon with details about early access.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md w-full">
-              <div className="flex-grow">
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className={`w-full px-4 py-3 rounded-md border ${
-                    emailError ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'
-                  } dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition`}
-                  disabled={isSubmitting}
-                />
-                {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
-              </div>
-              <Button
-                type="submit"
-                variant="primary"
-                isLoading={isSubmitting}
-                rightIcon={!isSubmitting ? <ArrowRight className="w-4 h-4" /> : undefined}
-              >
-                Get Access
-              </Button>
-            </form>
-          )}
+          <Button
+            variant="primary"
+            onClick={openEarlyAccessPopup}
+            rightIcon={<ArrowRight className="w-4 h-4" />}
+            className="md:w-auto w-full"
+          >
+            Apply for Early Access
+          </Button>
         </div>
       </div>
     );
@@ -143,38 +83,16 @@ export function EarlyAccessCTA({
       
       <h3 className="text-xl font-bold mb-3">Be the first to experience Sociail</h3>
       
-      {isSubmitted ? (
-        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 rounded-lg p-4">
-          <p className="font-medium">Thanks for joining!</p>
-          <p className="text-sm mt-1">We'll be in touch soon with details about early access.</p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-          <div className="flex-grow">
-            <input
-              type="email"
-              placeholder="Your Email"
-              value={email}
-              onChange={handleEmailChange}
-              className={`w-full px-4 py-3 rounded-md border ${
-                emailError ? 'border-red-500 dark:border-red-700' : 'border-gray-300 dark:border-gray-700'
-              } dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition`}
-              disabled={isSubmitting}
-            />
-            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
-          </div>
-          <Button
-            type="submit"
-            variant="primary"
-            isLoading={isSubmitting}
-            rightIcon={!isSubmitting ? <ArrowRight className="w-4 h-4" /> : undefined}
-          >
-            Join Now
-          </Button>
-        </form>
-      )}
+      <Button
+        variant="primary"
+        onClick={openEarlyAccessPopup}
+        rightIcon={<ArrowRight className="w-4 h-4" />}
+        className="w-full sm:w-auto"
+      >
+        Apply Now
+      </Button>
       
-      {showCounter && !isSubmitted && (
+      {showCounter && (
         <div className="mt-3 text-sm text-gray-500 dark:text-gray-400">
           <span className="font-medium text-green-600 dark:text-green-400">{remainingSpots} spots</span> remaining in our limited beta program
         </div>

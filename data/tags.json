@@ -1,0 +1,34 @@
+{
+  "theme": [
+    "idea-economy",
+    "ai-tools",
+    "collaborative-ai",
+    "emotional-intelligence",
+    "productivity",
+    "cognitive-mapping",
+    "real-time",
+    "entrepreneurship",
+    "future-of-work",
+    "open-source",
+    "edtech",
+    "communication",
+    "legacy",
+    "ai-culture"
+  ],
+  "type": [
+    "personal-reflection",
+    "thought-piece",
+    "framework",
+    "trend-analysis",
+    "visionary",
+    "satire",
+    "insight",
+    "how-it-works"
+  ],
+  "time": [
+    "present",
+    "future",
+    "history",
+    "retrospective"
+  ]
+}

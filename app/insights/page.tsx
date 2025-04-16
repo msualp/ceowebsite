@@ -5,11 +5,13 @@ import PageContainer from '@/components/PageContainer';
 import Image from 'next/image';
 import Link from 'next/link';
 import LazyNewsletterForm from '@/components/lazy/LazyNewsletterForm';
+import LazyFeaturedArticlesHero from '@/components/lazy/LazyFeaturedArticlesHero';
 import Section from '@/components/Section';
 import SectionTitle from '@/components/SectionTitle';
 import InsightCard from '@/components/InsightCard';
+import TagFilter from '@/components/TagFilter';
 import Button from '@/components/Button';
-import { HiArrowLongRight, HiFunnel, HiOutlineBookmark, HiOutlineClock, HiOutlineBolt, HiOutlineStar } from 'react-icons/hi2';
+import { HiArrowLongRight, HiFunnel, HiOutlineBookmark, HiOutlineClock, HiOutlineBolt, HiOutlineStar, HiOutlineTag } from 'react-icons/hi2';
 import { CTAGroup } from '@/components/cta/CTAGroup';
 import { Button as CTAButton } from '@/components/cta/Button';
 import { Post } from './getInsights';
@@ -27,49 +29,167 @@ const categories = [
 export default function InsightsPage() {
   // State for posts and loading
   const [posts, setPosts] = useState<Post[]>([]);
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedTag, setSelectedTag] = useState('');
   const [featuredPost, setFeaturedPost] = useState<Post | null>(null);
+  // Define a type for the featured articles that matches what the component expects
+  type FeaturedArticle = {
+    id: number;
+    date: string;
+    title: string;
+    description: string;
+    icon: React.ReactNode | null;
+    iconBg: string;
+    gradient: string;
+    tags: { name: string; color: string }[];
+    views: number;
+    link: string;
+    image: string;
+    slug?: string; // Include slug to satisfy the Post type requirements
+  };
   
-  // Get the category from URL on initial load
+  const [featuredArticles, setFeaturedArticles] = useState<FeaturedArticle[]>([]);
+  const [tagData, setTagData] = useState<{theme: string[], type: string[], time: string[]}>({
+    theme: [],
+    type: [],
+    time: []
+  });
+  
+  // Get the category and tag from URL on initial load
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category') || 'all';
+    const tag = urlParams.get('tag') || '';
     setSelectedCategory(category);
+    setSelectedTag(tag);
+    
+    // Fetch tag data
+    fetch('/api/insights/tags')
+      .then(response => response.json())
+      .then(data => {
+        setTagData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching tag data:', error);
+      });
   }, []);
   
-  // Fetch posts when category changes
+  // Fetch posts when category or tag changes
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         setLoading(true);
-        const url = selectedCategory !== 'all' 
-          ? `/api/insights?category=${selectedCategory}` 
-          : '/api/insights';
+        let url = '/api/insights';
+        
+        if (selectedCategory !== 'all') {
+          url += `?category=${selectedCategory}`;
+        }
         
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch insights');
         const data = await response.json();
         
+        // Store all posts for filtering
+        setAllPosts(data);
+        
+        // Get top 3 articles for the hero section
+        const sortedPosts = [...data].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+        // Create featured articles array
+        const topFeaturedArticles: FeaturedArticle[] = [];
+        
+        // Add first article
+        if (sortedPosts.length > 0) {
+          const firstPost = sortedPosts[0];
+          topFeaturedArticles.push({
+            id: 1,
+            date: firstPost.date,
+            title: firstPost.title,
+            description: firstPost.excerpt,
+            icon: null,
+            iconBg: 'bg-blue-500',
+            gradient: 'from-blue-500 to-indigo-600',
+            tags: firstPost.tags ? firstPost.tags.slice(0, 2).map((tag: string) => ({
+              name: tag,
+              color: 'blue'
+            })) : [],
+            views: Math.floor(Math.random() * 500) + 100,
+            link: `/insights/${firstPost.slug}`,
+            image: firstPost.image || '/images/ai-collaboration-hero.jpg',
+            slug: firstPost.slug
+          });
+        }
+        
+        // Add custom AI Companion article as the second article
+        topFeaturedArticles.push({
+          id: 2,
+          date: 'April 7, 2025',
+          title: 'The Rise of the AI Companion: From Interface to Intellect',
+          description: 'Exploring how AI companions are evolving from simple interfaces to intellectual partners that understand context, emotions, and human needs.',
+          icon: null,
+          iconBg: 'bg-emerald-500',
+          gradient: 'from-emerald-500 to-teal-600',
+          tags: [
+            { name: 'AI Companions', color: 'emerald' },
+            { name: 'Future Tech', color: 'teal' }
+          ],
+          views: 487,
+          link: '/insights/ai-companion-evolution',
+          image: '/images/ai-companion.jpg',
+          slug: 'ai-companion-evolution'
+        });
+        
+        // Add "Chat Will Eat the World" as the third article
+        topFeaturedArticles.push({
+          id: 3,
+          date: 'April 4, 2025',
+          title: 'Chat Will Eat the World',
+          description: 'How conversational interfaces are becoming the primary way we interact with technology and why this shift is transforming every industry.',
+          icon: null,
+          iconBg: 'bg-purple-500',
+          gradient: 'from-purple-500 to-fuchsia-600',
+          tags: [
+            { name: 'Conversational AI', color: 'purple' },
+            { name: 'Future Tech', color: 'fuchsia' }
+          ],
+          views: 342,
+          link: '/insights/chat-will-eat-the-world',
+          image: '/images/chat-future.jpg',
+          slug: 'chat-will-eat-the-world'
+        });
+        setFeaturedArticles(topFeaturedArticles);
+        
         // Find "The Third Wave of Collaboration" article to set as featured
         const thirdWaveIndex = data.findIndex((post: Post) => post.slug === 'third-wave-collaboration');
         
-        // Set the Third Wave article as featured if we have 'all' category and the article exists
-        if (selectedCategory === 'all' && thirdWaveIndex !== -1) {
+        // Apply tag filtering if a tag is selected
+        let filteredPosts = data;
+        if (selectedTag) {
+          filteredPosts = data.filter((post: Post) => post.tags?.includes(selectedTag));
+        }
+        
+        // Set the Third Wave article as featured if we have 'all' category, no tag selected, and the article exists
+        if (selectedCategory === 'all' && !selectedTag && thirdWaveIndex !== -1) {
           const thirdWavePost = data[thirdWaveIndex];
           setFeaturedPost(thirdWavePost);
           
           // Remove the featured post from the regular posts list
-          const otherPosts = [...data];
-          otherPosts.splice(thirdWaveIndex, 1);
+          const otherPosts = [...filteredPosts];
+          const featuredInFiltered = otherPosts.findIndex((post: Post) => post.slug === 'third-wave-collaboration');
+          if (featuredInFiltered !== -1) {
+            otherPosts.splice(featuredInFiltered, 1);
+          }
           setPosts(otherPosts);
         } else {
           setFeaturedPost(null);
-          setPosts(data);
+          setPosts(filteredPosts);
         }
       } catch (error) {
         console.error('Error fetching insights:', error);
         setPosts([]);
+        setAllPosts([]);
         setFeaturedPost(null);
       } finally {
         setLoading(false);
@@ -77,7 +197,7 @@ export default function InsightsPage() {
     };
     
     fetchPosts();
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedTag]);
   
   // Handle category change
   const handleCategoryChange = (category: string) => {
@@ -85,6 +205,22 @@ export default function InsightsPage() {
     // Update URL without page reload
     const url = new URL(window.location.href);
     url.searchParams.set('category', category);
+    if (selectedTag) {
+      url.searchParams.set('tag', selectedTag);
+    }
+    window.history.pushState({}, '', url);
+  };
+  
+  // Handle tag selection
+  const handleTagSelect = (tag: string) => {
+    setSelectedTag(tag);
+    // Update URL without page reload
+    const url = new URL(window.location.href);
+    if (tag) {
+      url.searchParams.set('tag', tag);
+    } else {
+      url.searchParams.delete('tag');
+    }
     window.history.pushState({}, '', url);
   };
 
@@ -99,6 +235,9 @@ export default function InsightsPage() {
 
   return (
     <PageContainer title="Insights & Blog">
+      {/* Featured Articles Hero */}
+      <LazyFeaturedArticlesHero featuredArticles={featuredArticles} />
+      
       {/* Hero Section with Featured Article */}
       {featuredPost && (
         <div className="relative mb-16 fade-in-reveal">
@@ -178,25 +317,52 @@ export default function InsightsPage() {
         className="mb-8"
       />
       
-      {/* Category Filter Pills */}
-      <div className="relative flex overflow-x-auto pb-4 mb-8 hide-scrollbar snap-x snap-mandatory md:snap-none md:justify-center">
-        <div className="flex gap-2 px-4 md:px-0 md:flex-wrap">
-          {categories.map((category) => (
-            <button 
-              key={category.id}
-              onClick={() => handleCategoryChange(category.id)}
-              className={`
-                snap-start inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all
-                ${category.id === selectedCategory 
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' 
-                  : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300'}
-              `}
-            >
-              <span className="mr-1.5">{category.icon}</span>
-              {category.name}
-            </button>
-          ))}
+      {/* Filter Section */}
+      <div className="mb-8">
+        {/* Category Filter Pills */}
+        <div className="relative flex overflow-x-auto pb-4 mb-4 hide-scrollbar snap-x snap-mandatory md:snap-none md:justify-center">
+          <div className="flex gap-2 px-4 md:px-0 md:flex-wrap">
+            {categories.map((category) => (
+              <button 
+                key={category.id}
+                onClick={() => handleCategoryChange(category.id)}
+                className={`
+                  snap-start inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium transition-all
+                  ${category.id === selectedCategory 
+                    ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300' 
+                    : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300'}
+                `}
+              >
+                <span className="mr-1.5">{category.icon}</span>
+                {category.name}
+              </button>
+            ))}
+          </div>
         </div>
+        
+        {/* Tag Filter */}
+        <TagFilter 
+          tags={tagData} 
+          onTagSelect={handleTagSelect} 
+          selectedTag={selectedTag} 
+        />
+        
+        {/* Active filters display */}
+        {selectedTag && (
+          <div className="flex items-center mb-4 px-4 md:px-0">
+            <span className="text-sm text-gray-600 dark:text-gray-400 mr-2">Active filter:</span>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+              <HiOutlineTag className="mr-1 w-3 h-3" />
+              {selectedTag}
+              <button 
+                onClick={() => handleTagSelect('')}
+                className="ml-1 text-blue-700 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-100"
+              >
+                ×
+              </button>
+            </span>
+          </div>
+        )}
       </div>
       
       <div className="flex flex-col md:flex-row gap-8">
@@ -264,15 +430,38 @@ export default function InsightsPage() {
                           )}
                         </div>
                         
-                        {/* Category pills */}
+                      <div className="flex flex-wrap gap-2">
+                        {/* Category pill */}
                         {post.category && (
-                          <div className="flex flex-wrap gap-2">
-                            <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 px-2.5 py-1 rounded-full text-xs font-medium transition-all group-hover:bg-blue-600 group-hover:text-white inline-flex items-center">
-                              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1.5 group-hover:bg-white"></span>
-                              {post.category}
-                            </span>
-                          </div>
+                          <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 px-2.5 py-1 rounded-full text-xs font-medium transition-all group-hover:bg-blue-600 group-hover:text-white inline-flex items-center">
+                            <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1.5 group-hover:bg-white"></span>
+                            {post.category}
+                          </span>
                         )}
+                        
+                        {/* Tags display (limited to 2 for space) */}
+                        {post.tags && post.tags.slice(0, 2).map((tag: string) => (
+                          <Link 
+                            key={tag}
+                            href={`/insights/tag/${encodeURIComponent(tag)}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // Allow the link to work normally
+                            }}
+                            className="bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-2.5 py-1 rounded-full text-xs font-medium transition-all hover:bg-blue-100 hover:text-blue-700 dark:hover:bg-blue-900/40 dark:hover:text-blue-300 inline-flex items-center cursor-pointer"
+                          >
+                            <HiOutlineTag className="mr-1 w-3 h-3" />
+                            {tag}
+                          </Link>
+                        ))}
+                        
+                        {/* Show +X more if there are more tags */}
+                        {post.tags && post.tags.length > 2 && (
+                          <span className="bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 px-2.5 py-1 rounded-full text-xs font-medium">
+                            +{post.tags.length - 2} more
+                          </span>
+                        )}
+                      </div>
                       </div>
                       
                       <h3 className="text-xl font-bold mb-2 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">

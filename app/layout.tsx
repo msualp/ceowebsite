@@ -11,6 +11,7 @@ import { WebVitalsTracker } from '@/components/WebVitalsTracker'
 import { Main } from '@/components/Landmark'
 import { FeatureDetection } from '@/components/FeatureDetection'
 import { DevTools } from '@/components/dev/DevTools'
+import { EarlyAccessPopupProvider } from '@/components/EarlyAccessPopup'
 
 // Use Inter font as a fallback for SF Pro
 const inter = Inter({
@@ -119,25 +120,27 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           />
         </noscript>
         <ToastProvider>
-          <ThemeWrapper hideCallToAction={isContactPage}>
-            {/* Accessibility: Skip to content link */}
-            <SkipToContent />
-            
-            {/* Feature Detection and Polyfills */}
-            <FeatureDetection />
-            
-            {/* Web Vitals Tracking */}
-            <WebVitalsTracker />
-            
-            <Main id="main-content" label="Main content">
-              {children}
-            </Main>
-            
-            <FloatingCTA primaryCTA="earlyAccess" />
-            
-            {/* Development-only tools */}
-            <DevTools />
-          </ThemeWrapper>
+          <EarlyAccessPopupProvider>
+            <ThemeWrapper hideCallToAction={isContactPage}>
+              {/* Accessibility: Skip to content link */}
+              <SkipToContent />
+              
+              {/* Feature Detection and Polyfills */}
+              <FeatureDetection />
+              
+              {/* Web Vitals Tracking */}
+              <WebVitalsTracker />
+              
+              <Main id="main-content" label="Main content">
+                {children}
+              </Main>
+              
+              <FloatingCTA primaryCTA="earlyAccess" />
+              
+              {/* Development-only tools */}
+              <DevTools />
+            </ThemeWrapper>
+          </EarlyAccessPopupProvider>
         </ToastProvider>
       </body>
     </html>
