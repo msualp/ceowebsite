@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, ElementType } from 'react';
 
 // Heading component
 interface HeadingProps {
@@ -29,9 +29,9 @@ export function Heading({
   
   const combinedClasses = `${baseClasses} ${sizeClasses[level]} ${className}`;
   
-  const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Component = `h${level}` as ElementType;
   
-  return <HeadingTag id={id} className={combinedClasses}>{children}</HeadingTag>;
+  return <Component id={id} className={combinedClasses}>{children}</Component>;
 }
 
 // Text component
