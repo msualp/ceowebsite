@@ -8,10 +8,34 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    // Check if the request has content
+    const contentType = request.headers.get('content-type');
+    const contentLength = request.headers.get('content-length');
+    
+    // If there's no content or it's not JSON, return a 400 Bad Request
+    if (!contentType?.includes('application/json') || contentLength === '0') {
+      return NextResponse.json(
+        { success: false, message: 'Request must include JSON body' },
+        { status: 400 }
+      );
+    }
+    
+    // Clone the request to read the body as text first
+    const clonedRequest = request.clone();
+    const bodyText = await clonedRequest.text();
+    
+    // Check if the body is empty
+    if (!bodyText || bodyText.trim() === '') {
+      return NextResponse.json(
+        { success: false, message: 'Request body is empty' },
+        { status: 400 }
+      );
+    }
+    
     // Parse the request body
-    const body = await request.json();
+    const body = JSON.parse(bodyText);
     
     // Log the metrics in development
     if (process.env.NODE_ENV === 'development') {
@@ -28,7 +52,15 @@ export async function POST(request: NextRequest) {
     // Log the error
     console.error('[Analytics API] Error:', error);
     
-    // Return an error response
+    // Check if it's a JSON parsing error
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+    
+    // Return a general error response
     return NextResponse.json(
       { success: false, message: 'Failed to process analytics data' },
       { status: 500 }

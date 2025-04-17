@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import ResponsiveImage from './ResponsiveImage';
 import Link from 'next/link';
 import { HiArrowLongRight, HiOutlineClock, HiOutlineTag } from 'react-icons/hi2';
 import { Article, FeaturedArticle } from '@/types/blog';
@@ -60,6 +60,36 @@ export default function ArticleCard({
   // Determine if this is a featured article with additional properties
   const isFeaturedArticle = (article: Article | FeaturedArticle): article is FeaturedArticle => {
     return 'icon' in article || 'gradient' in article || 'iconBg' in article;
+  };
+  
+  const getFallbackImageForCategory = (category: string | undefined): string => {
+    switch (category) {
+      case 'ai-collaboration':
+        return '/images/fallbacks/ai-collaboration.jpg';
+      case 'product-vision':
+        return '/images/fallbacks/product-vision.jpg';
+      case 'entrepreneurship':
+        return '/images/fallbacks/entrepreneurship.jpg';
+      default:
+        return '/images/sociail-logo-and-background.png';
+    }
+  };
+  
+  const getShapeClassForCategory = (category: string | undefined): string => {
+    switch (category) {
+      case 'ai-collaboration':
+        return 'bg-blue-100 dark:bg-blue-900/30';
+      case 'product-vision':
+        return 'bg-purple-100 dark:bg-purple-900/30';
+      case 'entrepreneurship':
+        return 'bg-emerald-100 dark:bg-emerald-900/30';
+      case 'future-of-work':
+        return 'bg-amber-100 dark:bg-amber-900/30';
+      case 'technical':
+        return 'bg-indigo-100 dark:bg-indigo-900/30';
+      default:
+        return 'bg-gray-100 dark:bg-gray-800/30';
+    }
   };
   
   // Get the article link
@@ -123,11 +153,11 @@ export default function ArticleCard({
             {showImage && article.image && (
               <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-indigo-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                <Image 
+                <ResponsiveImage 
                   src={article.image} 
                   alt={article.imageAlt || article.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
             )}
@@ -246,12 +276,22 @@ export default function ArticleCard({
             {showImage && article.image && (
               <div className="md:w-1/4 flex-shrink-0">
                 <div className="relative w-full h-32 md:h-24 rounded-lg overflow-hidden">
-                  <Image
-                    src={article.image}
-                    alt={article.imageAlt || article.title}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
+                  {article.image ? (
+                    <ResponsiveImage
+                      src={article.image}
+                      alt={article.imageAlt || article.title}
+                      fill
+                      className="transition-transform group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden">
+                      <div
+                        className={`absolute inset-0 ${getShapeClassForCategory(article.category)}`}
+                        role="presentation"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -375,11 +415,11 @@ export default function ArticleCard({
             {showImage && article.image && (
               <div className="md:w-1/4 flex-shrink-0">
                 <div className="relative w-full h-40 md:h-32 rounded-lg overflow-hidden">
-                  <Image
+                  <ResponsiveImage
                     src={article.image}
                     alt={article.imageAlt || article.title}
                     fill
-                    className="object-cover transition-transform group-hover:scale-105"
+                    className="transition-transform group-hover:scale-105"
                   />
                 </div>
               </div>

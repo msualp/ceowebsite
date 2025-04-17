@@ -2,17 +2,76 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+# Media settings
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "your-uploadcare-public-key" # Replace with actual key in production
+    multiple: true
+    tabs: "file url camera gdrive gphotos"
+    effects: ["crop", "rotate", "enhance", "sharp", "blur"]
+    imageShrink: "2000x2000"
+    previewStep: true
+    clearable: true
+
+# Editorial workflow
+publish_mode: editorial_workflow
 
 collections:
   - name: "insights"
     label: "Insights"
     folder: "content/insights"
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "Excerpt", name: "excerpt", widget: "text"}
+      - {label: "Category", name: "category", widget: "select", options: ["ai-collaboration", "product-vision", "entrepreneurship", "future-of-work", "technical", "emotional-intelligence", "cognitive-mapping", "open-source"]}
+      - {label: "Author", name: "author", widget: "string", default: "Mustafa Sualp"}
+      - {label: "Author Title", name: "authorTitle", widget: "string", required: false, default: "Founder & CEO"}
+      - {label: "Author Image", name: "authorImage", widget: "image", required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Alt Text", name: "imageAlt", widget: "string", required: false}
+      - {label: "Reading Time", name: "readTime", widget: "string", required: false}
+      - label: "Tags"
+        name: "tags"
+        widget: "select"
+        multiple: true
+        options:
+          - label: "Themes"
+            options:
+              - "idea-economy"
+              - "ai-tools"
+              - "collaborative-ai"
+              - "emotional-intelligence"
+              - "productivity"
+              - "cognitive-mapping"
+              - "real-time"
+              - "entrepreneurship"
+              - "future-of-work"
+              - "open-source"
+              - "edtech"
+              - "communication"
+              - "legacy"
+              - "ai-culture"
+          - label: "Types"
+            options:
+              - "personal-reflection"
+              - "thought-piece"
+              - "framework"
+              - "trend-analysis"
+              - "visionary"
+              - "satire"
+              - "insight"
+              - "how-it-works"
+          - label: "Timeline"
+            options:
+              - "present"
+              - "future"
+              - "history"
+              - "retrospective"
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}

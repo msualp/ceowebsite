@@ -11,6 +11,17 @@
   color-scheme: light dark;
 }
 
+@keyframes pulseShape {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.025);
+    opacity: 0.95;
+  }
+}
+
 html {
   color-scheme: light dark;
 }
@@ -215,4 +226,47 @@ textarea:focus-visible {
 
 .toast-bottom-center {
   @apply fixed bottom-4 left-1/2 transform -translate-x-1/2 flex flex-col gap-2 items-center z-50;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.shape {
+  @apply w-full h-full rounded-xl transition-transform duration-500;
+  animation: floatIn 0.5s ease-out both;
+}
+
+.shape-polygon-ai {
+  @apply shape;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+}
+
+.shape-circle-product {
+  @apply shape;
+  background: radial-gradient(circle at center, #c084fc, #7e22ce);
+  clip-path: circle(45% at 50% 50%);
+}
+
+.shape-zigzag-entre {
+  @apply shape;
+  background: linear-gradient(to right, #34d399, #10b981);
+  clip-path: polygon(0 10%, 10% 0, 20% 10%, 30% 0, 40% 10%, 50% 0, 60% 10%, 70% 0, 80% 10%, 90% 0, 100% 10%, 100% 100%, 0 100%);
+}
+
+.shape-hex-default {
+  @apply shape;
+  background: linear-gradient(120deg, #6366f1, #3b82f6);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+.shape:hover {
+  animation: pulseShape 1.5s ease-in-out infinite;
 }
